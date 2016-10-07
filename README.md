@@ -2,6 +2,7 @@
 
 BrushWork
 =========
+- Ang Yu Xian
 - Zhangjun Xu
 
 ## Coding guidelines
