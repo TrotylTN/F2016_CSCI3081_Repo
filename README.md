@@ -2,6 +2,7 @@
 
 BrushWork
 =========
+- Yu Xian Ang
 - Tiannan Zhou
 
 ## Coding guidelines
@@ -67,7 +68,7 @@ All submitted makefiles must build the main target when invoked exactly as
 follows:
 
     make
-
+    
 The main target must be named exactly "BrushWork" and be built in a "bin/"
 directory within your project root
 
