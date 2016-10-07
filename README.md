@@ -1,5 +1,9 @@
 # Project-Iterations
 
+BrushWork
+=========
+- Tiannan Zhou
+
 ## Coding guidelines
 It is assumed that all submitted code will conform to the Google C++ style
 guide. Read it. The following is a list of SOME of the things we will be
@@ -63,7 +67,7 @@ All submitted makefiles must build the main target when invoked exactly as
 follows:
 
     make
-    
+
 The main target must be named exactly "BrushWork" and be built in a "bin/"
 directory within your project root
 
