@@ -2,8 +2,9 @@
 
 BrushWork
 =========
-- Yu Xian Ang
 - Zhangjun Xu
+- Yu Xian Ang
+- Tiannan Zhou
 
 ## Coding guidelines
 It is assumed that all submitted code will conform to the Google C++ style
