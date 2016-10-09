@@ -18,6 +18,7 @@
 #include "include/base_gfx_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
+#include "include/mask.h"
 
 /*******************************************************************************
  * Namespaces
@@ -54,6 +55,9 @@ class BrushWorkApp : public BaseGfxApp {
         int x,
         int y,
         ColorData background_color);
+
+    void Draw_Mask(int x, int y);
+
 
  private:
     void InitGlui(void);
@@ -92,6 +96,7 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_red_;
     float cur_color_green_;
     float cur_color_blue_;
+    Mask *mask;
 
     GLUI_Spinner *spinner_r_; /**< Hook for accessing the UI red amount  */
     GLUI_Spinner *spinner_g_; /**< Hook for accessing the UI green amount  */
