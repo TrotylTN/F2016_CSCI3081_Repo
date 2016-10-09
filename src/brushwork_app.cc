@@ -72,6 +72,18 @@ void BrushWorkApp::Init(
     InitGraphics();
 }
 
+void BrushWorkApp::Draw_Mask(ColorData color, int x, int y) {
+    ColorData temp_color;
+    mask->switch_mask(cur_tool_);
+    for (int i = 0; i <= MASK_LEN; i++)
+        for (int j = 0; j <= MASK_LEN; j++) {
+            int temp_x = i + x - CENTER;
+            int temp_y = height() - 1 - (j + y - CENTER);
+            temp_color = (color * mask->matrix_[i][j]) + (display_buffer_->get_pixel(temp_x, temp_y) * (1 - mask->matrix_[i][j]));
+            display_buffer_->set_pixel(temp_x, temp_y, temp_color);
+        }
+}
+
 void BrushWorkApp::Display(void) {
     DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
@@ -97,7 +109,7 @@ void BrushWorkApp::InitializeBuffers(
 void BrushWorkApp::InitGlui(void) {
     // Select first tool (this activates the first radio button in glui)
     cur_tool_ = 0;
-
+    mask = new Mask();
     GLUI_Panel *tool_panel = new GLUI_Panel(glui(), "Tool Type");
     GLUI_RadioGroup *radio = new GLUI_RadioGroup(tool_panel,
                                                  &cur_tool_,
