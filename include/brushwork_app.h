@@ -56,7 +56,7 @@ class BrushWorkApp : public BaseGfxApp {
         int y,
         ColorData background_color);
 
-    void Draw_Mask(ColorData color, int x, int y);
+    void Draw_Mask(int x, int y);
 
 
  private:

@@ -72,13 +72,18 @@ void BrushWorkApp::Init(
     InitGraphics();
 }
 
-void BrushWorkApp::Draw_Mask(ColorData color, int x, int y) {
-    ColorData temp_color;
+void BrushWorkApp::Draw_Mask(int x, int y) {
+    ColorData temp_color, color;
+    if (cur_tool_ == 1)
+        color = display_buffer_->background_color();
+    else
+        color = ColorData(cur_color_red_,cur_color_green_,cur_color_blue_);
     mask->switch_mask(cur_tool_);
-    for (int i = 0; i <= MASK_LEN; i++)
-        for (int j = 0; j <= MASK_LEN; j++) {
+    // mask->print_mask();
+    for (int i = 0; i < MASK_LEN; i++)
+        for (int j = 0; j < MASK_LEN; j++) {
             int temp_x = i + x - CENTER;
-            int temp_y = height() - 1 - (j + y - CENTER);
+            int temp_y = j + y - CENTER;
             temp_color = (color * mask->matrix_[i][j]) + (display_buffer_->get_pixel(temp_x, temp_y) * (1 - mask->matrix_[i][j]));
             display_buffer_->set_pixel(temp_x, temp_y, temp_color);
         }
@@ -88,11 +93,14 @@ void BrushWorkApp::Display(void) {
     DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
 
-void BrushWorkApp::MouseDragged(int x, int y) {}
+void BrushWorkApp::MouseDragged(int x, int y) {
+    Draw_Mask(x, height() - 1 - y);
+}
 void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
     std::cout << "mousePressed " << x << " " << y << std::endl;
+    Draw_Mask(x, height() - 1 - y);
 }
 
 void BrushWorkApp::LeftMouseUp(int x, int y) {
