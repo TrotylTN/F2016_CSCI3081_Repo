@@ -1,5 +1,21 @@
+/*******************************************************************************
+ * name            : mask.cc
+ * project         : brushwork
+ * module          : app
+ * description     : implementation of mask for graph tools the all
+ *                   mask would be install in a 2d matirx
+ * copyright       : 2016 csci3081w GroupA-01. all rights reserved.
+ * creation Date   : 10/09/16
+ * Original Author : GroupA-01 All member
+ *
+ ******************************************************************************/
+
 #ifndef INCLUDE_MASK_H_
 #define INCLUDE_MASK_H_
+
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 
 #define MASK_LEN 41
 #define CENTER 20
