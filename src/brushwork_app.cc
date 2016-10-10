@@ -73,7 +73,7 @@ void BrushWorkApp::Init(
 }
 
 void BrushWorkApp::Draw_Mask(int x, int y) {
-    if (x < 0 || x > width() || y < 0 || y > height()) {
+    if (x < 0 || x >= width() || y < 0 || y >= height()) {
         return;
     }
     ColorData temp_color, color;
@@ -122,9 +122,6 @@ void BrushWorkApp::MouseDragged(int x, int y) {
 void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
-    if (x < 0 || x > width() || y < 0 || y > height()) {
-        return;
-    }
     std::cout << "mousePressed " << x << " " << y << std::endl;
     Draw_Mask(x, height() - 1 - y);
     preX = x;
