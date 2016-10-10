@@ -20,6 +20,8 @@
 #include "include/pixel_buffer.h"
 #include "include/mask.h"
 
+#define CONST_GAP 1
+
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -97,6 +99,10 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_green_;
     float cur_color_blue_;
     Mask *mask;
+
+    /**Using to recorde the mouseDragged position change*/
+    int preX;
+    int preY;
 
     GLUI_Spinner *spinner_r_; /**< Hook for accessing the UI red amount  */
     GLUI_Spinner *spinner_g_; /**< Hook for accessing the UI green amount  */
