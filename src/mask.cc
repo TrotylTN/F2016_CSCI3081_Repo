@@ -1,9 +1,30 @@
+/*******************************************************************************
+ * name            : mask.cc
+ * project         : brushwork
+ * module          : app
+ * description     : implementation of mask for graph tools the all
+ *                   mask would be install in a 2d matirx
+ * copyright       : 2016 csci3081w GroupA-01. all rights reserved.
+ * creation Date   : 10/09/16
+ * Original Author : GroupA-01 All member
+ *
+ ******************************************************************************/
+
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 #include "include/mask.h"
 #include <cstring>
 #include <iostream>
 #include <cmath>
 
+/*******************************************************************************
+ * Namespaces
+ ******************************************************************************/
 namespace image_tools {
+/*******************************************************************************
+ * Constructors
+ ******************************************************************************/
     Mask::Mask(void) {
         memset(this->matrix_, 0, sizeof this->matrix_);
         this->cur_tool_ = -1; //-1 means no tool is active.
@@ -14,6 +35,11 @@ namespace image_tools {
         Mask::switch_mask(tool_number);
     }
 
+/*******************************************************************************
+ * Member Functions
+ ******************************************************************************/
+    // Set up the Matirx as a mast
+    // to reprensent each of tool style
     void Mask::switch_mask(int tool_number) {
         if (tool_number == this->cur_tool_)
             return;
@@ -71,7 +97,7 @@ namespace image_tools {
         }
         this->cur_tool_ = tool_number;
     }
-
+    // Print each value been sotred in Matirx
     void Mask::print_mask(void) {
         std::cout << "This is Tool no." << this->cur_tool_ <<std::endl;
         for (int i = 0; i < MASK_LEN; i++) {
@@ -80,4 +106,5 @@ namespace image_tools {
                 std::cout << std::endl;
         }
     }
-}
+} //namespace image_tools
+
