@@ -18,7 +18,13 @@
 #include "include/base_gfx_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
-#include "include/mask.h"
+#include "include/pen.h"
+#include "include/eraser.h"
+#include "include/spray_can.h"
+#include "include/calligraphy_pen.h"
+#include "include/highlighter.h"
+#include "include/crayon.h"
+#include "include/tool.h"
 
 /*******************************************************************************
  * Namespaces
@@ -56,9 +62,7 @@ class BrushWorkApp : public BaseGfxApp {
         int y,
         ColorData background_color);
 
-    void Draw_Mask(int x, int y);
-
-
+    PixelBuffer* display_buffer(void);
  private:
     void InitGlui(void);
     void InitGraphics(void);
@@ -96,8 +100,8 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_red_;
     float cur_color_green_;
     float cur_color_blue_;
-    Mask *mask;
     float CONST_GAP;
+    Tool toolbox[6];
 
     /**Using to recorde the mouseDragged position change*/
     int preX;

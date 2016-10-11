@@ -72,31 +72,34 @@ void BrushWorkApp::Init(
     InitGraphics();
 }
 
-void BrushWorkApp::Draw_Mask(int x, int y) {
-    ColorData temp_color, color;
-    if (cur_tool_ == 1)
-        color = display_buffer_->background_color();
-    else
-        color = ColorData(cur_color_red_,cur_color_green_,cur_color_blue_);
-    for (int i = 0; i < MASK_LEN; i++)
-        for (int j = 0; j < MASK_LEN; j++) {
-            int temp_x = i + x - CENTER;
-            int temp_y = j + y - CENTER;
-            if (!(temp_x < 0 || temp_x >= width() || temp_y < 0 || temp_y >= height()))
-            {
-                temp_color = (color * mask->matrix_[i][j]) + (display_buffer_->get_pixel(temp_x, temp_y) * (1 - mask->matrix_[i][j]));
-                display_buffer_->set_pixel(temp_x, temp_y, temp_color);
-            }
-        }
-}
+// void BrushWorkApp::Draw_Mask(int x, int y) {
+//     ColorData temp_color, color;
+//     if (cur_tool_ == 1)
+//         color = display_buffer_->background_color();
+//     else
+//         color = ColorData(cur_color_red_,cur_color_green_,cur_color_blue_);
+//     for (int i = 0; i < MASK_LEN; i++)
+//         for (int j = 0; j < MASK_LEN; j++) {
+//             int temp_x = i + x - CENTER;
+//             int temp_y = j + y - CENTER;
+//             if (!(temp_x < 0 || temp_x >= width() || temp_y < 0 || temp_y >= height()))
+//             {
+//                 temp_color = (color * mask->matrix_[i][j]) + (display_buffer_->get_pixel(temp_x, temp_y) * (1 - mask->matrix_[i][j]));
+//                 display_buffer_->set_pixel(temp_x, temp_y, temp_color);
+//             }
+//         }
+// }
 
 void BrushWorkApp::Display(void) {
     DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
 
 void BrushWorkApp::MouseDragged(int x, int y) {
-    mask->switch_mask(cur_tool_);
-    CONST_GAP = mask->mask_radius();
+    toolbox[cur_tool_].set_color(ColorData(cur_color_red_,
+                                            cur_color_green_,
+                                            cur_color_blue_),
+                                  display_buffer_->background_color());
+    CONST_GAP = toolbox[cur_tool_].mask_radius();
     float difX = x - preX;
     float difY = y - preY;
     float dist = sqrt((difX * difX) + (difY * difY));
@@ -106,7 +109,7 @@ void BrushWorkApp::MouseDragged(int x, int y) {
     while(i * CONST_GAP <= dist){
         int tmpX = round(preX + i * CONST_GAP * dX);
         int tmpY = round(preY + i * CONST_GAP * dY);
-        Draw_Mask(tmpX, height() - 1 - tmpY);
+        toolbox[cur_tool_].draw_mask(display_buffer_, tmpX, height() - 1 - tmpY);
         i++;
     }
     preX = x;
@@ -116,9 +119,13 @@ void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
     std::cout << "mousePressed " << x << " " << y << std::endl;
-    mask->switch_mask(cur_tool_);
-    CONST_GAP = mask->mask_radius();
-    Draw_Mask(x, height() - 1 - y);
+    CONST_GAP = toolbox[cur_tool_].mask_radius();
+    toolbox[cur_tool_].set_color(ColorData(cur_color_red_,
+                                            cur_color_green_,
+                                            cur_color_blue_),
+                                  display_buffer_->background_color());
+    toolbox[cur_tool_].draw_mask(display_buffer_, x, height() - 1 - y);
+    // Draw_Mask(x, );
     preX = x;
     preY = y;
 }
@@ -146,15 +153,20 @@ void BrushWorkApp::InitGlui(void) {
                                                  &cur_tool_,
                                                  UI_TOOLTYPE,
                                                  s_gluicallback);
-    mask = new Mask();
+    // mask = new Mask();
     // Create interface buttons for different tools:
     new GLUI_RadioButton(radio, "Pen");
     new GLUI_RadioButton(radio, "Eraser");
     new GLUI_RadioButton(radio, "Spray Can");
-    new GLUI_RadioButton(radio, "Caligraphy Pen");
+    new GLUI_RadioButton(radio, "Calligraphy Pen");
     new GLUI_RadioButton(radio, "Highlighter");
     new GLUI_RadioButton(radio, "Crayon");
-
+    toolbox[0] = Pen();
+    toolbox[1] = Eraser();
+    toolbox[2] = SprayCan();
+    toolbox[3] = CalligraphyPen();
+    toolbox[4] = Highlighter();
+    toolbox[5] = Crayon();
 
     GLUI_Panel *color_panel = new GLUI_Panel(glui(), "Tool Color");
 
