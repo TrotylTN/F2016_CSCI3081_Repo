@@ -18,7 +18,6 @@
 #include "include/base_gfx_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
-#include "include/mask.h"
 
 /*******************************************************************************
  * Namespaces
@@ -55,8 +54,6 @@ class BrushWorkApp : public BaseGfxApp {
         int x,
         int y,
         ColorData background_color);
-
-    void Draw_Mask(int x, int y);
 
     PixelBuffer* display_buffer(void);
  private:
@@ -96,7 +93,6 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_red_;
     float cur_color_green_;
     float cur_color_blue_;
-    Mask *mask;
     float CONST_GAP;
 
     /**Using to recorde the mouseDragged position change*/

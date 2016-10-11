@@ -76,31 +76,31 @@ PixelBuffer* BrushWorkApp::display_buffer(void) {
     return display_buffer_;
 }
 
-void BrushWorkApp::Draw_Mask(int x, int y) {
-    ColorData temp_color, color;
-    if (cur_tool_ == 1)
-        color = display_buffer_->background_color();
-    else
-        color = ColorData(cur_color_red_,cur_color_green_,cur_color_blue_);
-    for (int i = 0; i < MASK_LEN; i++)
-        for (int j = 0; j < MASK_LEN; j++) {
-            int temp_x = i + x - CENTER;
-            int temp_y = j + y - CENTER;
-            if (!(temp_x < 0 || temp_x >= width() || temp_y < 0 || temp_y >= height()))
-            {
-                temp_color = (color * mask->matrix_[i][j]) + (display_buffer_->get_pixel(temp_x, temp_y) * (1 - mask->matrix_[i][j]));
-                display_buffer_->set_pixel(temp_x, temp_y, temp_color);
-            }
-        }
-}
+// void BrushWorkApp::Draw_Mask(int x, int y) {
+//     ColorData temp_color, color;
+//     if (cur_tool_ == 1)
+//         color = display_buffer_->background_color();
+//     else
+//         color = ColorData(cur_color_red_,cur_color_green_,cur_color_blue_);
+//     for (int i = 0; i < MASK_LEN; i++)
+//         for (int j = 0; j < MASK_LEN; j++) {
+//             int temp_x = i + x - CENTER;
+//             int temp_y = j + y - CENTER;
+//             if (!(temp_x < 0 || temp_x >= width() || temp_y < 0 || temp_y >= height()))
+//             {
+//                 temp_color = (color * mask->matrix_[i][j]) + (display_buffer_->get_pixel(temp_x, temp_y) * (1 - mask->matrix_[i][j]));
+//                 display_buffer_->set_pixel(temp_x, temp_y, temp_color);
+//             }
+//         }
+// }
 
 void BrushWorkApp::Display(void) {
     DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
 
 void BrushWorkApp::MouseDragged(int x, int y) {
-    mask->switch_mask(cur_tool_);
-    CONST_GAP = mask->mask_radius();
+    // mask->switch_mask(cur_tool_);
+    // CONST_GAP = mask->mask_radius();
     float difX = x - preX;
     float difY = y - preY;
     float dist = sqrt((difX * difX) + (difY * difY));
@@ -110,7 +110,7 @@ void BrushWorkApp::MouseDragged(int x, int y) {
     while(i * CONST_GAP <= dist){
         int tmpX = round(preX + i * CONST_GAP * dX);
         int tmpY = round(preY + i * CONST_GAP * dY);
-        Draw_Mask(tmpX, height() - 1 - tmpY);
+        // Draw_Mask(tmpX, height() - 1 - tmpY);
         i++;
     }
     preX = x;
@@ -120,9 +120,8 @@ void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
     std::cout << "mousePressed " << x << " " << y << std::endl;
-    mask->switch_mask(cur_tool_);
-    CONST_GAP = mask->mask_radius();
-    Draw_Mask(x, height() - 1 - y);
+    // CONST_GAP = mask->mask_radius();
+    // Draw_Mask(x, height() - 1 - y);
     preX = x;
     preY = y;
 }
@@ -150,7 +149,7 @@ void BrushWorkApp::InitGlui(void) {
                                                  &cur_tool_,
                                                  UI_TOOLTYPE,
                                                  s_gluicallback);
-    mask = new Mask();
+    // mask = new Mask();
     // Create interface buttons for different tools:
     new GLUI_RadioButton(radio, "Pen");
     new GLUI_RadioButton(radio, "Eraser");
