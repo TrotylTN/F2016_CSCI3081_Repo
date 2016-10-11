@@ -27,12 +27,8 @@ namespace image_tools {
  ******************************************************************************/
     Mask::Mask(void) {
         memset(this->matrix_, 0, sizeof this->matrix_);
-        this->cur_tool_ = -1; //-1 means no tool is active.
-    }
-
-    Mask::Mask(int tool_number) {
-        memset(this->matrix_, 0, sizeof this->matrix_);
-        Mask::switch_mask(tool_number);
+        this->cur_tool_ = -1; // initial inactive
+        this->mask_radius_ = 1;
     }
 
 /*******************************************************************************
@@ -54,6 +50,7 @@ namespace image_tools {
                     if (x * x + y * y <= R_PEN * R_PEN)
                     this->matrix_[i][j] = 1;
                 }
+            this->mask_radius_ = R_PEN;
             break;
 
             case 1:
@@ -65,6 +62,7 @@ namespace image_tools {
                     if (x * x + y * y <= R_ERASER * R_ERASER)
                     this->matrix_[i][j] = 1;
                 }
+            this->mask_radius_ = R_ERASER;
             break;
 
             case 2:
@@ -76,6 +74,7 @@ namespace image_tools {
                     if (x * x + y * y <= R_CAN * R_CAN)
                     this->matrix_[i][j] = 0.2 - sqrt(x * x + y * y) * 0.01;
                 }
+            this->mask_radius_ = R_CAN;
             break;
 
             case 3:
@@ -83,6 +82,7 @@ namespace image_tools {
             for (int x = -2; x <= 2; x++)
                 for (int y = -7; y <= 7; y++)
                     this->matrix_[CENTER + x][CENTER + y] = 1;
+            this->mask_radius_ = R_REC;
             break;
 
             case 4:
@@ -90,12 +90,22 @@ namespace image_tools {
             for (int x = -2; x <= 2; x++)
                 for (int y = -7; y <= 7; y++)
                     this->matrix_[CENTER + x][CENTER + y] = 0.4;
+            this->mask_radius_ = R_REC;
             break;
+
+            case 5:
+            //special tool
+                std::cout << "Wait to complete." << std::endl;
 
             default:
             std::cout << "The tool does not exist." << std::endl;
         }
         this->cur_tool_ = tool_number;
+        std::cout << "Now switch to Tool " << tool_number <<std::endl;
+    }
+
+    float Mask::mask_radius(void) {
+        return (this->mask_radius_);
     }
     // Print each value been sotred in Matirx
     void Mask::print_mask(void) {
@@ -107,4 +117,3 @@ namespace image_tools {
         }
     }
 } //namespace image_tools
-

@@ -22,20 +22,22 @@
 #define R_PEN 1.5
 #define R_CAN 20.5
 #define R_ERASER 10.5
+#define R_REC 2.5
+
 namespace image_tools {
 
 class Mask{
   public:
     Mask(void);
-    Mask(int tool_number);
 
     float matrix_[41][41];
 
     void switch_mask(int tool_number);
     void print_mask(void);
-
+    float mask_radius(void);
   private:
     int cur_tool_;
+    float mask_radius_;
 
 };
 }

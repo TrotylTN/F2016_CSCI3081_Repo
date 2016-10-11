@@ -73,16 +73,11 @@ void BrushWorkApp::Init(
 }
 
 void BrushWorkApp::Draw_Mask(int x, int y) {
-    if (x < 0 || x >= width() || y < 0 || y >= height()) {
-        return;
-    }
     ColorData temp_color, color;
     if (cur_tool_ == 1)
         color = display_buffer_->background_color();
     else
         color = ColorData(cur_color_red_,cur_color_green_,cur_color_blue_);
-    mask->switch_mask(cur_tool_);
-    // mask->print_mask();
     for (int i = 0; i < MASK_LEN; i++)
         for (int j = 0; j < MASK_LEN; j++) {
             int temp_x = i + x - CENTER;
@@ -100,22 +95,20 @@ void BrushWorkApp::Display(void) {
 }
 
 void BrushWorkApp::MouseDragged(int x, int y) {
-
+    mask->switch_mask(cur_tool_);
+    CONST_GAP = mask->mask_radius();
     float difX = x - preX;
     float difY = y - preY;
     float dist = sqrt((difX * difX) + (difY * difY));
-    if(dist >= CONST_GAP) {
-        int i = 1;
-        float dX = difX / dist;
-        float dY = difY / dist;
-        while(i * CONST_GAP < dist){
-            int tmpX = round(preX + i * CONST_GAP * dX);
-            int tmpY = round(preY + i * CONST_GAP * dY);
-            Draw_Mask(tmpX, height() - 1 - tmpY);
-            i++;
-        }
+    int i = 0;
+    float dX = difX / dist;
+    float dY = difY / dist;
+    while(i * CONST_GAP <= dist){
+        int tmpX = round(preX + i * CONST_GAP * dX);
+        int tmpY = round(preY + i * CONST_GAP * dY);
+        Draw_Mask(tmpX, height() - 1 - tmpY);
+        i++;
     }
-    Draw_Mask(x, height() - 1 - y);
     preX = x;
     preY = y;
 }
@@ -123,6 +116,8 @@ void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
     std::cout << "mousePressed " << x << " " << y << std::endl;
+    mask->switch_mask(cur_tool_);
+    CONST_GAP = mask->mask_radius();
     Draw_Mask(x, height() - 1 - y);
     preX = x;
     preY = y;
@@ -146,13 +141,12 @@ void BrushWorkApp::InitGlui(void) {
     cur_tool_ = 0;
     preX = 0;
     preY = 0;
-    mask = new Mask();
     GLUI_Panel *tool_panel = new GLUI_Panel(glui(), "Tool Type");
     GLUI_RadioGroup *radio = new GLUI_RadioGroup(tool_panel,
                                                  &cur_tool_,
                                                  UI_TOOLTYPE,
                                                  s_gluicallback);
-
+    mask = new Mask();
     // Create interface buttons for different tools:
     new GLUI_RadioButton(radio, "Pen");
     new GLUI_RadioButton(radio, "Eraser");
