@@ -23,6 +23,7 @@
 #define R_CAN 20.5
 #define R_ERASER 10.5
 #define R_REC 2.5
+#define R_CRAYON 10.5
 
 namespace image_tools {
 

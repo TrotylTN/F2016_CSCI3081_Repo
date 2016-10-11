@@ -17,6 +17,8 @@
 #include <cstring>
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 /*******************************************************************************
  * Namespaces
@@ -72,7 +74,7 @@ namespace image_tools {
                     int x = i - CENTER;
                     int y = j - CENTER;
                     if (x * x + y * y <= R_CAN * R_CAN)
-                    this->matrix_[i][j] = 0.2 - sqrt(x * x + y * y) * 0.01;
+                      this->matrix_[i][j] = 0.2 - sqrt(x * x + y * y) * 0.01;
                 }
             this->mask_radius_ = R_CAN;
             break;
@@ -95,7 +97,28 @@ namespace image_tools {
 
             case 5:
             //special tool
-                std::cout << "Wait to complete." << std::endl;
+            int tmp;
+            for (int i = 0; i < MASK_LEN; i++)
+                for (int j = 0; j < MASK_LEN; j++) {
+                    int x = i - CENTER;
+                    int y = j - CENTER;
+                    if ((tmp = x * x + y * y) <= R_CRAYON * R_CRAYON) {
+                        if (sqrt(tmp) < 0.75 * R_CRAYON) {
+                            if (rand() % 10 > 4)
+                                this->matrix_[i][j] = 1;
+                            else
+                                this->matrix_[i][j] = 0;
+                        }
+                        else {
+                            if (rand() % 10 > 6)
+                                this->matrix_[i][j] = 1;
+                            else
+                                this->matrix_[i][j] = 0;
+                        }
+                    }
+                }
+            this->mask_radius_ = R_CRAYON;
+            break;
 
             default:
             std::cout << "The tool does not exist." << std::endl;
