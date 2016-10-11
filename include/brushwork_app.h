@@ -58,7 +58,7 @@ class BrushWorkApp : public BaseGfxApp {
 
     void Draw_Mask(int x, int y);
 
-
+    PixelBuffer* display_buffer(void);
  private:
     void InitGlui(void);
     void InitGraphics(void);

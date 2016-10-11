@@ -72,6 +72,10 @@ void BrushWorkApp::Init(
     InitGraphics();
 }
 
+PixelBuffer* BrushWorkApp::display_buffer(void) {
+    return display_buffer_;
+}
+
 void BrushWorkApp::Draw_Mask(int x, int y) {
     ColorData temp_color, color;
     if (cur_tool_ == 1)
