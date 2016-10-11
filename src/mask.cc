@@ -105,7 +105,7 @@ namespace image_tools {
     }
 
     float Mask::mask_radius(void) {
-        return (this->mask_radius_);
+        return (this->mask_radius_) / 2.0;
     }
     // Print each value been sotred in Matirx
     void Mask::print_mask(void) {
