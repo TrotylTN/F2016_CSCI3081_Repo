@@ -18,6 +18,13 @@
 #include "include/base_gfx_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
+#include "include/pen.h"
+#include "include/eraser.h"
+#include "include/spray_can.h"
+#include "include/calligraphy_pen.h"
+#include "include/highlighter.h"
+#include "include/crayon.h"
+#include "include/tool.h"
 
 /*******************************************************************************
  * Namespaces
@@ -94,6 +101,7 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_green_;
     float cur_color_blue_;
     float CONST_GAP;
+    Tool toolbox[6];
 
     /**Using to recorde the mouseDragged position change*/
     int preX;
