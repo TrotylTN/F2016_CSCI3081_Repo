@@ -101,7 +101,7 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_green_;
     float cur_color_blue_;
     float CONST_GAP;
-    Tool toolbox[6];
+    Tool* toolbox[6];
 
     /**Using to recorde the mouseDragged position change*/
     int preX;

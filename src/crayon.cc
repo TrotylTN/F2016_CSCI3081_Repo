@@ -16,14 +16,14 @@ Crayon::Crayon(void) {
             int x = i - CENTER;
             int y = j - CENTER;
             if ((tmp = x * x + y * y) <= mask_radius_ * mask_radius_) {
-                if (sqrt(tmp) < 0.75 * mask_radius_) {
-                    if (rand() % 10 > 4)
+                if (sqrt(tmp) < 0.7 * mask_radius_) {
+                    if (rand() % 10 > 3)
                         this->mask[i][j] = 1;
                     else
                         this->mask[i][j] = 0;
                 }
                 else {
-                    if (rand() % 10 > 6)
+                    if (rand() % 10 > 7)
                         this->mask[i][j] = 1;
                     else
                         this->mask[i][j] = 0;
