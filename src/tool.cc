@@ -27,7 +27,7 @@ namespace image_tools {
 Tool::Tool(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
-    mask_len = 41;
+    mask_len_ = 41;
     color_ = ColorData();
 }
 /*******************************************************************************
@@ -36,8 +36,8 @@ Tool::Tool(void) {
 
 void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
     ColorData temp_color;
-    for (int i = 0; i < mask_len; i++)
-        for (int j = 0; j < mask_len; j++) {
+    for (int i = 0; i < mask_len_; i++)
+        for (int j = 0; j < mask_len_; j++) {
             int temp_x = i + x - CENTER;
             int temp_y = j + y - CENTER;
             if (!(temp_x < 0 ||
@@ -45,9 +45,9 @@ void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
                   temp_y < 0 ||
                   temp_y >= frame->height()))
             {
-                temp_color = (color_ * mask[i][j]) +
+                temp_color = (color_ * mask_[i][j]) +
                              (frame->get_pixel(temp_x, temp_y) *
-                              (1 - mask[i][j])
+                              (1 - mask_[i][j])
                              );
                 frame->set_pixel(temp_x, temp_y, temp_color);
             }
