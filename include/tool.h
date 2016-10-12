@@ -13,7 +13,7 @@ class Tool{
     public:
         Tool(void);
 
-        void draw_mask(PixelBuffer *frame, int x, int y);
+        virtual void draw_mask(PixelBuffer *frame, int x, int y);
         float mask_radius(void);
         virtual void set_color(ColorData cur_color, ColorData background_color);
 

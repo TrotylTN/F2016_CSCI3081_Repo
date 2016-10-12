@@ -1,5 +1,6 @@
 #include "include/tool.h"
 #include <cstring>
+#include <algorithm>
 
 namespace image_tools {
 Tool::Tool(void) {
@@ -9,7 +10,7 @@ Tool::Tool(void) {
     color_ = ColorData();
 }
 
-void Tool::Tool::draw_mask(PixelBuffer *frame, int x, int y) {
+void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
     ColorData temp_color;
     for (int i = 0; i < mask_len; i++)
         for (int j = 0; j < mask_len; j++) {
@@ -34,6 +35,6 @@ void Tool::set_color (ColorData cur_color, ColorData background_color) {
 }
 
 float Tool::mask_radius(void) {
-    return mask_radius_;
+    return std::max(mask_radius_ / 3.0, 1.0);
 }
 }
