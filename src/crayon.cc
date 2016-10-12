@@ -1,9 +1,31 @@
+/*******************************************************************************
+ * Name            : crayon.cc
+ * Project         : BrushWork
+ * Module          : Utils
+ * Description     : Implementation of Crayon on top of tools
+ * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
+ * Creation Date   : 10/12/16
+ * Original Author : GroupA01
+ *
+ ******************************************************************************/
+
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
+
 #include "include/crayon.h"
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
 
+/*******************************************************************************
+ * Namespaces
+ ******************************************************************************/
 namespace image_tools {
+/*******************************************************************************
+ * Constructors
+ ******************************************************************************/
+
 Crayon::Crayon(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
@@ -31,4 +53,4 @@ Crayon::Crayon(void) {
             }
         }
 }
-}
+}//namespace image_tools

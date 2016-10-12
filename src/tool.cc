@@ -1,14 +1,38 @@
+/*******************************************************************************
+ * Name            : tools.cc
+ * Project         : BrushWork
+ * Module          : utils
+ * Description     : Implementation of Tools
+ * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
+ * Creation Date   : 10/12/16
+ * Original Author : GroupA01
+ *
+ ******************************************************************************/
+
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 #include "include/tool.h"
 #include <cstring>
 #include <algorithm>
 
+/*******************************************************************************
+ * Namespaces
+ ******************************************************************************/
 namespace image_tools {
+
+/*******************************************************************************
+ * Constructors
+ ******************************************************************************/
 Tool::Tool(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
     mask_len = 41;
     color_ = ColorData();
 }
+/*******************************************************************************
+ * Member Functions
+ ******************************************************************************/
 
 void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
     ColorData temp_color;
@@ -34,7 +58,11 @@ void Tool::set_color (ColorData cur_color, ColorData background_color) {
     color_ = cur_color;
 }
 
+
+/**
+ *@brief to refill gaps, depend on different tools
+   */
 float Tool::mask_radius(void) {
     return std::max(mask_radius_ / 3.0, 1.0);
 }
-}
+} //namespace image_tools

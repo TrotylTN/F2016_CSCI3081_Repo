@@ -88,6 +88,7 @@ void BrushWorkApp::MouseDragged(int x, int y) {
     int i = 0;
     float dX = difX / dist;
     float dY = difY / dist;
+    // fill the gap between current and previous position
     while(i * CONST_GAP < dist){
         int tmpX = round(preX + i * CONST_GAP * dX);
         int tmpY = round(preY + i * CONST_GAP * dY);
@@ -100,14 +101,13 @@ void BrushWorkApp::MouseDragged(int x, int y) {
 void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
-    std::cout << "mousePressed " << x << " " << y << std::endl;
+     std::cout << "mousePressed " << x << " " << y << std::endl;
     CONST_GAP = toolbox[cur_tool_]->mask_radius();
     toolbox[cur_tool_]->set_color(ColorData(cur_color_red_,
                                             cur_color_green_,
                                             cur_color_blue_),
                                   display_buffer_->background_color());
     toolbox[cur_tool_]->draw_mask(display_buffer_, x, height() - 1 - y);
-    // Draw_Mask(x, );
     preX = x;
     preY = y;
 }

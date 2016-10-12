@@ -1,6 +1,28 @@
+/*******************************************************************************
+ * Name            : brushwork_app.cc
+ * Project         : BrushWork
+ * Module          : Utils
+ * Description     : Implementation of CalligraphyPen on top of tools
+ * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
+ * Creation Date   : 10/12/16
+ * Original Author : GroupA01
+ *
+ ******************************************************************************/
+
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
+
 #include "include/calligraphy_pen.h"
 
+/*******************************************************************************
+ * Namespaces
+ ******************************************************************************/
+
 namespace image_tools {
+/*******************************************************************************
+ * Constructors
+ ******************************************************************************/
 CalligraphyPen::CalligraphyPen(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
@@ -11,4 +33,4 @@ CalligraphyPen::CalligraphyPen(void) {
         for (int y = -7; y <= 7; y++)
             this->mask[CENTER + x][CENTER + y] = 1;
 }
-}
+}//namespace image_tools

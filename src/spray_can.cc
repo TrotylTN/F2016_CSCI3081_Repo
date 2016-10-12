@@ -1,7 +1,29 @@
+/*******************************************************************************
+ * Name            : spray.cc
+ * Project         : BrushWork
+ * Module          : utils
+ * Description     : Implementation of spray on top of tools
+ * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
+ * Creation Date   : 10/12/16
+ * Original Author : GroupA01
+ *
+ ******************************************************************************/
+
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 #include "include/spray_can.h"
 #include <cmath>
 
+/*******************************************************************************
+ * Namespaces
+ ******************************************************************************/
+
 namespace image_tools {
+/*******************************************************************************
+ * Constructors
+ ******************************************************************************/
+
 SprayCan::SprayCan(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
@@ -16,4 +38,5 @@ SprayCan::SprayCan(void) {
                 this->mask[i][j] = 0.2 - sqrt(x * x + y * y) * 0.01;
         }
 }
-}
+}//namespace image_tools
+

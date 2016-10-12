@@ -1,7 +1,28 @@
+/*******************************************************************************
+ * Name            : brushwork_app.cc
+ * Project         : BrushWork
+ * Module          : Utils
+ * Description     : Implementation of Highlighter on top of tools
+ * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
+ * Creation Date   : 10/12/16
+ * Original Author : GroupA01
+ *
+ ******************************************************************************/
+/*******************************************************************************
+ * Includes
+ ******************************************************************************/
 #include "include/highlighter.h"
 #include <iostream>
 
+/*******************************************************************************
+ * Namespaces
+ ******************************************************************************/
+
 namespace image_tools {
+/*******************************************************************************
+ * Constructors
+ ******************************************************************************/
+
 Highlighter::Highlighter(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
@@ -12,7 +33,11 @@ Highlighter::Highlighter(void) {
         for (int y = -7; y <= 7; y++)
             this->mask[CENTER + x][CENTER + y] = 0.4;
 }
-
+/**
+ * @brief since we do not want to highlighter to covered the color
+ * was been painted on the board, we have to override draw_mask
+ * make the highlighter more real.
+ */
 void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
     ColorData temp_color;
     float intensity;
@@ -33,4 +58,4 @@ void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
             }
         }
 }
-}
+} //namespace image_tools
