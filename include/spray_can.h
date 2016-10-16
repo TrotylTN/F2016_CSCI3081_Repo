@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : CalligraphyPen.h
+ * Name            : SprayCan.h
  * Project         : BrushWork
  * Module          : utils
  * Description     : Header file for CalligraphyPen tools.

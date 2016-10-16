@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : CalligraphyPen.h
+ * Name            : Highlighter.h
  * Project         : BrushWork
  * Module          : utils
  * Description     : Header file for CalligraphyPen tools.

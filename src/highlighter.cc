@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : brushwork_app.cc
+ * Name            : Highlighter.cc
  * Project         : BrushWork
  * Module          : Utils
  * Description     : Implementation of Highlighter on top of tools

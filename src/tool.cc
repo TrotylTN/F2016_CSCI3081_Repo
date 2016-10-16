@@ -1,17 +1,15 @@
 /*******************************************************************************
-<<<<<<< HEAD
- * Name            : tools.cc
-=======
  * Name            : Tool.cc
->>>>>>> 884a04e87c7fcfeecaff64daa585653e5007b94b
  * Project         : BrushWork
  * Module          : utils
- * Description     : Implementation of Tools
+ * Description     : Implementation tools
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01
  *
  ******************************************************************************/
+
+
 
 /*******************************************************************************
  * Includes
