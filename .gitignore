@@ -3,3 +3,5 @@
 ./obj/*
 ./ext/glui/lib/*
 ./ext/glui/build/*
+*.o
+*.a
