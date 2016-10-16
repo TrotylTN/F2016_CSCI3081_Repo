@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : crayon.cc
+ * Name            : Crayon.cc
  * Project         : BrushWork
  * Module          : Utils
  * Description     : Implementation of Crayon on top of tools
@@ -27,7 +27,7 @@ namespace image_tools {
  ******************************************************************************/
 
 Crayon::Crayon(void) {
-    memset(mask, 0, sizeof mask);
+    memset(mask_, 0, sizeof mask_);
     mask_radius_ = 0;
     mask_len_ = 41;
     color_ = ColorData();

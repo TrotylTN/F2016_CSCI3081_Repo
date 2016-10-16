@@ -24,7 +24,7 @@ namespace image_tools {
  ******************************************************************************/
 
 Highlighter::Highlighter(void) {
-    memset(mask, 0, sizeof mask);
+    memset(mask_, 0, sizeof mask_);
     mask_radius_ = 0;
     mask_len_ = 41;
     color_ = ColorData();

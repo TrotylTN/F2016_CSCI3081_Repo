@@ -1,5 +1,9 @@
 /*******************************************************************************
+<<<<<<< HEAD
  * Name            : tools.cc
+=======
+ * Name            : Tool.cc
+>>>>>>> 884a04e87c7fcfeecaff64daa585653e5007b94b
  * Project         : BrushWork
  * Module          : utils
  * Description     : Implementation of Tools
@@ -25,7 +29,7 @@ namespace image_tools {
  * Constructors
  ******************************************************************************/
 Tool::Tool(void) {
-    memset(mask, 0, sizeof mask);
+    memset(mask_, 0, sizeof mask_);
     mask_radius_ = 0;
     mask_len_ = 41;
     color_ = ColorData();
