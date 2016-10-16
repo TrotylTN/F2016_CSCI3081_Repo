@@ -18,26 +18,174 @@ Group A1
 ### 1.1 Design Description
 In our final software design, we decided to use an abstract base class and subclasses as the tools. The main idea of this design is the tools have the same attributes, which are color, size and mask, only their values are different. For example, spray can has larger coverage but pen is smaller. Figure 1 is a UML diagram illustrates our design for the tools.
 
-###### Figure 1: UML diagram
-![UML Diagram][UMLDiagram]
+###### Figure  1: UML diagram
+![UML Diagram](figures/UMLDiagram.png)
 
 To implement this design in C++, we first implement the abstract base class called Tool, which is shown in Figure 2.
 
-<Figure 2: Tool header code>
+###### Figure  2: Tool header code
 
-Notice in Figure 2, the Tool class included all the attributes and functions a tool needs. Also notice that draw_mask and set_color is virtual because some subclasses have different way to implement it. The value of attributes, which are mask_, mask_len_, mask_radius_ and color_, is deferred to the constructors in respective subclasses of Tool. Besides, instead of putting the drawing function in BrushWorkApp, we put our drawing function inside Tool class because not all tools have the same algorithm. We put a pointer referred to BrushWorkApp.display_buffer_ as an argument for drawing function in order to let the function have the permission to modify the canvas. With all the tools we have, there are 2 different algorithms for draw_mask shown in Figure 3 and Figure 4.
+```{C++}
+/**
+  * @brief This is a base class for each tool class.
+  */
+class Tool{
+  public:
+    Tool(void);
 
-<Figure 3: draw_mask function in tool.cc>
+    /**
+     *@brief Initialize the
+     * draw mask on screen;
+     */
+    virtual void draw_mask(PixelBuffer *frame, int x, int y);
 
-<Figure 4: draw_mask function in highlighter.cc>
+    /**
+     * @brief used for fill the gap between the current position
+     * and previous position
+     */
+    float mask_radius(void);
 
+    /**
+     * @brief set up the background color and current tools color.
+     * getting ready when the tool color been changed.
+     */
+    virtual void set_color(ColorData cur_color, ColorData background_color);
+
+  protected:
+    float mask_radius_;
+    float mask_[41][41];
+    int mask_len_;
+    ColorData color_;
+};
+```
+
+Notice in Figure 2, the Tool class included all the attributes and functions a tool needs. Also notice that draw_mask and set_color is virtual because some subclasses have different way to implement it. The value of attributes, which are mask_, mask_len_, mask_radius_ and color_, is deferred to the constructors in respective subclasses of Tool. Besides, instead of putting the drawing function in BrushWorkApp, we put our drawing function inside Tool class because not all tools have the same algorithm. We put a pointer referred to BrushWorkApp.display_buffer_ as an argument for drawing function in order to let the function have the permission to modify the canvas. Additionally, the attribute mask_radius_ is referred to the gap length we should fill each time while we are dragging the tool. With all the tools we have, there are 2 different algorithms for draw_mask shown in Figure 3 and Figure 4.
+
+###### Figure  3: draw_mask function in tool.cc
+
+```{C++}
+/**
+ *@brief Initialize the
+ * draw mask on screen;
+ */
+void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
+    ColorData temp_color;
+    for (int i = 0; i < mask_len_; i++)
+        for (int j = 0; j < mask_len_; j++) {
+            int temp_x = i + x - CENTER;
+            int temp_y = j + y - CENTER;
+            if (!(temp_x < 0 ||
+                  temp_x >= frame->width() ||
+                  temp_y < 0 ||
+                  temp_y >= frame->height()))
+            {
+                temp_color = (color_ * mask_[i][j]) +
+                             (frame->get_pixel(temp_x, temp_y) *
+                              (1 - mask_[i][j])
+                             );
+                frame->set_pixel(temp_x, temp_y, temp_color);
+            }
+        }
+}
+```
+
+###### Figure  4: draw_mask function in highlighter.cc
+
+```{C++}
+/*
+ * @brief since we do not want to highlighter to covered the color
+ * was been painted on the board, we have to override draw_mask
+ * make the highlighter more real.
+ */
+void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
+    ColorData temp_color;
+    float intensity;
+    for (int i = 0; i < mask_len_; i++)
+        for (int j = 0; j < mask_len_; j++) {
+            int temp_x = i + x - CENTER;
+            int temp_y = j + y - CENTER;
+            if (!(temp_x < 0 ||
+                  temp_x >= frame->width() ||
+                  temp_y < 0 ||
+                  temp_y >= frame->height()))
+            {
+                intensity = mask_[i][j] * frame->get_pixel(temp_x, temp_y).luminance();
+                temp_color = (color_ * intensity) +
+                             (frame->get_pixel(temp_x, temp_y) *
+                              (1.0 - intensity));
+                frame->set_pixel(temp_x, temp_y, temp_color);
+            }
+        }
+}
+```
 The difference between these 2 algorithms is in algorithm in Figure 4, used in highlighter class, the result color is decided by the luminance of the existing color on the canvas while in Figure 3, the result color is purely getting the percentage of the color of the tool and the current color on the canvas.
 
 To complete the design, BrushWorkApp must have access to the tools. In Figure 5, BrushWorkApp keep all tools in an array called toolbox_. Then in Figure 6, BrushWorkApp uses set_color of the current tool and repetitively call draw_color of the current tool to fill in the gaps between previous position and current position on the canvas.
 
-<Figure 5: toolbox_ part in brushwork_app.h>
+###### Figure  5: toolbox_ part and destructor in brushwork_app.h and brushwork_app.cc
 
-<Figure 6: mouseDragged() and mouseLeftDown() and destructor in brushwork_app.cc>
+```C++
+// in brushwork_app.h
+Tool* toolbox_[6];
+
+// in brushwork_app.cc
+toolbox_[0] = new Pen();
+toolbox_[1] = new Eraser();
+toolbox_[2] = new SprayCan();
+toolbox_[3] = new CalligraphyPen();
+toolbox_[4] = new Highlighter();
+toolbox_[5] = new Crayon();
+
+// destructor
+BrushWorkApp::~BrushWorkApp(void) {
+    if (display_buffer_) {
+        delete display_buffer_;
+    }
+    for (int i = 0; i < 6; i++) {
+        if (toolbox_[i]) {
+            delete toolbox_[i];
+        }
+    }
+}
+```
+
+###### Figure  6: MouseDragged() and LeftMouseDown() in brushwork_app.cc
+```C++
+void BrushWorkApp::MouseDragged(int x, int y) {
+    toolbox_[cur_tool_]->set_color(ColorData(cur_color_red_,
+                                            cur_color_green_,
+                                            cur_color_blue_),
+                                  display_buffer_->background_color());
+    const_gap_ = toolbox_[cur_tool_]->mask_radius();
+    float difX = x - pre_x_;
+    float difY = y - pre_y_;
+    float dist = sqrt((difX * difX) + (difY * difY));
+    int i = 0;
+    float dX = difX / dist;
+    float dY = difY / dist;
+    // fill the gap between current and previous position
+    while(i * const_gap_ < dist){
+        int tmpX = round(pre_x_ + i * const_gap_ * dX);
+        int tmpY = round(pre_y_ + i * const_gap_ * dY);
+        toolbox_[cur_tool_]->draw_mask(display_buffer_, tmpX, height() - 1 - tmpY);
+        i++;
+    }
+    pre_x_ = x;
+    pre_y_ = y;
+}
+
+void BrushWorkApp::LeftMouseDown(int x, int y) {
+     std::cout << "mousePressed " << x << " " << y << std::endl;
+    const_gap_ = toolbox_[cur_tool_]->mask_radius();
+    toolbox_[cur_tool_]->set_color(ColorData(cur_color_red_,
+                                            cur_color_green_,
+                                            cur_color_blue_),
+                                  display_buffer_->background_color());
+    toolbox_[cur_tool_]->draw_mask(display_buffer_, x, height() - 1 - y);
+    pre_x_ = x;
+    pre_y_ = y;
+}
+```
 
 Finally, it is worth noting that all the tools is deleted before exiting the program and it is BrushWorkApp responsible, can find in Figure 6. To use the BrushWorkApp in application code, the developer only need to know to call set_color(...) and draw_mask(...) to perform operations, they does not need to know the implementations. These member functions do everything needed to draw on the canvas.
 
@@ -47,8 +195,56 @@ The intuition of the design above is to create a reliable, easily maintainable a
 
 (Intuition for the first design)
 
-<Figure 7: The big Tool class containing all tools mask>
+###### Figure 7: The big Tool class containing all tools mask>
+```C++
+void Mask::switch_mask(int tool_number) {
+    if (tool_number == this->cur_tool_)
+        return;
+    memset(this->matrix_, 0, sizeof this->matrix_);
+    switch (tool_number) {
+        case 0:
+        //Initialize the mask for Pen
+        ...
+        this->mask_radius_ = R_PEN;
+        break;
 
+        case 1:
+        //Initialize the mask for Eraser
+        ...
+        this->mask_radius_ = R_ERASER;
+        break;
+
+        case 2:
+        //Initialize the mask for Spray Can
+        ...
+        this->mask_radius_ = R_CAN;
+        break;
+
+        case 3:
+        //Initialize the mask for Calligraphy Pen
+        ...
+        this->mask_radius_ = R_REC;
+        break;
+
+        case 4:
+        //Initialize the mask for Highlighter
+        ...
+        this->mask_radius_ = R_REC;
+        break;
+
+        case 5:
+        //Initialize the mask for the special tool Crayon.
+        ...
+        this->mask_radius_ = R_CRAYON;
+        break;
+
+        default:
+        std::cout << "The tool does not exist." << std::endl;
+    }
+    this->cur_tool_ = tool_number;
+    std::cout << "Now switch to Tool " << tool_number <<std::endl;
+}
+```
 (Describe how bad the big Tool class is. How hard to maintain, add new class, etc.)
 
 (Describe new alternative if any)
@@ -62,9 +258,21 @@ The intuition of the design above is to create a reliable, easily maintainable a
 ### 2.1 Design Description
 To design the eraser tool, we set set_color  function as a virtual function in the virtual base Tool class. Then we override set_color function in Eraser class and set color_ to background color. Therefore, when user switch tools between eraser and other tools, the color set does not conflict.
 
-<Figure : set_color function in Tool class>
+###### Figure 8: set_color function in Tool class
 
-<Figure : set_color function  in Eraser class>
+```C++
+void Tool::set_color (ColorData cur_color, ColorData background_color) {
+    color_ = cur_color;
+}
+```
+
+###### Figure 9: set_color function in Eraser class
+
+```C++
+void Eraser::set_color(ColorData cur_color, ColorData background_color) {
+    color_ = background_color;
+}
+```
 
 ### 2.2 Design Justification
 The reason we design our Eraser class this way because it is much easier to maintain. Since we set the color of the eraser to the background color, whenever the background color changes, the color of the eraser will update automatically.
@@ -76,8 +284,10 @@ The reason we design our Eraser class this way because it is much easier to main
 ### Programming Tutorial: Adding a New Pencil Tool to BrushWork
 
 1. To add a new pencil tool to BrushWork, first of all, you have to change the toolbox’s size in Brushwork.h.
+
+    ###### Figure 10: Changes in "include/brushwork_app.h" for adding a new tool
+
     ```C++
-    #include/Brushwork_app.h
     class BrushWorkApp : public BaseGfxApp {
      public:
     	...
@@ -90,7 +300,8 @@ The reason we design our Eraser class this way because it is much easier to main
 
 2. Declare a new instance for Pencil and stored in the toolbox[6].
 
-    "src/Brushwork_app.cc"
+    ###### Figure 11: Changes in "src/brushwork_app.cc" for adding a new tool
+
     ```C++
     …
     void BrushWorkApp::InitGlui(void) {
@@ -105,11 +316,10 @@ The reason we design our Eraser class this way because it is much easier to main
     ...
     }
     ```
-    etc
 
 3. Finally, Pencil class is needed to implement into pencil.h and pencil.cc as follow. The Pencil class is very similar to the Pen class.
 
-    "include/pencil.h"
+    ###### Figure 12: Add a new head file called "include/pencil.h"
     ```C++
     #ifndef INCLUDE_PENCIL_H_
     #define INCLUDE_PENCIL_H_
@@ -123,7 +333,7 @@ The reason we design our Eraser class this way because it is much easier to main
     #endif //INCLUDE_PENCIL_H_
     ```
 
-    "src/pencil.cc"
+    ###### Figure 13: Add a new source file called "src/pencil.cc"
     ```C++
     #include "include/pen.h"
 

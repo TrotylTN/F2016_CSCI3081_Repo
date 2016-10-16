@@ -44,7 +44,9 @@ BrushWorkApp::~BrushWorkApp(void) {
         delete display_buffer_;
     }
     for (int i = 0; i < 6; i++) {
-      delete toolbox_[i];
+        if (toolbox_[i]) {
+            delete toolbox_[i];
+        }
     }
 }
 
