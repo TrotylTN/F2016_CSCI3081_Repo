@@ -26,12 +26,12 @@ namespace image_tools {
 Highlighter::Highlighter(void) {
     memset(mask, 0, sizeof mask);
     mask_radius_ = 0;
-    mask_len = 41;
+    mask_len_ = 41;
     color_ = ColorData();
     mask_radius_ = 2.5;
     for (int x = -2; x <= 2; x++)
         for (int y = -7; y <= 7; y++)
-            this->mask[CENTER + x][CENTER + y] = 0.4;
+            this->mask_[CENTER + x][CENTER + y] = 0.4;
 }
 /**
  * @brief since we do not want to highlighter to covered the color
@@ -41,8 +41,8 @@ Highlighter::Highlighter(void) {
 void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
     ColorData temp_color;
     float intensity;
-    for (int i = 0; i < mask_len; i++)
-        for (int j = 0; j < mask_len; j++) {
+    for (int i = 0; i < mask_len_; i++)
+        for (int j = 0; j < mask_len_; j++) {
             int temp_x = i + x - CENTER;
             int temp_y = j + y - CENTER;
             if (!(temp_x < 0 ||
@@ -50,7 +50,7 @@ void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
                   temp_y < 0 ||
                   temp_y >= frame->height()))
             {
-                intensity = mask[i][j] * frame->get_pixel(temp_x, temp_y).luminance();
+                intensity = mask_[i][j] * frame->get_pixel(temp_x, temp_y).luminance();
                 temp_color = (color_ * intensity) +
                              (frame->get_pixel(temp_x, temp_y) *
                               (1.0 - intensity));

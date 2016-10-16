@@ -43,6 +43,9 @@ BrushWorkApp::~BrushWorkApp(void) {
     if (display_buffer_) {
         delete display_buffer_;
     }
+    for (int i = 0; i < 6; i++) {
+      delete toolbox_[i];
+    }
 }
 
 /*******************************************************************************
@@ -77,45 +80,45 @@ void BrushWorkApp::Display(void) {
 }
 
 void BrushWorkApp::MouseDragged(int x, int y) {
-    toolbox[cur_tool_]->set_color(ColorData(cur_color_red_,
+    toolbox_[cur_tool_]->set_color(ColorData(cur_color_red_,
                                             cur_color_green_,
                                             cur_color_blue_),
                                   display_buffer_->background_color());
-    CONST_GAP = toolbox[cur_tool_]->mask_radius();
-    float difX = x - preX;
-    float difY = y - preY;
+    const_gap_ = toolbox_[cur_tool_]->mask_radius();
+    float difX = x - pre_x_;
+    float difY = y - pre_y_;
     float dist = sqrt((difX * difX) + (difY * difY));
     int i = 0;
     float dX = difX / dist;
     float dY = difY / dist;
     // fill the gap between current and previous position
-    while(i * CONST_GAP < dist){
-        int tmpX = round(preX + i * CONST_GAP * dX);
-        int tmpY = round(preY + i * CONST_GAP * dY);
-        toolbox[cur_tool_]->draw_mask(display_buffer_, tmpX, height() - 1 - tmpY);
+    while(i * const_gap_ < dist){
+        int tmpX = round(pre_x_ + i * const_gap_ * dX);
+        int tmpY = round(pre_y_ + i * const_gap_ * dY);
+        toolbox_[cur_tool_]->draw_mask(display_buffer_, tmpX, height() - 1 - tmpY);
         i++;
     }
-    preX = x;
-    preY = y;
+    pre_x_ = x;
+    pre_y_ = y;
 }
 void BrushWorkApp::MouseMoved(int x, int y) {}
 
 void BrushWorkApp::LeftMouseDown(int x, int y) {
      std::cout << "mousePressed " << x << " " << y << std::endl;
-    CONST_GAP = toolbox[cur_tool_]->mask_radius();
-    toolbox[cur_tool_]->set_color(ColorData(cur_color_red_,
+    const_gap_ = toolbox_[cur_tool_]->mask_radius();
+    toolbox_[cur_tool_]->set_color(ColorData(cur_color_red_,
                                             cur_color_green_,
                                             cur_color_blue_),
                                   display_buffer_->background_color());
-    toolbox[cur_tool_]->draw_mask(display_buffer_, x, height() - 1 - y);
-    preX = x;
-    preY = y;
+    toolbox_[cur_tool_]->draw_mask(display_buffer_, x, height() - 1 - y);
+    pre_x_ = x;
+    pre_y_ = y;
 }
 
 void BrushWorkApp::LeftMouseUp(int x, int y) {
     std::cout << "mouseReleased " << x << " " << y << std::endl;
-    preX = 0;
-    preY = 0;
+    pre_x_ = 0;
+    pre_y_ = 0;
 }
 
 void BrushWorkApp::InitializeBuffers(
@@ -128,8 +131,8 @@ void BrushWorkApp::InitializeBuffers(
 void BrushWorkApp::InitGlui(void) {
     // Select first tool (this activates the first radio button in glui)
     cur_tool_ = 0;
-    preX = 0;
-    preY = 0;
+    pre_x_ = 0;
+    pre_y_ = 0;
     GLUI_Panel *tool_panel = new GLUI_Panel(glui(), "Tool Type");
     GLUI_RadioGroup *radio = new GLUI_RadioGroup(tool_panel,
                                                  &cur_tool_,
@@ -143,12 +146,12 @@ void BrushWorkApp::InitGlui(void) {
     new GLUI_RadioButton(radio, "Calligraphy Pen");
     new GLUI_RadioButton(radio, "Highlighter");
     new GLUI_RadioButton(radio, "Crayon");
-    toolbox[0] = new Pen();
-    toolbox[1] = new Eraser();
-    toolbox[2] = new SprayCan();
-    toolbox[3] = new CalligraphyPen();
-    toolbox[4] = new Highlighter();
-    toolbox[5] = new Crayon();
+    toolbox_[0] = new Pen();
+    toolbox_[1] = new Eraser();
+    toolbox_[2] = new SprayCan();
+    toolbox_[3] = new CalligraphyPen();
+    toolbox_[4] = new Highlighter();
+    toolbox_[5] = new Crayon();
     GLUI_Panel *color_panel = new GLUI_Panel(glui(), "Tool Color");
 
     cur_color_red_ = 0;

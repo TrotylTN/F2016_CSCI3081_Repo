@@ -56,8 +56,8 @@ class Tool{
 
   protected:
     float mask_radius_;
-    float mask[41][41];
-    int mask_len;
+    float mask_[41][41];
+    int mask_len_;
     ColorData color_;
 };
 } //namespace image_tools

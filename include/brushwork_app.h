@@ -100,12 +100,12 @@ class BrushWorkApp : public BaseGfxApp {
     float cur_color_red_;
     float cur_color_green_;
     float cur_color_blue_;
-    float CONST_GAP;
-    Tool* toolbox[6];
+    float const_gap_;
+    Tool* toolbox_[6];
 
     /**Using to recorde the mouseDragged position change*/
-    int preX;
-    int preY;
+    int pre_x_;
+    int pre_y_;
 
     GLUI_Spinner *spinner_r_; /**< Hook for accessing the UI red amount  */
     GLUI_Spinner *spinner_g_; /**< Hook for accessing the UI green amount  */
