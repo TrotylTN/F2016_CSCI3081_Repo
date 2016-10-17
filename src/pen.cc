@@ -36,4 +36,4 @@ Pen::Pen(void) {
                 this->mask_[i][j] = 1;
         }
 }
-}//namespace image_tools
+}  // namespace image_tools

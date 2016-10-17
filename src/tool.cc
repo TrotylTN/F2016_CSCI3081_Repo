@@ -45,18 +45,16 @@ void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
             if (!(temp_x < 0 ||
                   temp_x >= frame->width() ||
                   temp_y < 0 ||
-                  temp_y >= frame->height()))
-            {
+                  temp_y >= frame->height())) {
                 temp_color = (color_ * mask_[i][j]) +
                              (frame->get_pixel(temp_x, temp_y) *
-                              (1 - mask_[i][j])
-                             );
+                              (1 - mask_[i][j]));
                 frame->set_pixel(temp_x, temp_y, temp_color);
             }
         }
 }
 
-void Tool::set_color (ColorData cur_color, ColorData background_color) {
+void Tool::set_color(ColorData cur_color, ColorData background_color) {
     color_ = cur_color;
 }
 
@@ -67,4 +65,4 @@ void Tool::set_color (ColorData cur_color, ColorData background_color) {
 float Tool::mask_radius(void) {
     return std::max(mask_radius_ / 3.0, 1.0);
 }
-} //namespace image_tools
+}  // namespace image_tools

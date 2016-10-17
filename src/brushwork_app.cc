@@ -94,10 +94,11 @@ void BrushWorkApp::MouseDragged(int x, int y) {
     float dX = difX / dist;
     float dY = difY / dist;
     // fill the gap between current and previous position
-    while(i * const_gap_ < dist){
+    while (i * const_gap_ < dist) {
         int tmpX = round(pre_x_ + i * const_gap_ * dX);
         int tmpY = round(pre_y_ + i * const_gap_ * dY);
-        toolbox_[cur_tool_]->draw_mask(display_buffer_, tmpX, height() - 1 - tmpY);
+        toolbox_[cur_tool_]->draw_mask(display_buffer_,
+                                      tmpX, height() - 1 - tmpY);
         i++;
     }
     pre_x_ = x;

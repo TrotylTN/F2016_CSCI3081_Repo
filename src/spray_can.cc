@@ -38,4 +38,4 @@ SprayCan::SprayCan(void) {
                 this->mask_[i][j] = 0.2 - sqrt(x * x + y * y) * 0.01;
         }
 }
-}//namespace image_tools
+}  // namespace image_tools

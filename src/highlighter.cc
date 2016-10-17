@@ -46,9 +46,9 @@ void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
             if (!(temp_x < 0 ||
                   temp_x >= frame->width() ||
                   temp_y < 0 ||
-                  temp_y >= frame->height()))
-            {
-                intensity = mask_[i][j] * frame->get_pixel(temp_x, temp_y).luminance();
+                  temp_y >= frame->height())) {
+                intensity = mask_[i][j] *
+                            frame->get_pixel(temp_x, temp_y).luminance();
                 temp_color = (color_ * intensity) +
                              (frame->get_pixel(temp_x, temp_y) *
                               (1.0 - intensity));
@@ -56,4 +56,4 @@ void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
             }
         }
 }
-} //namespace image_tools
+}  // namespace image_tools
