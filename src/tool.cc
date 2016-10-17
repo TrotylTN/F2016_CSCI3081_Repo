@@ -2,7 +2,7 @@
  * Name            : tool.cc
  * Project         : BrushWork
  * Module          : utils
- * Description     : Implementation tools
+ * Description     : Implementation of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01

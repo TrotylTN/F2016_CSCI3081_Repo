@@ -2,7 +2,7 @@
  * Name            : spray_can.cc
  * Project         : BrushWork
  * Module          : utils
- * Description     : Implementation of spray on top of tools
+ * Description     : Implementation of Spray on top of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01

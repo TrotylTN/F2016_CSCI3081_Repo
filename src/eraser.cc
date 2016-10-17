@@ -2,7 +2,7 @@
  * Name            : eraser.cc
  * Project         : BrushWork
  * Module          : Utils
- * Description     : Implementation of Eraser on top of tools
+ * Description     : Implementation of Eraser on top of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01
