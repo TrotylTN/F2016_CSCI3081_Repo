@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Name            : Tool.h
+ * Name            : tool.h
  * Project         : BrushWork
  * Module          : utils
- * Description     : Header file for CalligraphyPen tools.
+ * Description     : Header file for Tool class.
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/2016
  * Original Author : Group A01
@@ -30,27 +30,25 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
 /**
-  * @brief This is a base class for each tool class.
-  */
+ * @brief This is a base class for each tool class.
+ */
 class Tool{
   public:
     Tool(void);
 
     /**
-     *@brief Initialize the
-     * draw mask on screen;
+     *@brief draw on canvas using each tool's mask
      */
     virtual void draw_mask(PixelBuffer *frame, int x, int y);
 
     /**
-     * @brief used for fill the gap between the current position
+     * @brief used to fill the gap between the current
      * and previous position
      */
     float mask_radius(void);
 
     /**
-     * @brief set up the background color and current tools color.
-     * getting ready when the tool color been changed.
+     * @brief set color used to draw on canvas
      */
     virtual void set_color(ColorData cur_color, ColorData background_color);
 

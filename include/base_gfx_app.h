@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : BaseGfxApp.h
+ * Name            : base_gfx_app.h
  * Project         : BrushWork
  * Module          : App
  * Description     : Base class for  graphics applications built on top of

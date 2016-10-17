@@ -59,7 +59,7 @@ class Tool{
 };
 ```
 
-Notice in Figure 2, the Tool class included all the attributes and functions a tool needs. Also notice that draw_mask and set_color is virtual because some subclasses have different way to implement it. The value of attributes, which are mask_, mask_len_, mask_radius_ and color_, is deferred to the constructors in respective subclasses of Tool. Besides, instead of putting the drawing function in BrushWorkApp, we put our drawing function inside Tool class because not all tools have the same algorithm. We put a pointer referred to BrushWorkApp.display_buffer_ as an argument for drawing function in order to let the function have the permission to modify the canvas. Additionally, the attribute mask_radius_ is referred to the gap length we should fill each time while we are dragging the tool. With all the tools we have, there are 2 different algorithms for draw_mask shown in Figure 3 and Figure 4.
+Notice in Figure 2, the Tool class included all the attributes and functions a tool needs. Also notice that draw_mask and set_color is virtual because some subclasses have different way to implement it. The values of attributes, which are mask_, mask_len_, mask_radius_ and color_, are deferred to the constructors in respective subclasses of Tool. Besides, instead of putting the drawing function in BrushWorkApp, we put our drawing function inside Tool class because not all tools have the same algorithm. We put a pointer referred to BrushWorkApp.display_buffer_ as an argument for drawing function in order to let the function have the permission to modify the canvas. Additionally, the attribute mask_radius_ is referred to the gap length we should fill each time while we are dragging the tool. With all the tools we have, there are 2 different algorithms for draw_mask shown in Figure 3 and Figure 4.
 
 ###### Figure  3: draw_mask function in tool.cc
 
@@ -185,6 +185,19 @@ void BrushWorkApp::LeftMouseDown(int x, int y) {
     pre_x_ = x;
     pre_y_ = y;
 }
+
+...
+
+BrushWorkApp::~BrushWorkApp(void) {
+    if (display_buffer_) {
+        delete display_buffer_;
+    }
+    for (int i = 0; i < 6; i++) {
+        if (toolbox_[i]) {
+            delete toolbox_[i];
+        }
+    }
+}
 ```
 
 Finally, it is worth noting that all the tools is deleted before exiting the program and it is BrushWorkApp responsible, can find in Figure 6. To use the BrushWorkApp in application code, the developer only need to know to call set_color(...) and draw_mask(...) to perform operations, they does not need to know the implementations. These member functions do everything needed to draw on the canvas.
@@ -192,7 +205,7 @@ Finally, it is worth noting that all the tools is deleted before exiting the pro
 ### 1.2 Design Justification
 The intuition of the design above is to create a reliable, easily maintainable and easily extensible class design for BrushWorkApp. Before this design came out, there is an alternative design for Tool class but the the virtual base class design is significantly better than the alternative design in many perspectives.
 
-The alternative design is a very simple design that is to compile all tools together into a single Tool class, we called the design “the big Tool class”. The conclusion we get from this design is simple and easy to implement, but difficult to maintain or adding new tools. The figure below is a snippet of code from the big Tool class created in our first version BrushWorkApp.
+The alternative design is a very simple design that is to gather all tools together into a single Tool class, we called the design “the big Tool class”. The conclusion we get from this design is simple and easy to implement, but difficult to maintain or adding new tools. The figure below is a snippet of code from the big Tool class created in our first version BrushWorkApp.
 
 ###### Figure 7: The big Tool class containing all tools mask>
 ```C++
@@ -272,7 +285,7 @@ void Eraser::set_color(ColorData cur_color, ColorData background_color) {
 ```
 
 ### 2.2 Design Justification
-The reason we design our Eraser class this way because it is much easier to maintain. Since we set the color of the eraser to the background color, whenever the background color changes, the color of the eraser will update automatically.
+The reason we design our Eraser class this way because it is much easier to maintain. Since we have both current color and background color as our set_color arguments, we could easily switch the color for a tool by overriding the function. This is definitely better than using an if statement to manage the colors for different tools.
 
 ## 3  Design Question Three
 > A new developer on your team must add a new tool to BrushWork. This tool is called  _Pencil._ This tool is a single, non-transparent pixel that completely replaces the existing colors on the canvas in the same way as the pen or calligraphy pen blend.  
@@ -314,7 +327,7 @@ The reason we design our Eraser class this way because it is much easier to main
     }
     ```
 
-3. Finally, Pencil class is needed to implement into pencil.h and pencil.cc as follow. The Pencil class is very similar to the Pen class.
+3. Finally, implement pencil.h and pencil.cc as follow. The Pencil class is very similar to the Pen class.
 
     ###### Figure 12: Add a new head file called "include/pencil.h"
     ```C++

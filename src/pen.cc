@@ -2,7 +2,7 @@
  * Name            : pen.cc
  * Project         : BrushWork
  * Module          : utils
- * Description     : Implementation of Pen on top of tools
+ * Description     : Implementation of Pen on top of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01

@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Name            : Tool.cc
+ * Name            : tool.cc
  * Project         : BrushWork
  * Module          : utils
- * Description     : Implementation tools
+ * Description     : Implementation of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01
@@ -63,7 +63,7 @@ void Tool::set_color (ColorData cur_color, ColorData background_color) {
 
 /**
  *@brief to refill gaps, depend on different tools
-   */
+ */
 float Tool::mask_radius(void) {
     return std::max(mask_radius_ / 3.0, 1.0);
 }

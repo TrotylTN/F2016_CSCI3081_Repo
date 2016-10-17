@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Name            : Highlighter.cc
+ * Name            : highlighter.cc
  * Project         : BrushWork
  * Module          : Utils
- * Description     : Implementation of Highlighter on top of tools
+ * Description     : Implementation of Highlighter on top of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01
@@ -34,9 +34,7 @@ Highlighter::Highlighter(void) {
             this->mask_[CENTER + x][CENTER + y] = 0.4;
 }
 /**
- * @brief since we do not want to highlighter to covered the color
- * was been painted on the board, we have to override draw_mask
- * make the highlighter more real.
+ * @brief draw according the intensity of each pixel on the canvas.
  */
 void Highlighter::draw_mask(PixelBuffer *frame, int x, int y) {
     ColorData temp_color;

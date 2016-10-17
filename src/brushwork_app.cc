@@ -140,7 +140,6 @@ void BrushWorkApp::InitGlui(void) {
                                                  &cur_tool_,
                                                  UI_TOOLTYPE,
                                                  s_gluicallback);
-    // mask = new Mask();
     // Create interface buttons for different tools:
     new GLUI_RadioButton(radio, "Pen");
     new GLUI_RadioButton(radio, "Eraser");

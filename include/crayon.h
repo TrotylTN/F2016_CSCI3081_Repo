@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Name            : Crayon.h
+ * Name            : crayon.h
  * Project         : BrushWork
  * Module          : utils
- * Description     : Header file for special tools -- Crayon.
+ * Description     : Header file for special tool -- Crayon.
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/2016
  * Original Author : Group A01
@@ -25,9 +25,9 @@ namespace image_tools {
 * Class Definitions
 ******************************************************************************/
 /**
-* @brief This is a subclass of the tool class
-* We create a Special tools and implement on top of the Tool Class
-*/
+ * @brief This is a subclass of the tool class
+ * We create a Crayon tool as our special tool and implement on top of the Tool Class
+ */
 
 class Crayon : public Tool{
     public:

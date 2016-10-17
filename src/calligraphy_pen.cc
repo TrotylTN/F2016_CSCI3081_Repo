@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Name            : CalligraphyPen.cc
+ * Name            : calligraphy_pen.cc
  * Project         : BrushWork
  * Module          : Utils
- * Description     : Implementation of CalligraphyPen on top of tools
+ * Description     : Implementation of CalligraphyPen on top of Tool
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/16
  * Original Author : GroupA01
