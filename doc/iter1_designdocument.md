@@ -190,10 +190,9 @@ void BrushWorkApp::LeftMouseDown(int x, int y) {
 Finally, it is worth noting that all the tools is deleted before exiting the program and it is BrushWorkApp responsible, can find in Figure 6. To use the BrushWorkApp in application code, the developer only need to know to call set_color(...) and draw_mask(...) to perform operations, they does not need to know the implementations. These member functions do everything needed to draw on the canvas.
 
 ### 1.2 Design Justification
-(Intro)
-The intuition of the design above is to create a reliable, easily maintainable and easily extensible class design for BrushWorkApp.
+The intuition of the design above is to create a reliable, easily maintainable and easily extensible class design for BrushWorkApp. Before this design came out, there is an alternative design for Tool class but the the virtual base class design is significantly better than the alternative design in many perspectives.
 
-(Intuition for the first design)
+The alternative design is a very simple design that is to compile all tools together into a single Tool class, we called the design “the big Tool class”. The conclusion we get from this design is simple and easy to implement, but difficult to maintain or adding new tools. The figure below is a snippet of code from the big Tool class created in our first version BrushWorkApp.
 
 ###### Figure 7: The big Tool class containing all tools mask>
 ```C++
@@ -245,11 +244,9 @@ void Mask::switch_mask(int tool_number) {
     std::cout << "Now switch to Tool " << tool_number <<std::endl;
 }
 ```
-(Describe how bad the big Tool class is. How hard to maintain, add new class, etc.)
+Notice in the figure, every time when the user switches tool, this switch_tool function is called and it will goes through the switch function, creates the mask of the tool then returns the mask to the BrushWorkApp to draw. Even though this design looks simple to debug and implement but we still argue that this design is not easy to maintain and extend.
 
-(Describe new alternative if any)
-
-(Conclusion)
+For example, when adding in a new tool, we need to add a new case into the switch statement. When more and more tools are added, the switch statement will be extremely large and becomes hard to maintain. Moreover, we have only one draw function in BrushWorkApp class. If there are more than one tool has different drawing algorithm, then we need a large if statement that will make the whole program messy. In contrast to this, our latest class design is easier to maintain and extend. In virtual base class, every tool has their own class and draw algorithm. So it is easier to add a new class without messing the base class.
 
 ## 2  Design Question Two
 > Unlike most of the tools, the Eraser returns the canvas to its original color. One of the challenges in this iteration is giving the eraser the authority or information required to have this effect while having minimal impact on the way the rest of the tools are defined.
