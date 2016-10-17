@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : brushwork_app.cc
+ * Name            : CalligraphyPen.cc
  * Project         : BrushWork
  * Module          : Utils
  * Description     : Implementation of CalligraphyPen on top of tools

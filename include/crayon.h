@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : CalligraphyPen.h
+ * Name            : Crayon.h
  * Project         : BrushWork
  * Module          : utils
  * Description     : Header file for special tools -- Crayon.
