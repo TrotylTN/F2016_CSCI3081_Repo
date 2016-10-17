@@ -296,7 +296,7 @@ The reason we design our Eraser class this way because it is much easier to main
     };
     ```
 
-2. Declare a new instance for Pencil and stored in the toolbox[6].(the new tool made on top of the tools class and you want To implement in the BrashWork )
+2. Declare a new instance for Pencil and stored in the toolbox[6].
 
 
     ###### Figure 11: Changes in "src/brushwork_app.cc" for adding a new tool
