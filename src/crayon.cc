@@ -43,8 +43,7 @@ Crayon::Crayon(void) {
                         this->mask_[i][j] = 1;
                     else
                         this->mask_[i][j] = 0;
-                }
-                else {
+                } else {
                     if (rand() % 10 > 7)
                         this->mask_[i][j] = 1;
                     else
@@ -53,4 +52,4 @@ Crayon::Crayon(void) {
             }
         }
 }
-}//namespace image_tools
+}  // namespace image_tools

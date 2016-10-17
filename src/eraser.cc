@@ -40,4 +40,4 @@ Eraser::Eraser(void) {
 void Eraser::set_color(ColorData cur_color, ColorData background_color) {
     color_ = background_color;
 }
-} //namespace image_tools
+}  // namespace image_tools

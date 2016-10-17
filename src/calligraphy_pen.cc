@@ -33,4 +33,4 @@ CalligraphyPen::CalligraphyPen(void) {
         for (int y = -7; y <= 7; y++)
             this->mask_[CENTER + x][CENTER + y] = 1;
 }
-}//namespace image_tools
+}  // namespace image_tools
