@@ -186,21 +186,9 @@ void BrushWorkApp::LeftMouseDown(int x, int y) {
     pre_y_ = y;
 }
 
-...
-
-BrushWorkApp::~BrushWorkApp(void) {
-    if (display_buffer_) {
-        delete display_buffer_;
-    }
-    for (int i = 0; i < 6; i++) {
-        if (toolbox_[i]) {
-            delete toolbox_[i];
-        }
-    }
-}
 ```
 
-Finally, it is worth noting that all the tools is deleted before exiting the program and it is BrushWorkApp responsible, can find in Figure 6. To use the BrushWorkApp in application code, the developer only need to know to call set_color(...) and draw_mask(...) to perform operations, they does not need to know the implementations. These member functions do everything needed to draw on the canvas.
+Finally, it is worth noting that all the tools is deleted before exiting the program and it is BrushWorkApp responsible, can find in Figure 5. To use the BrushWorkApp in application code, the developer only need to know to call set_color(...) and draw_mask(...) to perform operations, they does not need to know the implementations. These member functions do everything needed to draw on the canvas.
 
 ### 1.2 Design Justification
 The intuition of the design above is to create a reliable, easily maintainable and easily extensible class design for BrushWorkApp. Before this design came out, there is an alternative design for Tool class but the the virtual base class design is significantly better than the alternative design in many perspectives.
