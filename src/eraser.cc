@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : Eraser.cc
+ * Name            : eraser.cc
  * Project         : BrushWork
  * Module          : Utils
  * Description     : Implementation of Eraser on top of tools

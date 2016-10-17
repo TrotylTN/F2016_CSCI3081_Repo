@@ -103,7 +103,7 @@ class BrushWorkApp : public BaseGfxApp {
     float const_gap_;
     Tool* toolbox_[6];
 
-    /**Using to recorde the mouseDragged position change*/
+    /** used to save the previous pointer position */
     int pre_x_;
     int pre_y_;
 

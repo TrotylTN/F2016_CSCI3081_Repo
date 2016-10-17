@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : Crayon.cc
+ * Name            : crayon.cc
  * Project         : BrushWork
  * Module          : Utils
  * Description     : Implementation of Crayon on top of tools

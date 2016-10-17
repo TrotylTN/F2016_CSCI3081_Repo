@@ -1,8 +1,8 @@
 /*******************************************************************************
- * Name            : SprayCan.h
+ * Name            : spray_can.h
  * Project         : BrushWork
  * Module          : utils
- * Description     : Header file for CalligraphyPen tools.
+ * Description     : Header file for SprayCan tool.
  * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
  * Creation Date   : 10/12/2016
  * Original Author : Group A01
@@ -23,9 +23,9 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
  /**
-   * @brief This is a subclass of the tool class
-   * we implement the SprayCan tool on top of the Tool class
-   */
+  * @brief This is a subclass of the tool class
+  * we implement the SprayCan tool on top of the Tool class
+  */
 
 class SprayCan : public Tool{
     public:

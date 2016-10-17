@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : SprayCan.cc
+ * Name            : spray_can.cc
  * Project         : BrushWork
  * Module          : utils
  * Description     : Implementation of spray on top of tools
