@@ -273,7 +273,7 @@ void Eraser::set_color(ColorData cur_color, ColorData background_color) {
 ```
 
 ### 2.2 Design Justification
-The reason we design our Eraser class this way because it is much easier to maintain. Since we have both current color and background color as our set_color arguments, we could easily switch the color for a tool by overriding the function. This is definitely better than using an if statement to manage the colors for different tools.
+The reason we design our Eraser class this way because it is much easier to maintain. Since we have both current color and background color as our set_color arguments, we could easily switch the color for a tool by overriding the function. This is definitely better than using an if statement to manage the color for different tools.
 
 ## 3  Design Question Three
 > A new developer on your team must add a new tool to BrushWork. This tool is called  _Pencil._ This tool is a single, non-transparent pixel that completely replaces the existing colors on the canvas in the same way as the pen or calligraphy pen blend.  
@@ -297,6 +297,7 @@ The reason we design our Eraser class this way because it is much easier to main
     ```
 
 2. Declare a new instance for Pencil and stored in the toolbox[6].
+
 
     ###### Figure 11: Changes in "src/brushwork_app.cc" for adding a new tool
 
