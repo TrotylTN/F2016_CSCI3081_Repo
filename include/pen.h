@@ -29,9 +29,9 @@ namespace image_tools {
  */
 
 class Pen : public Tool{
-    public:
-        Pen(void);
+ public:
+  Pen(void);
 };
-} //namespace image_tools
+}  // namespace image_tools
 
-#endif //INCLUDE_PIXEL_BUFFER_H_
+#endif  // INCLUDE_PEN_H_

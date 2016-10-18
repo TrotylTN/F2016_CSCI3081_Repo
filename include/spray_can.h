@@ -28,9 +28,9 @@ namespace image_tools {
   */
 
 class SprayCan : public Tool{
-    public:
-        SprayCan(void);
+ public:
+  SprayCan(void);
 };
-} //namespace image_tools
+}  // namespace image_tools
 
-#endif //INCLUDE_PIXEL_BUFFER_H_
+#endif  // INCLUDE_SPRAY_CAN_H_

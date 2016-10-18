@@ -63,6 +63,7 @@ class BrushWorkApp : public BaseGfxApp {
         ColorData background_color);
 
     PixelBuffer* display_buffer(void);
+
  private:
     void InitGlui(void);
     void InitGraphics(void);

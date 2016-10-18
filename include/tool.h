@@ -14,10 +14,9 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-
+#include <cstring>
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
-#include <cstring>
 
 /*******************************************************************************
  * Namespaces
@@ -32,32 +31,32 @@ namespace image_tools {
 /**
  * @brief This is a base class for each tool class.
  */
-class Tool{
-  public:
-    Tool(void);
+class Tool {
+ public:
+  Tool(void);
 
     /**
      *@brief draw on canvas using each tool's mask
      */
-    virtual void draw_mask(PixelBuffer *frame, int x, int y);
+  virtual void draw_mask(PixelBuffer *frame, int x, int y);
 
     /**
      * @brief used to fill the gap between the current
      * and previous position
      */
-    float mask_radius(void);
+  float mask_radius(void);
 
     /**
      * @brief set color used to draw on canvas
      */
-    virtual void set_color(ColorData cur_color, ColorData background_color);
+  virtual void set_color(ColorData cur_color, ColorData background_color);
 
-  protected:
-    float mask_radius_;
-    float mask_[41][41];
-    int mask_len_;
-    ColorData color_;
+ protected:
+  float mask_radius_;
+  float mask_[41][41];
+  int mask_len_;
+  ColorData color_;
 };
-} //namespace image_tools
+}  // namespace image_tools
 
-#endif //INCLUDE_COLOR_DATA_H_
+#endif  // INCLUDE_TOOL_H_
