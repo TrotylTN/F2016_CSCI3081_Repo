@@ -30,9 +30,9 @@ namespace image_tools {
  */
 
 class Crayon : public Tool{
-    public:
-        Crayon(void);
+ public:
+  Crayon(void);
 };
-} // namespace image_tools
+}  // namespace image_tools
 
-#endif //INCLUDE_PIXEL_BUFFER_H_
+#endif  // INCLUDE_CRAYON_H_

@@ -30,8 +30,8 @@ namespace image_tools {
  * we implement the CallographyPen tool on top of the Tool class
  */
 class CalligraphyPen : public Tool{
-    public:
-        CalligraphyPen(void);
+ public:
+  CalligraphyPen(void);
 };
-} // namespace image_tools
-#endif //INCLUDE_PIXEL_BUFFER_H_
+}  // namespace image_tools
+#endif  // INCLUDE_CALLIGRAPHY_PEN_H_

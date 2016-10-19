@@ -29,10 +29,10 @@ namespace image_tools {
  * we implement the Highlighter tool on top of the Tool class
  */
 class Highlighter : public Tool{
-    public:
-        Highlighter(void);
-        void draw_mask(PixelBuffer *frame, int x, int y);
+ public:
+  Highlighter(void);
+  void draw_mask(PixelBuffer *frame, int x, int y);
 };
-} //namespace image_tools
+}  // namespace image_tools
 
-#endif //INCLUDE_PIXEL_BUFFER_H_
+#endif  // INCLUDE_HIGHLIGHTER_H_

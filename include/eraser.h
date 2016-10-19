@@ -30,9 +30,9 @@ namespace image_tools {
  */
 
 class Eraser : public Tool{
-    public:
-        Eraser(void);
-        void set_color(ColorData cur_color, ColorData background_color);
+ public:
+  Eraser(void);
+  void set_color(ColorData cur_color, ColorData background_color);
 };
-} //namespace image_tools
-#endif //INCLUDE_PIXEL_BUFFER_H
+}  // namespace image_tools
+#endif  // INCLUDE_ERASER_H_
