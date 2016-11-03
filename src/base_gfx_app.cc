@@ -26,7 +26,7 @@ namespace image_tools {
 /*******************************************************************************
  * Global Variables
  ******************************************************************************/
-BaseGfxApp* BaseGfxApp::s_current_app_ = nullptr;
+BaseGfxApp* BaseGfxApp::s_current_app_ = NULL;
 bool BaseGfxApp::s_glut_initialized_ = false;
 
 /*******************************************************************************
@@ -44,7 +44,7 @@ BaseGfxApp::BaseGfxApp(int width,
 }
 
 BaseGfxApp::~BaseGfxApp(void) {
-  s_current_app_ = nullptr;
+  s_current_app_ = NULL;
   glutDestroyWindow(glut_window_handle_);
 }
 
@@ -88,7 +88,7 @@ void BaseGfxApp::Init(int argc,
     glui_->set_main_gfx_window(glut_window_handle_);
     // Note: if using a glut idle func, it may need to be registered
     // with glui rather than glut.
-    GLUI_Master.set_glutIdleFunc(nullptr);
+    GLUI_Master.set_glutIdleFunc(NULL);
   }
 }
 void BaseGfxApp::set_caption(const std::string& caption) {

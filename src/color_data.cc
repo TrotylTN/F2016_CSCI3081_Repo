@@ -33,9 +33,9 @@ ColorData::ColorData(float r, float g, float b, float a)
  * Member Functions
  ******************************************************************************/
 float ColorData::luminance(void) const {
-  return static_cast<float>(0.2126)*red_ +
-      static_cast<float>(0.7152)*green_ +
-      static_cast<float>(0.0722)*blue_;
+    return static_cast<float>(0.2126)*red_ +
+        static_cast<float>(0.7152)*green_ +
+        static_cast<float>(0.0722)*blue_;
 }
 
 ColorData ColorData::clamped_color(void) const {
