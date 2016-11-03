@@ -7,10 +7,10 @@
  * Creation Date   : 2/15/15
  * Original Author : Seth Johnson
  *
- ******************************************************************************/
+******************************************************************************/
 
-#ifndef INCLUDE_COLOR_DATA_H_
-#define INCLUDE_COLOR_DATA_H_
+#ifndef SRC_INCLUDE_COLOR_DATA_H_
+#define SRC_INCLUDE_COLOR_DATA_H_
 
 /*******************************************************************************
  * Namespaces
@@ -69,6 +69,7 @@ class ColorData {
   float blue_;
   float alpha_;
 };
-}  // namespace image_tools
 
-#endif  // INCLUDE_COLOR_DATA_H_
+}  /* namespace image_tools */
+
+#endif  /* SRC_INCLUDE_COLOR_DATA_H_ */

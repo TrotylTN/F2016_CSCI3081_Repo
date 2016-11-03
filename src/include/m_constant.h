@@ -1,36 +1,41 @@
 /*******************************************************************************
- * Name            : calligraphy_pen.cc
- * Project         : BrushWork
- * Module          : Utils
- * Description     : Implementation of CalligraphyPen on top of Tool
- * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
- * Creation Date   : 10/12/16
- * Original Author : GroupA01
+ * Name            : m_constant.h
+ * Project         : image_tools
+ * Module          : Mask
+ * Description     : Header File for Constant Mask class
+ * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
+ * Creation Date   : 2/15/15
+ * Original Author : Seth Johnson
  *
  ******************************************************************************/
+
+#ifndef SRC_INCLUDE_M_CONSTANT_H_
+#define SRC_INCLUDE_M_CONSTANT_H_
 
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-
-#include "include/calligraphy_pen.h"
+#include "include/mask.h"
 
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
-
 namespace image_tools {
+
 /*******************************************************************************
- * Constructors
+ * Class Definitions
  ******************************************************************************/
-CalligraphyPen::CalligraphyPen(void) {
-    memset(mask_, 0, sizeof mask_);
-    mask_radius_ = 0;
-    mask_len_ = 41;
-    color_ = ColorData();
-    mask_radius_ = 2.5;
-    for (int x = -2; x <= 2; x++)
-        for (int y = -7; y <= 7; y++)
-            this->mask_[CENTER + x][CENTER + y] = 1;
-}
-}  // namespace image_tools
+/**
+ * @brief MConstant is a Mask that is round, with a constant fill  value.
+ */
+class MConstant : public Mask {
+ public:
+  MConstant(float radius, float opacity);
+
+ protected:
+  float get_intensity(int x, int y, float radius);
+};
+
+}  /* namespace image_tools */
+
+#endif  /* SRC_INCLUDE_M_CONSTANT_H_ */

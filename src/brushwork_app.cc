@@ -13,10 +13,13 @@
  * Includes
  ******************************************************************************/
 #include "include/brushwork_app.h"
+#include <assert.h>
 #include <cmath>
 #include <iostream>
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
+#include "include/ui_ctrl.h"
+#include "include/tool_factory.h"
 
 /*******************************************************************************
  * Namespaces
@@ -31,7 +34,10 @@ BrushWorkApp::BrushWorkApp(int width,
     : BaseGfxApp(width,
                  height),
       display_buffer_(nullptr),
-      cur_tool_(0.0),
+      cur_tool_(0),
+      tools_(),
+      mouse_last_x_(0),
+      mouse_last_y_(0),
       cur_color_red_(0.0),
       cur_color_green_(0.0),
       cur_color_blue_(0.0),
@@ -40,14 +46,9 @@ BrushWorkApp::BrushWorkApp(int width,
       spinner_b_(nullptr) {}
 
 BrushWorkApp::~BrushWorkApp(void) {
-    if (display_buffer_) {
-        delete display_buffer_;
-    }
-    for (int i = 0; i < 6; i++) {
-        if (toolbox_[i]) {
-            delete toolbox_[i];
-        }
-    }
+  if (display_buffer_) {
+    delete display_buffer_;
+  }
 }
 
 /*******************************************************************************
@@ -60,191 +61,222 @@ void BrushWorkApp::Init(
     int y,
     ColorData background_color) {
 
-    BaseGfxApp::Init(argc, argv,
-                     x, y,
-                     GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH,
-                     true,
-                     width()+51,
-                     50);
+  BaseGfxApp::Init(argc, argv,
+                   x, y,
+                   GLUT_RGB|GLUT_DOUBLE|GLUT_DEPTH,
+                   true,
+                   width()+51,
+                   50);
 
-    // Set the name of the window
-    set_caption("BrushWork");
+  // Set the name of the window
+  set_caption("BrushWork");
 
-    // Initialize Interface
-    InitializeBuffers(background_color, width(), height());
+  // Initialize Interface
+  InitializeBuffers(background_color, width(), height());
 
-    InitGlui();
-    InitGraphics();
+  // Create array of tools and populate
+  for (int i = 0; i < ToolFactory::num_tools(); i++) {
+    Tool* t = ToolFactory::CreateTool(i);
+    assert(t);
+    tools_.push_back(t);
+  }
+  InitGlui();
+  InitGraphics();
 }
 
 void BrushWorkApp::Display(void) {
-    DrawPixels(0, 0, width(), height(), display_buffer_->data());
+  DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
 
-void BrushWorkApp::MouseDragged(int x, int y) {
-    toolbox_[cur_tool_]->set_color(ColorData(cur_color_red_,
-                                            cur_color_green_,
-                                            cur_color_blue_),
-                                  display_buffer_->background_color());
-    const_gap_ = toolbox_[cur_tool_]->mask_radius();
-    float difX = x - pre_x_;
-    float difY = y - pre_y_;
-    float dist = sqrt((difX * difX) + (difY * difY));
-    int i = 0;
-    float dX = difX / dist;
-    float dY = difY / dist;
-    // fill the gap between current and previous position
-    while (i * const_gap_ < dist) {
-        int tmpX = round(pre_x_ + i * const_gap_ * dX);
-        int tmpY = round(pre_y_ + i * const_gap_ * dY);
-        toolbox_[cur_tool_]->draw_mask(display_buffer_,
-                                      tmpX, height() - 1 - tmpY);
-        i++;
-    }
-    pre_x_ = x;
-    pre_y_ = y;
-}
+
 void BrushWorkApp::MouseMoved(int x, int y) {}
 
+void BrushWorkApp::MouseDragged(int x, int y) {
+  int max_steps = 30;
+
+  // We implimented a smoothing feature by interpolating between
+  // mouse events. This is at the expense of processing, though,
+  // because we just "stamp" the tool many times between the two
+  // even locations. you can reduce max_steps until it runs
+  // smoothly on your machine.
+
+  // Get the differences between the events
+  // in each direction
+  int delta_x = x-mouse_last_x_;
+  int delta_y = y-mouse_last_y_;
+
+  // Calculate the min number of steps necesary to fill
+  // completely between the two event locations.
+  float pixels_between = fmax(abs(delta_x), abs(delta_y));
+  int step_size = 1;
+
+  // Optimize by maxing out at the max_steps,
+  // and fill evenly between
+  if (pixels_between > max_steps) {
+    step_size = pixels_between/max_steps;
+  }
+
+  // Iterate between the event locations
+  for (int i = 0; i < pixels_between; i+=step_size) {
+    int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
+    int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
+
+    tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
+                                     ColorData(cur_color_red_,
+                                               cur_color_green_,
+                                               cur_color_blue_),
+                                     display_buffer_);
+  }
+
+  // let the previous point catch up with the current.
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
+}
 void BrushWorkApp::LeftMouseDown(int x, int y) {
-     std::cout << "mousePressed " << x << " " << y << std::endl;
-    const_gap_ = toolbox_[cur_tool_]->mask_radius();
-    toolbox_[cur_tool_]->set_color(ColorData(cur_color_red_,
-                                            cur_color_green_,
-                                            cur_color_blue_),
-                                  display_buffer_->background_color());
-    toolbox_[cur_tool_]->draw_mask(display_buffer_, x, height() - 1 - y);
-    pre_x_ = x;
-    pre_y_ = y;
+  tools_[cur_tool_]->ApplyToBuffer(x, height()-y,
+                                   ColorData(cur_color_red_,
+                                             cur_color_green_,
+                                             cur_color_blue_),
+                                   display_buffer_);
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
 }
 
 void BrushWorkApp::LeftMouseUp(int x, int y) {
-    std::cout << "mouseReleased " << x << " " << y << std::endl;
-    pre_x_ = 0;
-    pre_y_ = 0;
+  std::cout << "mouseReleased " << x << " " << y << std::endl;
 }
 
 void BrushWorkApp::InitializeBuffers(
     ColorData background_color,
     int width,
     int height) {
-    display_buffer_ = new PixelBuffer(width, height, background_color);
+  display_buffer_ = new PixelBuffer(width, height, background_color);
 }
 
 void BrushWorkApp::InitGlui(void) {
-    // Select first tool (this activates the first radio button in glui)
-    cur_tool_ = 0;
-    pre_x_ = 0;
-    pre_y_ = 0;
-    GLUI_Panel *tool_panel = new GLUI_Panel(glui(), "Tool Type");
-    GLUI_RadioGroup *radio = new GLUI_RadioGroup(tool_panel,
-                                                 &cur_tool_,
-                                                 UI_TOOLTYPE,
-                                                 s_gluicallback);
-    // Create interface buttons for different tools:
-    new GLUI_RadioButton(radio, "Pen");
-    new GLUI_RadioButton(radio, "Eraser");
-    new GLUI_RadioButton(radio, "Spray Can");
-    new GLUI_RadioButton(radio, "Calligraphy Pen");
-    new GLUI_RadioButton(radio, "Highlighter");
-    new GLUI_RadioButton(radio, "Crayon");
-    toolbox_[0] = new Pen();
-    toolbox_[1] = new Eraser();
-    toolbox_[2] = new SprayCan();
-    toolbox_[3] = new CalligraphyPen();
-    toolbox_[4] = new Highlighter();
-    toolbox_[5] = new Crayon();
-    GLUI_Panel *color_panel = new GLUI_Panel(glui(), "Tool Color");
+  // Select first tool (this activates the first radio button in glui)
+  cur_tool_ = 0;
 
-    cur_color_red_ = 0;
-    spinner_r_  = new GLUI_Spinner(color_panel, "Red:", &cur_color_red_,
-                                   UI_COLOR_R, s_gluicallback);
-    spinner_r_->set_float_limits(0, 1.0);
+  GLUI_Panel *tool_panel = new GLUI_Panel(glui(), "Tool Type");
+  GLUI_RadioGroup *radio = new GLUI_RadioGroup(tool_panel,
+                                               &cur_tool_,
+                                               UICtrl::UI_TOOLTYPE,
+                                               s_gluicallback);
 
-    cur_color_green_ = 0;
-    spinner_g_ = new GLUI_Spinner(color_panel, "Green:", &cur_color_green_,
-                                   UI_COLOR_G, s_gluicallback);
-    spinner_g_->set_float_limits(0, 1.0);
+  // Create interface buttons for different tools:
+  for (int i = 0; i < ToolFactory::num_tools(); ++i) {
+    new GLUI_RadioButton(radio, tools_[i]->name().c_str());
+  }
 
-    cur_color_blue_ = 0;
-    spinner_b_  = new GLUI_Spinner(color_panel, "Blue:", &cur_color_blue_,
-                                   UI_COLOR_B, s_gluicallback);
-    spinner_b_->set_float_limits(0, 1.0);
-    new GLUI_Button(color_panel, "Red", UI_PRESET_RED, s_gluicallback);
-    new GLUI_Button(color_panel, "Orange", UI_PRESET_ORANGE, s_gluicallback);
-    new GLUI_Button(color_panel, "Yellow", UI_PRESET_YELLOW, s_gluicallback);
-    new GLUI_Button(color_panel, "Green", UI_PRESET_GREEN, s_gluicallback);
-    new GLUI_Button(color_panel, "Blue", UI_PRESET_BLUE, s_gluicallback);
-    new GLUI_Button(color_panel, "Purple", UI_PRESET_PURPLE, s_gluicallback);
-    new GLUI_Button(color_panel, "White", UI_PRESET_WHITE, s_gluicallback);
-    new GLUI_Button(color_panel, "Black", UI_PRESET_BLACK, s_gluicallback);
+  GLUI_Panel *color_panel = new GLUI_Panel(glui(), "Tool Color");
 
+  cur_color_red_ = 0;
+  spinner_r_  = new GLUI_Spinner(color_panel, "Red:", &cur_color_red_,
+                                 UICtrl::UI_COLOR_R, s_gluicallback);
+  spinner_r_->set_float_limits(0, 1.0);
 
-    new GLUI_Button(glui(), "Quit", UI_QUIT, static_cast<GLUI_Update_CB>(exit));
+  cur_color_green_ = 0;
+  spinner_g_ = new GLUI_Spinner(color_panel, "Green:", &cur_color_green_,
+                                UICtrl::UI_COLOR_G, s_gluicallback);
+  spinner_g_->set_float_limits(0, 1.0);
+
+  cur_color_blue_ = 0;
+  spinner_b_  = new GLUI_Spinner(color_panel, "Blue:", &cur_color_blue_,
+                                 UICtrl::UI_COLOR_B, s_gluicallback);
+  spinner_b_->set_float_limits(0, 1.0);
+  new GLUI_Button(color_panel,
+                  "Red", UICtrl::UI_PRESET_RED,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "Orange", UICtrl::UI_PRESET_ORANGE,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "Yellow", UICtrl::UI_PRESET_YELLOW,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "Green", UICtrl::UI_PRESET_GREEN,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "Blue", UICtrl::UI_PRESET_BLUE,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "Purple", UICtrl::UI_PRESET_PURPLE,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "White", UICtrl::UI_PRESET_WHITE,
+                  s_gluicallback);
+  new GLUI_Button(color_panel,
+                  "Black", UICtrl::UI_PRESET_BLACK,
+                  s_gluicallback);
+
+  new GLUI_Button(glui(),
+                  "Quit", UICtrl::UI_QUIT,
+                  static_cast<GLUI_Update_CB>(exit));
 }
 
 
 void BrushWorkApp::InitGraphics(void) {
-    // Initialize OpenGL for 2D graphics as used in the BrushWork app
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluOrtho2D(0, width(), 0, height());
-    glViewport(0, 0, width(), height());
+  // Initialize OpenGL for 2D graphics as used in the BrushWork app
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluOrtho2D(0, width(), 0, height());
+  glViewport(0, 0, width(), height());
 }
 
 void BrushWorkApp::GluiControl(int control_id) {
-    switch (control_id) {
-    case UI_PRESET_RED:
-        cur_color_red_ = 1;
-        cur_color_green_ = 0;
-        cur_color_blue_ = 0;
-        break;
-    case UI_PRESET_ORANGE:
-        cur_color_red_ = 1;
-        cur_color_green_ = 0.5;
-        cur_color_blue_ = 0;
-        break;
-    case UI_PRESET_YELLOW:
-        cur_color_red_ = 1;
-        cur_color_green_ = 1;
-        cur_color_blue_ = 0;
-        break;
-    case UI_PRESET_GREEN:
-        cur_color_red_ = 0;
-        cur_color_green_ = 1;
-        cur_color_blue_ = 0;
-        break;
-    case UI_PRESET_BLUE:
-        cur_color_red_ = 0;
-        cur_color_green_ = 0;
-        cur_color_blue_ = 1;
-        break;
-    case UI_PRESET_PURPLE:
-        cur_color_red_ = 0.5;
-        cur_color_green_ = 0;
-        cur_color_blue_ = 1;
-        break;
-    case UI_PRESET_WHITE:
-        cur_color_red_ = 1;
-        cur_color_green_ = 1;
-        cur_color_blue_ = 1;
-        break;
-    case UI_PRESET_BLACK:
-        cur_color_red_ = 0;
-        cur_color_green_ = 0;
-        cur_color_blue_ = 0;
-        break;
+  switch (control_id) {
+    case UICtrl::UI_PRESET_RED:
+      cur_color_red_ = 1;
+      cur_color_green_ = 0;
+      cur_color_blue_ = 0;
+      break;
+    case UICtrl::UI_PRESET_ORANGE:
+      cur_color_red_ = 1;
+      cur_color_green_ = 0.5;
+      cur_color_blue_ = 0;
+      break;
+    case UICtrl::UI_PRESET_YELLOW:
+      cur_color_red_ = 1;
+      cur_color_green_ = 1;
+      cur_color_blue_ = 0;
+      break;
+    case UICtrl::UI_PRESET_GREEN:
+      cur_color_red_ = 0;
+      cur_color_green_ = 1;
+      cur_color_blue_ = 0;
+      break;
+    case UICtrl::UI_PRESET_BLUE:
+      cur_color_red_ = 0;
+      cur_color_green_ = 0;
+      cur_color_blue_ = 1;
+      break;
+    case UICtrl::UI_PRESET_PURPLE:
+      cur_color_red_ = 0.5;
+      cur_color_green_ = 0;
+      cur_color_blue_ = 1;
+      break;
+    case UICtrl::UI_PRESET_WHITE:
+      cur_color_red_ = 1;
+      cur_color_green_ = 1;
+      cur_color_blue_ = 1;
+      break;
+    case UICtrl::UI_PRESET_BLACK:
+      cur_color_red_ = 0;
+      cur_color_green_ = 0;
+      cur_color_blue_ = 0;
+      break;
     default:
-        break;
-    }
+      break;
+  }
 
-    spinner_b_->set_float_val(cur_color_blue_);
-    spinner_g_->set_float_val(cur_color_green_);
-    spinner_r_->set_float_val(cur_color_red_);
+  spinner_b_->set_float_val(cur_color_blue_);
+  spinner_g_->set_float_val(cur_color_green_);
+  spinner_r_->set_float_val(cur_color_red_);
 }
-}  // namespace image_tools
+
+}  /* namespace image_tools */

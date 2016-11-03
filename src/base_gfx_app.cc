@@ -26,7 +26,7 @@ namespace image_tools {
 /*******************************************************************************
  * Global Variables
  ******************************************************************************/
-BaseGfxApp* BaseGfxApp::s_current_app_ = NULL;
+BaseGfxApp* BaseGfxApp::s_current_app_ = nullptr;
 bool BaseGfxApp::s_glut_initialized_ = false;
 
 /*******************************************************************************
@@ -44,7 +44,7 @@ BaseGfxApp::BaseGfxApp(int width,
 }
 
 BaseGfxApp::~BaseGfxApp(void) {
-  s_current_app_ = NULL;
+  s_current_app_ = nullptr;
   glutDestroyWindow(glut_window_handle_);
 }
 
@@ -88,7 +88,7 @@ void BaseGfxApp::Init(int argc,
     glui_->set_main_gfx_window(glut_window_handle_);
     // Note: if using a glut idle func, it may need to be registered
     // with glui rather than glut.
-    GLUI_Master.set_glutIdleFunc(NULL);
+    GLUI_Master.set_glutIdleFunc(nullptr);
   }
 }
 void BaseGfxApp::set_caption(const std::string& caption) {
@@ -190,10 +190,10 @@ void BaseGfxApp::s_gluicallback(int control_id) {
 }
 
 void BaseGfxApp::s_idle(void) {
-  int timeSinceStart = glutGet(GLUT_ELAPSED_TIME);
-  int delta = timeSinceStart - s_current_app_->milliseconds_;
+  int time_since_start = glutGet(GLUT_ELAPSED_TIME);
+  int delta = time_since_start - s_current_app_->milliseconds_;
   if (delta > 0) {
-    s_current_app_->milliseconds_ = timeSinceStart;
+    s_current_app_->milliseconds_ = time_since_start;
     s_current_app_->Update(delta);
   }
 }
@@ -204,4 +204,4 @@ void BaseGfxApp::SetWindowDimensions(int width, int height) {
   glutReshapeWindow(width_, height_);
 }
 
-}  // namespace image_tools
+}  /* namespace image_tools */

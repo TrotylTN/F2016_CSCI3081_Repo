@@ -1,22 +1,24 @@
 /*******************************************************************************
  * Name            : tool.cc
  * Project         : BrushWork
- * Module          : utils
- * Description     : Implementation of Tool
- * Copyright       : 2016 CSCI3081W GroupA01. All rights reserved.
- * Creation Date   : 10/12/16
- * Original Author : GroupA01
+ * Module          : Tool
+ * Description     : Implementation of Tool base class
+ * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
+ * Creation Date   : 2/15/15
+ * Original Author : Seth Johnson
  *
  ******************************************************************************/
-
-
 
 /*******************************************************************************
  * Includes
  ******************************************************************************/
 #include "include/tool.h"
-#include <cstring>
+#include <assert.h>
+#include <cmath>
 #include <algorithm>
+#include "include/color_data.h"
+#include "include/mask.h"
+#include "include/pixel_buffer.h"
 
 /*******************************************************************************
  * Namespaces
@@ -24,45 +26,60 @@
 namespace image_tools {
 
 /*******************************************************************************
- * Constructors
+ * Constructors/Destructor
  ******************************************************************************/
-Tool::Tool(void) {
-    memset(mask_, 0, sizeof mask_);
-    mask_radius_ = 0;
-    mask_len_ = 41;
-    color_ = ColorData();
+Tool::Tool(void) : mask_(nullptr) {}
+
+Tool::~Tool(void) {
+  delete mask_;
 }
+
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-
-void Tool::draw_mask(PixelBuffer *frame, int x, int y) {
-    ColorData temp_color;
-    for (int i = 0; i < mask_len_; i++)
-        for (int j = 0; j < mask_len_; j++) {
-            int temp_x = i + x - CENTER;
-            int temp_y = j + y - CENTER;
-            if (!(temp_x < 0 ||
-                  temp_x >= frame->width() ||
-                  temp_y < 0 ||
-                  temp_y >= frame->height())) {
-                temp_color = (color_ * mask_[i][j]) +
-                             (frame->get_pixel(temp_x, temp_y) *
-                              (1 - mask_[i][j]));
-                frame->set_pixel(temp_x, temp_y, temp_color);
-            }
-        }
+ColorData Tool::color_blend_math(
+    float mask_pixel_amount,
+    const ColorData& tool_color,
+    const ColorData& current_color,
+    const ColorData& background_color) {
+  return tool_color*mask_pixel_amount + current_color*(1.0-mask_pixel_amount);
 }
 
-void Tool::set_color(ColorData cur_color, ColorData background_color) {
-    color_ = cur_color;
+void Tool::ApplyToBuffer(
+    int tool_x,
+    int tool_y,
+    ColorData tool_color,
+    PixelBuffer* buffer) {
+  assert(mask_);
+
+  int left_bound = std::max(tool_x-mask_->width()/2, 0);
+  int right_bound = std::min(tool_x+mask_->width()/2,
+                             buffer->width()-1);
+  int lower_bound = std::max(tool_y-mask_->height()/2, 0);
+  int upper_bound = std::min(tool_y+mask_->height()/2,
+                             buffer->height()-1);
+
+  #pragma omp for
+  for (int y = lower_bound; y <= upper_bound; y++) {
+    for (int x = left_bound; x <= right_bound; x++) {
+      int mask_x = x - (tool_x-mask_->width()/2);
+      int mask_y = y - (tool_y-mask_->height()/2);
+      float mask_value = mask_->value(mask_x, mask_y);
+      ColorData current = buffer->get_pixel(x, y);
+
+      // Because we interpolate the pixels, colors overlap
+      // and increase intensity quickly. We found that cubing
+      // the mask intensity compensated for this.
+      float slimmed_mask_value = powf(mask_value, 3);
+      ColorData c = color_blend_math(
+          slimmed_mask_value,
+          tool_color,
+          current,
+          buffer->background_color());
+
+      buffer->set_pixel(x, y, c);
+    }
+  }
 }
 
-
-/**
- *@brief to refill gaps, depend on different tools
- */
-float Tool::mask_radius(void) {
-    return std::max(mask_radius_ / 3.0, 1.0);
-}
-}  // namespace image_tools
+}  /* namespace image_tools */
