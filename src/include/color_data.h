@@ -7,7 +7,7 @@
  * Creation Date   : 2/15/15
  * Original Author : Seth Johnson
  *
-******************************************************************************/
+ ******************************************************************************/
 
 #ifndef SRC_INCLUDE_COLOR_DATA_H_
 #define SRC_INCLUDE_COLOR_DATA_H_

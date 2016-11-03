@@ -63,6 +63,16 @@ class UICtrl {
     UI_REDO,
     UI_QUIT
   };
+  /**
+   * @brief The available directions for motion blurring.
+   *
+   */
+  enum MotionBlurDirection {
+    UI_DIR_N_S,
+    UI_DIR_E_W,
+    UI_DIR_NE_SW,
+    UI_DIR_NW_SE
+  };
 };
 
 }  /* namespace image_tools */
