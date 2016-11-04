@@ -236,13 +236,12 @@ $(BINDIR) $(OBJDIR) $(EXTLIBDIR):
 # the build process to build the main target.
 clean:
 	rm -rf $(BINDIR) $(OBJDIR) $(EXTLIBDIR)
-	$(MAKE) -C$(GLUIDIR) clean
-	$(MAKE) -C$(JPEGDIR) clean
-	$(MAKE) -C$(PNGDIR) clean
 
 # The Super Cleaner. Clean the project, but also clean all external libraries.
 veryclean: clean
-	-@$(MAKE) -C$(GLUIDIR) clean uninstall
+	$(MAKE) -C$(GLUIDIR) clean uninstall
+	$(MAKE) -C$(JPEGDIR) clean uninstall
+	$(MAKE) -C$(PNGDIR) clean	uninstall
 	rm -rf $(BINDIR) $(OBJDIR)
 
 # The Documenter. Generate documentation for the project.
