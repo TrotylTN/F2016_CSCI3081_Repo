@@ -93,3 +93,7 @@ ext/libpng-1.6.16/pngtest
 ext/libpng-1.6.16/pngunknown
 ext/libpng-1.6.16/pngvalid
 ext/libpng-1.6.16/stamp-h1
+
+# ctags temp files
+tags
+tags/*
