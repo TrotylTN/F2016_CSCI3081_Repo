@@ -40,3 +40,56 @@ bin/*
 *.out
 *.app
 *.d
+
+# Libraries
+ext/lib/*
+ext/include/*
+ext/bin/*
+ext/share/*
+
+# config
+config/config.log
+config/config.status
+
+# jpeg-9a config
+ext/jpeg-9a/.deps/*
+ext/jpeg-9a/Makefile
+ext/jpeg-9a/cjpeg
+ext/jpeg-9a/config.log
+ext/jpeg-9a/config.status
+ext/jpeg-9a/djpeg
+ext/jpeg-9a/jconfig.h
+ext/jpeg-9a/jpegtran
+ext/jpeg-9a/libtool
+ext/jpeg-9a/rdjpgcom
+ext/jpeg-9a/stamp-h1
+ext/jpeg-9a/wrjpgcom
+
+# png16 config
+ext/libpng-1.6.16/.deps/*
+ext/libpng-1.6.16/Makefile
+ext/libpng-1.6.16/arm/.deps/*
+ext/libpng-1.6.16/config.h
+ext/libpng-1.6.16/config.log
+ext/libpng-1.6.16/config.status
+ext/libpng-1.6.16/contrib/libtests/.deps/*
+ext/libpng-1.6.16/contrib/libtests/.dirstamp
+ext/libpng-1.6.16/contrib/tools/.deps/*
+ext/libpng-1.6.16/contrib/tools/.dirstamp
+ext/libpng-1.6.16/libpng-config
+ext/libpng-1.6.16/libpng.pc
+ext/libpng-1.6.16/libpng.vers
+ext/libpng-1.6.16/libpng16-config
+ext/libpng-1.6.16/libpng16.pc
+ext/libpng-1.6.16/libtool
+ext/libpng-1.6.16/png-fix-itxt
+ext/libpng-1.6.16/pngfix
+ext/libpng-1.6.16/pngimage
+ext/libpng-1.6.16/pnglibconf.c
+ext/libpng-1.6.16/pnglibconf.h
+ext/libpng-1.6.16/pngprefix.h
+ext/libpng-1.6.16/pngstest
+ext/libpng-1.6.16/pngtest
+ext/libpng-1.6.16/pngunknown
+ext/libpng-1.6.16/pngvalid
+ext/libpng-1.6.16/stamp-h1
