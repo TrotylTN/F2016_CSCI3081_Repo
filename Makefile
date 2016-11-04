@@ -241,7 +241,7 @@ clean:
 veryclean: clean
 	$(MAKE) -C$(GLUIDIR) clean uninstall
 	$(MAKE) -C$(JPEGDIR) clean uninstall
-	$(MAKE) -C$(PNGDIR) clean	uninstall
+	$(MAKE) -C$(PNGDIR) clean uninstall
 	rm -rf $(BINDIR) $(OBJDIR) $(EXTLIBDIR)
 
 # The Documenter. Generate documentation for the project.
