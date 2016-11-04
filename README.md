@@ -1,5 +1,9 @@
 # FlashPhoto
 
+- Tiannan Zhou
+- Yu Xian Ang
+- Zhangjun Xu
+
 ## Coding guidelines
 In any large software project with multiple people contributing, having a
 consistent coding style throughout is vital to minimize miscommunications
