@@ -60,7 +60,7 @@ SHELL           = bash
 # This is the list of directories to search during the linking step for
 # external libraries (such as GLUI) that are NOT in one of the pre-defined
 # locations on linux, such as /usr/lib, /lib, etc.
-CXXLIBDIRS ?= -L$(EXTDIR)/lib
+CXXLIBDIRS = -L$(EXTLIBDIR)
 
 # Define the list of include directories during compilation. Lines MUST end
 # with a backslash (\). This syntax is the way to define multi-line variables
@@ -104,9 +104,9 @@ endef
 # This is specified differently depending on whether we are on linux or OSX.
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin) # Mac OSX
-CXXLIBS = -framework glut -framework opengl -lglui
+CXXLIBS = -framework glut -framework opengl -lglui -lpng16 -ljpeg
 else # LINUX
-CXXLIBS = -lglut -lGL -lGLU -lglui
+CXXLIBS = -lglut -lGL -lGLU -lglui -lpng16 -ljpeg
 CXXFLAGS += -fopenmp
 endif
 
@@ -167,8 +167,13 @@ SRC_CXX = $(call rwildcard,$(SOURCES),*.cc)
 # corresponding .o file to create in obj/ via pattern substitution (patsust).
 OBJECTS_CXX = $(notdir $(patsubst %.cc,%.o,$(SRC_CXX)))
 
+# Libraries targets
+LIBS_A = $(EXTLIBDIR)/libglui.a
+LIBS_A += $(EXTLIBDIR)/libjpeg.a
+LIBS_A += $(EXTLIBDIR)/libpng16.a
+
 # The target executable (what you are building)
-TARGET = $(BINDIR)/BrushWork
+TARGET = $(BINDIR)/FlashPhoto
 
 ###############################################################################
 # All targets
@@ -200,7 +205,7 @@ $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)): | $(OBJDIR)
 # The Target Executable. Note that libglui is an order-only prerequisite, in
 # that as long as it exists, make will not attempt to recompile it. This makes
 # sense; once you build GLUI, you should never have to rebuild it.
-$(TARGET): $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) | $(BINDIR) $(EXTDIR)/lib/libglui.a
+$(TARGET): $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) | $(BINDIR) $(LIBS_A)
 	$(CXX) $(CXXFLAGS) $(CXXLIBDIRS) $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) -o $@ $(CXXLIBS)
 
 # GLUI
@@ -209,25 +214,36 @@ $(TARGET): $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) | $(BINDIR) $(EXTDIR)/lib/lib
 # and using it instead of just "make" will call make again with the exact same
 # arguments used to call THIS make process. This is very useful to easily pass
 # command line arguments to sub-makes.
-$(EXTDIR)/lib/libglui.a:
-	@$(MAKE) -C$(GLUIDIR) install
+$(EXTLIBDIR)/libglui.a: $(EXTLIBDIR)
+	$(MAKE) -C$(GLUIDIR) all install
+
+#JPEG
+$(EXTLIBDIR)/libjpeg.a: $(EXTLIBDIR)
+	$(MAKE) -C$(JPEGDIR) all install
+
+#PNG
+$(EXTLIBDIR)/libpng16.a: $(EXTLIBDIR)
+	$(MAKE) -C$(PNGDIR) all install
 
 # Bootstrap Bill. This creates all of the order-only prerequisites; that is,
 # files/directories that have to be present in order for a given target build
 # to succeed, but that make knows do not need to be remade each time their
 # modification time is updated and they are newer than the target being built.
-$(BINDIR) $(OBJDIR):
-	@mkdir -p $@
+$(BINDIR) $(OBJDIR) $(EXTLIBDIR):
+	mkdir -p $@
 
 # The Cleaner. Clean up the project, by removing ALL files generated during
 # the build process to build the main target.
 clean:
-	@rm -rf $(BINDIR) $(OBJDIR)
+	rm -rf $(BINDIR) $(OBJDIR) $(EXTLIBDIR)
+	$(MAKE) -C$(GLUIDIR) clean
+	$(MAKE) -C$(JPEGDIR) clean
+	$(MAKE) -C$(PNGDIR) clean
 
 # The Super Cleaner. Clean the project, but also clean all external libraries.
 veryclean: clean
 	-@$(MAKE) -C$(GLUIDIR) clean uninstall
-	@rm -rf $(BINDIR) $(OBJDIR)
+	rm -rf $(BINDIR) $(OBJDIR)
 
 # The Documenter. Generate documentation for the project.
 documentation:
