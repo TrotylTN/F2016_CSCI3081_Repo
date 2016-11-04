@@ -13,11 +13,13 @@
  * Includes
  ******************************************************************************/
 #include "include/flashphoto_app.h"
+#include <assert.h>
 #include <cmath>
 #include <iostream>
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
+#include "include/tool_factory.h"
 
 /*******************************************************************************
  * Namespaces
@@ -34,6 +36,9 @@ FlashPhotoApp::FlashPhotoApp(int width, int height) : BaseGfxApp(width, height),
                                                       glui_ctrl_hooks_(),
                                                       display_buffer_(nullptr),
                                                       cur_tool_(0),
+                                                      tools_(),
+                                                      mouse_last_x_(0),
+                                                      mouse_last_y_(0),                                                      
                                                       cur_color_red_(0.0),
                                                       cur_color_green_(0.0),
                                                       cur_color_blue_(0.0) {}
@@ -60,6 +65,12 @@ void FlashPhotoApp::Init(
   // Initialize Interface
   InitializeBuffers(background_color, width(), height());
 
+  // Create array of tools and populate
+  for (int i = 0; i < ToolFactory::num_tools(); i++) {
+    Tool* t = ToolFactory::CreateTool(i);
+    assert(t);
+    tools_.push_back(t);
+  }
   InitGlui();
   InitGraphics();
 }
@@ -75,11 +86,59 @@ FlashPhotoApp::~FlashPhotoApp(void) {
 }
 
 
-void FlashPhotoApp::MouseDragged(int x, int y) {}
+void FlashPhotoApp::MouseDragged(int x, int y) {
+  int max_steps = 30;
+
+  // We implimented a smoothing feature by interpolating between
+  // mouse events. This is at the expense of processing, though,
+  // because we just "stamp" the tool many times between the two
+  // even locations. you can reduce max_steps until it runs
+  // smoothly on your machine.
+
+  // Get the differences between the events
+  // in each direction
+  int delta_x = x-mouse_last_x_;
+  int delta_y = y-mouse_last_y_;
+
+  // Calculate the min number of steps necesary to fill
+  // completely between the two event locations.
+  float pixels_between = fmax(abs(delta_x), abs(delta_y));
+  int step_size = 1;
+
+  // Optimize by maxing out at the max_steps,
+  // and fill evenly between
+  if (pixels_between > max_steps) {
+    step_size = pixels_between/max_steps;
+  }
+
+  // Iterate between the event locations
+  for (int i = 0; i < pixels_between; i+=step_size) {
+    int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
+    int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
+
+    tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
+                                     ColorData(cur_color_red_,
+                                               cur_color_green_,
+                                               cur_color_blue_),
+                                     display_buffer_);
+  }
+
+  // let the previous point catch up with the current.
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
+}
+
 void FlashPhotoApp::MouseMoved(int x, int y) {}
 
 void FlashPhotoApp::LeftMouseDown(int x, int y) {
   std::cout << "mousePressed " << x << " " << y << std::endl;
+  tools_[cur_tool_]->ApplyToBuffer(x, height()-y,
+                                   ColorData(cur_color_red_,
+                                             cur_color_green_,
+                                             cur_color_blue_),
+                                   display_buffer_);
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
 }
 
 void FlashPhotoApp::LeftMouseUp(int x, int y) {
@@ -106,6 +165,7 @@ void FlashPhotoApp::InitGlui(void) {
     new GLUI_RadioButton(radio, "Spray Can");
     new GLUI_RadioButton(radio, "Caligraphy Pen");
     new GLUI_RadioButton(radio, "Highlighter");
+    new GLUI_RadioButton(radio, "Chalk");
     new GLUI_RadioButton(radio, "Stamp");
     new GLUI_RadioButton(radio, "Blur");
   }

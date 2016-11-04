@@ -16,6 +16,7 @@
  * Includes
  ******************************************************************************/
 #include <string>
+#include <vector>
 #include "include/base_gfx_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
@@ -23,6 +24,7 @@
 #include "include/io_manager.h"
 #include "include/ui_ctrl.h"
 #include "include/state_manager.h"
+#include "include/tool.h"
 
 /*******************************************************************************
  * Namespaces
@@ -118,7 +120,12 @@ class FlashPhotoApp : public BaseGfxApp {
   PixelBuffer *display_buffer_;
 
   // These are used to store the selections from the GLUI user interface
-  int cur_tool_;  /**< Currently selected tool from UI */
+  int cur_tool_; /**< Currently selected tool from UI  */
+  std::vector<Tool*> tools_;
+
+  // Previous mouse coordinates for interpreting mouse moves
+  int mouse_last_x_;
+  int mouse_last_y_;
 
   float cur_color_red_;
   float cur_color_green_;
