@@ -15,7 +15,7 @@
 #include "include/io_manager.h"
 #include <iostream>
 #include "include/ui_ctrl.h"
-
+#include "png.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -153,6 +153,90 @@ void IOManager::LoadImageToStamp(void) {
 void IOManager::SaveCanvasToFile(void) {
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
-}
+  
+  FILE *fb;
+  png_structrp png_ptr;
+  png_infop info_ptr;
+  png_colorp palsette;
+  
+  /*Open the file if*/
+  fp = fopen(file_name_,"wb");
+  if (fb == null)
+    std::cout << "in the save Canvas function the varibale fb is null"
+        << std::endl;
+    return;
+  
+  /* Create and Initialize the png_struct with the desired error handler
+   * functions.
+   */
+
+  png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
+     NULL,NULL,NULL);
+
+  if (png_ptr == null) {
+    fclose(fp);
+    std::count << "in the save Canvas to file  png_ptr is null"<<
+        std::endl;
+    return;
+  }
+
+ 
+  /* Allocate/initialize the image information date
+   */
+  info_ptr = png_create_info_struct(png_ptr);
+
+  if (info_ptr == NULL) {
+    fclose(fb);
+    png_destroy_write_struct(&png_ptr, NULL);
+    std::cout << "Error in info_pter, then destory write struct" << std::endl;
+    return;
+  }
+  
+  /* set error handleing */
+  if (setjmp(png_jmpbuf(png_ptr))) {
+    fclose(fb);
+    png_destroy_write_struct(&png_ptr, &info_ptr);
+    std::cout << "Error in the setjmp" << std::endl;
+    return;
+  }
+  
+  int width = png_get_image_width(png_ptr,info_ptr);
+  int height = png_get_image_height(png_ptr,info_ptr);
+  int PNG_COLOR_TYPE = png_get_color_type(png_ptr,info_ptr);
+  
+  /*set up the image information here. such like the width and high 
+   * and the bit_depth which we choose the 8 bit, since we have RGBA 
+   */
+  png_set_IHDR(png_ptr, info_ptr, PNG_INTERLACE_NONE,
+               PNG_COMPRESSION_TYPE_BASE,
+               PNG_FILTER_TYPE_BASE);
+  
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }  /* namespace image_tools */
