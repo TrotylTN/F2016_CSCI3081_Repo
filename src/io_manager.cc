@@ -13,8 +13,10 @@
  * Includes
  ******************************************************************************/
 #include "include/io_manager.h"
+#include "include/pixel_buffer.h"
 #include <iostream>
 #include "include/ui_ctrl.h"
+#include <png.h>
 
 /*******************************************************************************
  * Namespaces
@@ -143,6 +145,65 @@ void IOManager::set_image_file(const std::string & file_name) {
 void IOManager::LoadImageToCanvas(void) {
   std::cout << "Load Canvas has been clicked for file " <<
       file_name_ << std::endl;
+  /* load image starts here */
+  FILE *fp;
+  fp = fopen(file_name().c_str(), "rb");
+  if (fp == NULL) {
+    fprintf(stderr, "Invalid image file");
+    return;
+  }
+
+  png_structp png_ptr;
+  png_infop info_ptr;
+
+  png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (png_ptr == NULL) {
+    fclose(fp);
+    fprintf(stderr, "Linking png pointer failed");
+    return;
+  }
+
+  info_ptr = png_create_info_struct(png_ptr);
+  if (info_ptr == NULL) {
+    fclose(fp);
+    png_destroy_read_struct(&png_ptr, NULL, NULL);
+    fprintf(stderr, "Getting png file info failed");
+    return;
+  }
+
+  if (setjmp(png_jmpbuf(png_ptr))) {
+    fclose(fp);
+    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+    fprintf(stderr, "Error occured");
+    return;
+  }
+
+  png_init_io(png_ptr, fp);
+
+  png_read_info(png_ptr, info_ptr);
+
+  int width, height;
+  width = png_get_image_width(png_ptr, info_ptr);
+  height = png_get_image_height(png_ptr, info_ptr);
+
+  png_bytep row_pointers[height];
+  int row;
+  for (row = 0; row < height; row++) {
+    row_pointers[row] = NULL;
+  }
+
+  for (row = 0; row < height; row++) {
+    row_pointers[row] = (png_bytep) png_malloc(png_ptr, png_get_rowbytes(png_ptr, info_ptr));
+  }
+
+  png_read_image(png_ptr, row_pointers);
+  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+  fclose(fp);
+
+  PixelBuffer *test_display = ***row_pointers;
+
+  std::cout << "Test success" << std::endl;
+  return;
 }
 
 void IOManager::LoadImageToStamp(void) {
