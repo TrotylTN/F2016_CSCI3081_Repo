@@ -38,10 +38,18 @@ FlashPhotoApp::FlashPhotoApp(int width, int height) : BaseGfxApp(width, height),
                                                       cur_tool_(0),
                                                       tools_(),
                                                       mouse_last_x_(0),
-                                                      mouse_last_y_(0),                                                      
+                                                      mouse_last_y_(0),
                                                       cur_color_red_(0.0),
                                                       cur_color_green_(0.0),
                                                       cur_color_blue_(0.0) {}
+
+FlashPhotoApp:~FlashPhotoApp(void) {
+  if (display_buffer)
+    delete display_buffer;
+  for (int i = 0; i < ToolFactory::num_tools(); i++)
+    if (tools_[i])
+      delete tools_[i];
+}
 
 /*******************************************************************************
  * Member Functions
