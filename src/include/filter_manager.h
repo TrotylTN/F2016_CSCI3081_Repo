@@ -18,6 +18,7 @@
 #include "GL/glui.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
+#include "include/blur_matrix.h"
 
 /*******************************************************************************
  * Namespaces
@@ -42,7 +43,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyBlur(void);
+  void ApplyBlur(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a sharpening filter to the buffer, sharpening blurry/undefined
@@ -123,6 +124,11 @@ class FilterManager {
   float motion_blur_amount_;
   enum UICtrl::MotionBlurDirection motion_blur_direction_;
   int quantize_bins_;
+
+  /** Pointer to pixel data for the temp cache */
+  FilterMatrix* transform_matrix_;
+  PixelBuffer* buffer_to_be_deleted_;
+  PixelBuffer* temp_buffer_;
 };
 
 }  /* namespace image_tools */

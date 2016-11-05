@@ -15,6 +15,7 @@
 #include "include/filter_manager.h"
 #include <iostream>
 #include "include/ui_ctrl.h"
+#include "include/blur_matrix.h"
 
 /*******************************************************************************
  * Namespaces
@@ -51,9 +52,16 @@ void FilterManager::ApplySaturate(void) {
             << saturation_amount_ << std::endl;
 }
 
-void FilterManager::ApplyBlur(void) {
+void FilterManager::ApplyBlur(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Blur with amount = "
             << blur_amount_ << std::endl;
+  transform_matrix_ = new BlurMatrix();
+  transform_matrix_->Resize(blur_amount_);
+  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplySharpen(void) {

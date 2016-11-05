@@ -43,9 +43,9 @@ FlashPhotoApp::FlashPhotoApp(int width, int height) : BaseGfxApp(width, height),
                                                       cur_color_green_(0.0),
                                                       cur_color_blue_(0.0) {}
 
-FlashPhotoApp:~FlashPhotoApp(void) {
-  if (display_buffer)
-    delete display_buffer;
+FlashPhotoApp::~FlashPhotoApp(void) {
+  if (display_buffer_)
+    delete display_buffer_;
   for (int i = 0; i < ToolFactory::num_tools(); i++)
     if (tools_[i])
       delete tools_[i];
@@ -86,13 +86,6 @@ void FlashPhotoApp::Init(
 void FlashPhotoApp::Display(void) {
   DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
-
-FlashPhotoApp::~FlashPhotoApp(void) {
-  if (display_buffer_) {
-    delete display_buffer_;
-  }
-}
-
 
 void FlashPhotoApp::MouseDragged(int x, int y) {
   int max_steps = 30;
@@ -285,7 +278,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       update_colors();
       break;
     case UICtrl::UI_APPLY_BLUR:
-      filter_manager_.ApplyBlur();
+      filter_manager_.ApplyBlur(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SHARP:
       filter_manager_.ApplySharpen();
