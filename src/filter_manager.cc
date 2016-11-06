@@ -15,7 +15,6 @@
 #include "include/filter_manager.h"
 #include <iostream>
 #include "include/ui_ctrl.h"
-#include "include/blur_matrix.h"
 
 /*******************************************************************************
  * Namespaces

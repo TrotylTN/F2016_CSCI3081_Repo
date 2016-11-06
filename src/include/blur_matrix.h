@@ -31,7 +31,7 @@ namespace image_tools {
 class BlurMatrix : public FilterMatrix {
  public:
    BlurMatrix() : FilterMatrix::FilterMatrix() {}
-
+   ~BlurMatrix() {}
   /**
    * @brief apply a new size for a filter matrix
    *

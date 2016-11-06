@@ -15,6 +15,7 @@
 #include "include/blur_matrix.h"
 #include <cstdio>
 
+using namespace std;
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -35,7 +36,7 @@ void BlurMatrix::Resize(float incoming_size) {
     printf("\n");
     for (int j = 0; j < new_matrix_size; j++)
     {
-      int dis = std::abs(i - n) + std::abs(j - n);
+      int dis = fabs(i - n) + fabs(j - n);
       if (dis <= n)
         new_matrix[i][j] = value_in_cell;
       else

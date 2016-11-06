@@ -40,7 +40,7 @@ class FilterMatrix {
    *
    * @param[in] incoming_size the new size of this matrix
    */
-  virtual void Resize(float incoming_size);
+  virtual void Resize(float incoming_size) {}
 
   /**
    * @brief apply the matrix on the buffer then return the cached buffer
