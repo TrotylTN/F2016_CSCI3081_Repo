@@ -59,6 +59,9 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
   return result_buffer;
 }
 
+// void Resize(float incoming_size) {}
+// void Resize(float incoming_size, int args_for_resize) {}
+
 void FilterMatrix::SetMatrixSize(int new_matrix_size) {
   matrix_size_ = new_matrix_size;
 }

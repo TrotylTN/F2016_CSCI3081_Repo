@@ -55,7 +55,7 @@ void FilterManager::ApplyBlur(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Blur with amount = "
             << blur_amount_ << std::endl;
   transform_matrix_ = new BlurMatrix();
-  transform_matrix_->Resize(blur_amount_);
+  transform_matrix_->Resize(blur_amount_, -1);
   temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
 
   buffer_to_be_deleted_ = display_buffer;
@@ -68,10 +68,17 @@ void FilterManager::ApplySharpen(void) {
             << sharpen_amount_ << std::endl;
 }
 
-void FilterManager::ApplyMotionBlur(void) {
+void FilterManager::ApplyMotionBlur(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Sharpen with amount = "
             << motion_blur_amount_
             << " and direction " << motion_blur_direction_ << std::endl;
+  transform_matrix_ = new BlurMatrix();
+  transform_matrix_->Resize(motion_blur_amount_, motion_blur_direction_);
+  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyEdgeDetect(void) {

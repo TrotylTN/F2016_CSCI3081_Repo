@@ -58,7 +58,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyMotionBlur(void);
+  void ApplyMotionBlur(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply an edge detection filter to the buffer

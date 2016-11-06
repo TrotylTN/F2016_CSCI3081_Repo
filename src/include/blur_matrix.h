@@ -16,6 +16,7 @@
 * Includes
 ******************************************************************************/
 #include "include/filter_matrix.h"
+#include <string>
 
 /*******************************************************************************
  * Namespaces
@@ -37,7 +38,7 @@ class BlurMatrix : public FilterMatrix {
    *
    * @param[in] incoming_size the new size of this matrix
    */
-  void Resize(float incoming_size);
+  void Resize(float incoming_size, int blur_type);
 
 };
 }
