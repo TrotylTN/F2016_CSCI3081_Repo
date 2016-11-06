@@ -51,11 +51,11 @@ class FilterMatrix {
 
   void SetMatrixSize(int new_matrix_size);
 
-  void SetMatrix(std::vector <std::vector<int> > new_matrix);
+  void SetMatrix(std::vector <std::vector<float> > new_matrix);
 
  private:
    int  matrix_size_;
-   std::vector <std::vector<int> > matrix_;
+   std::vector <std::vector<float> > matrix_;
 };
 }
 

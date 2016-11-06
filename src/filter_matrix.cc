@@ -63,7 +63,7 @@ void FilterMatrix::SetMatrixSize(int new_matrix_size) {
   matrix_size_ = new_matrix_size;
 }
 
-void FilterMatrix::SetMatrix(std::vector <std::vector<int> > new_matrix) {
+void FilterMatrix::SetMatrix(std::vector <std::vector<float> > new_matrix) {
   matrix_ = new_matrix;
 }
 

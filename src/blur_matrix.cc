@@ -27,10 +27,11 @@ namespace image_tools {
 void BlurMatrix::Resize(float incoming_size) {
   int n = (int) incoming_size;
   int new_matrix_size = n * 2 + 1;
-  std::vector <std::vector<int> > new_matrix;
-  new_matrix.resize(new_matrix_size, std::vector<int>(new_matrix_size));
+  std::vector <std::vector<float> > new_matrix;
+  new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
   float tot_cell = 2 * n * n + 2 * n + 1;
   float value_in_cell = 1.0 / tot_cell;
+  printf("$$$%f\n", value_in_cell);
   for (int i = 0; i < new_matrix_size; i++)
   {
     printf("\n");
@@ -41,7 +42,7 @@ void BlurMatrix::Resize(float incoming_size) {
         new_matrix[i][j] = value_in_cell;
       else
         new_matrix[i][j] = 0;
-      printf("%d \n", new_matrix[i][j]);
+      printf("%f ", new_matrix[i][j]);
     }
   }
   FilterMatrix::SetMatrixSize(new_matrix_size);
