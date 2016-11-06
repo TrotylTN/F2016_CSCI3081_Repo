@@ -154,14 +154,15 @@ void IOManager::SaveCanvasToFile(void) {
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
   
-  FILE *fb;
-  png_structrp png_ptr;
+  FILE *fp;
+  int row;
+  png_structp png_ptr;
   png_infop info_ptr;
   png_colorp palsette;
   
   /*Open the file if*/
-  fp = fopen(file_name_,"wb");
-  if (fb == null)
+  fp = fopen(file_name().c_str(),"wb");
+  if (fp == NULL )
     std::cout << "in the save Canvas function the varibale fb is null"
         << std::endl;
     return;
@@ -173,9 +174,9 @@ void IOManager::SaveCanvasToFile(void) {
   png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
      NULL,NULL,NULL);
 
-  if (png_ptr == null) {
+  if (png_ptr == NULL) {
     fclose(fp);
-    std::count << "in the save Canvas to file  png_ptr is null"<<
+    std::cout << "in the save Canvas to file  png_ptr is null"<<
         std::endl;
     return;
   }
@@ -186,15 +187,15 @@ void IOManager::SaveCanvasToFile(void) {
   info_ptr = png_create_info_struct(png_ptr);
 
   if (info_ptr == NULL) {
-    fclose(fb);
-    png_destroy_write_struct(&png_ptr, NULL);
+    fclose(fp);
+    png_destroy_write_struct(&png_ptr, &info_ptr);
     std::cout << "Error in info_pter, then destory write struct" << std::endl;
     return;
   }
   
   /* set error handleing */
   if (setjmp(png_jmpbuf(png_ptr))) {
-    fclose(fb);
+    fclose(fp);
     png_destroy_write_struct(&png_ptr, &info_ptr);
     std::cout << "Error in the setjmp" << std::endl;
     return;
@@ -207,10 +208,28 @@ void IOManager::SaveCanvasToFile(void) {
   /*set up the image information here. such like the width and high 
    * and the bit_depth which we choose the 8 bit, since we have RGBA 
    */
-  png_set_IHDR(png_ptr, info_ptr, PNG_INTERLACE_NONE,
+  png_set_IHDR(png_ptr, info_ptr, width,
+               height, 8,PNG_COLOR_TYPE_RGB
+               ,PNG_INTERLACE_NONE,       
                PNG_COMPRESSION_TYPE_BASE,
                PNG_FILTER_TYPE_BASE);
   
+  png_write_info(png_ptr, info_ptr);
+
+  /*start to write the image*/
+  png_bytep row_pointers[height]; 
+  
+  for (row = 0;row < height; row++) {
+    row_pointers[row] = NULL;
+    
+  }
+  free(row_pointers);
+
+
+  png_write_end(png_ptr, info_ptr);
+  // png_free(png_ptr,palette);
+  png_destroy_write_struct(&png_ptr, &info_ptr);
+  fclose(fp);
 } 
 
 
