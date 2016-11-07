@@ -158,12 +158,13 @@ void IOManager::SaveCanvasToFile(const std::string & file_name) {
   int row;
   png_structp png_ptr;
   png_infop info_ptr;
-  png_colorp palsette;
+  png_colorp palette;
 
   /*Open the file if*/
-  fp = fopen(file_name().c_str(),"wb");
+  std::cout << file_name.c_str()<<std::endl;
+  fp = fopen(file_name.c_str(),"wb");
   if (fp == NULL )
-    std::cout << "in the save Canvas function the varibale fb is null"
+    std::cout << "in the save Canvas function the varibale fb is null1111111111"
         << std::endl;
     return;
 
@@ -201,6 +202,7 @@ void IOManager::SaveCanvasToFile(const std::string & file_name) {
     return;
   }
 
+  png_init_io(png_ptr, fp);
 
   int width = png_get_image_width(png_ptr,info_ptr);
   int height = png_get_image_height(png_ptr,info_ptr);
@@ -215,6 +217,10 @@ void IOManager::SaveCanvasToFile(const std::string & file_name) {
                PNG_COMPRESSION_TYPE_BASE,
                PNG_FILTER_TYPE_BASE);
 
+  palette = (png_colorp)png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH *sizeof(png_color));
+
+  png_set_PLTE(png_ptr, info_ptr, palette,PNG_MAX_PALETTE_LENGTH);
+
   png_write_info(png_ptr, info_ptr);
   
   /* 3 is the byte_per_pixel (i dont know we change the value or not)*/
@@ -223,7 +229,7 @@ void IOManager::SaveCanvasToFile(const std::string & file_name) {
   /*start to write the image*/
   png_bytep row_pointers[height];
   
-  for (int k = 0; k < height; i++){
+  for (int k = 0; k < height; k++){
     row_pointers[k] = image[k];
   }
 

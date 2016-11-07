@@ -85,7 +85,7 @@ class IOManager {
    * @brief Save the current state of the canvas to a file
    *
    */
-  void SaveCanvasToFile(void);
+  void SaveCanvasToFile(const std::string & filepath);
 
  private:
   /* Copy/move assignment/construction disallowed */
