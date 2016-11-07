@@ -232,30 +232,4 @@ void IOManager::SaveCanvasToFile(void) {
   fclose(fp);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }  /* namespace image_tools */
