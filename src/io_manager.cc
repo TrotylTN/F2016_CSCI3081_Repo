@@ -201,6 +201,7 @@ void IOManager::SaveCanvasToFile(const std::string & file_name) {
     return;
   }
 
+
   int width = png_get_image_width(png_ptr,info_ptr);
   int height = png_get_image_height(png_ptr,info_ptr);
   int PNG_COLOR_TYPE = png_get_color_type(png_ptr,info_ptr);
@@ -215,15 +216,25 @@ void IOManager::SaveCanvasToFile(const std::string & file_name) {
                PNG_FILTER_TYPE_BASE);
 
   png_write_info(png_ptr, info_ptr);
+  
+  /* 3 is the byte_per_pixel (i dont know we change the value or not)*/
+  png_byte image[height][width];
 
   /*start to write the image*/
   png_bytep row_pointers[height];
+  
+  for (int k = 0; k < height; i++){
+    row_pointers[k] = image[k];
+  }
+
+  png_write_image(png_ptr, row_pointers);
 
   for (row = 0;row < height; row++) {
     row_pointers[row] = NULL;
 
   }
-  free(row_pointers);
+
+  png_free(png_ptr,row_pointers);
 
 
   png_write_end(png_ptr, info_ptr);
