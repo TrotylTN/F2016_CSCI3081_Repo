@@ -96,28 +96,22 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
     for (int x = 0; x < original_buffer->width(); x++)
       for (int y = 0; y < original_buffer->height(); y++) {
         temp_color = ColorData(0, 0, 0);
-        float subtot_matrix = 0;
-        float actualtot_matrix = 0;
         for (int i = 0, d_x = init_x, d_y = init_y;
              i < matrix_size();
              d_x += delta_x, d_y += delta_y, i++) {
-          // printf("x:%d y:%d \n", x, y);
           int s_x = x + d_x - n;
           int s_y = y + d_y - n;
-          // printf("%d %d\n", s_x, s_y );
           if (s_x >= 0 && s_y >= 0 &&
               s_x < original_buffer->width() &&
               s_y < original_buffer->height()) {
             temp_color = original_buffer->get_pixel(s_x, s_y) *
                          value_in_cell +
                          temp_color;
-            subtot_matrix += value_in_cell;
           }
-          actualtot_matrix += value_in_cell;
+          else {
+            temp_color = ColorData() * value_in_cell + temp_color;
+          }
         }
-        // printf("%s\n", );
-        if (subtot_matrix != 0)
-          temp_color = temp_color * (actualtot_matrix / subtot_matrix);
         result_buffer->set_pixel(x, y, temp_color);
       }
       return result_buffer;

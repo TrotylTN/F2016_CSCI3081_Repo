@@ -36,8 +36,6 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
     {
       temp_color = ColorData(0, 0, 0);
       int shift_length = matrix_size_ / 2;
-      float subtot_matrix = 0;
-      float actualtot_matrix = 0;
       for (int i = 0; i < matrix_size_; i++)
         for (int j = 0; j < matrix_size_; j++)
         {
@@ -51,11 +49,17 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
             temp_color = original_buffer->get_pixel(s_x, s_y) *
                          matrix_[i][j] +
                          temp_color;
-            subtot_matrix += matrix_[i][j];
           }
-          actualtot_matrix += matrix_[i][j];
+          else {
+            temp_color = ColorData() *
+                         matrix_[i][j] +
+                         temp_color;
+          }
         }
-      temp_color = temp_color * (actualtot_matrix / subtot_matrix);
+      if (temp_color.green() < 0 ||
+          temp_color.blue() < 0 ||
+          temp_color.red() < 0)
+        temp_color = ColorData(0,0,0);
       result_buffer->set_pixel(x, y, temp_color);
     }
   return result_buffer;

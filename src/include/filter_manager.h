@@ -19,6 +19,7 @@
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
 #include "include/blur_matrix.h"
+#include "include/edge_matrix.h"
 
 /*******************************************************************************
  * Namespaces
@@ -65,7 +66,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyEdgeDetect(void);
+  void ApplyEdgeDetect(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a threshold detection filter to the buffer

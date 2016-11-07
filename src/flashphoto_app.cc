@@ -287,7 +287,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       filter_manager_.ApplyMotionBlur(display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
-      filter_manager_.ApplyEdgeDetect();
+      filter_manager_.ApplyEdgeDetect(display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
       filter_manager_.ApplyThreshold();
