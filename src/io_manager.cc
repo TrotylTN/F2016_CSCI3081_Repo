@@ -153,20 +153,20 @@ void IOManager::LoadImageToStamp(void) {
 void IOManager::SaveCanvasToFile(void) {
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
-  
+
   FILE *fp;
   int row;
   png_structp png_ptr;
   png_infop info_ptr;
   png_colorp palsette;
-  
+
   /*Open the file if*/
   fp = fopen(file_name().c_str(),"wb");
   if (fp == NULL )
     std::cout << "in the save Canvas function the varibale fb is null"
         << std::endl;
     return;
-  
+
   /* Create and Initialize the png_struct with the desired error handler
    * functions.
    */
@@ -181,7 +181,7 @@ void IOManager::SaveCanvasToFile(void) {
     return;
   }
 
- 
+
   /* Allocate/initialize the image information date
    */
   info_ptr = png_create_info_struct(png_ptr);
@@ -192,7 +192,7 @@ void IOManager::SaveCanvasToFile(void) {
     std::cout << "Error in info_pter, then destory write struct" << std::endl;
     return;
   }
-  
+
   /* set error handleing */
   if (setjmp(png_jmpbuf(png_ptr))) {
     fclose(fp);
@@ -200,28 +200,28 @@ void IOManager::SaveCanvasToFile(void) {
     std::cout << "Error in the setjmp" << std::endl;
     return;
   }
-  
+
   int width = png_get_image_width(png_ptr,info_ptr);
   int height = png_get_image_height(png_ptr,info_ptr);
   int PNG_COLOR_TYPE = png_get_color_type(png_ptr,info_ptr);
-  
-  /*set up the image information here. such like the width and high 
-   * and the bit_depth which we choose the 8 bit, since we have RGBA 
+
+  /*set up the image information here. such like the width and high
+   * and the bit_depth which we choose the 8 bit, since we have RGBA
    */
   png_set_IHDR(png_ptr, info_ptr, width,
                height, 8,PNG_COLOR_TYPE_RGB
-               ,PNG_INTERLACE_NONE,       
+               ,PNG_INTERLACE_NONE,
                PNG_COMPRESSION_TYPE_BASE,
                PNG_FILTER_TYPE_BASE);
-  
+
   png_write_info(png_ptr, info_ptr);
 
   /*start to write the image*/
-  png_bytep row_pointers[height]; 
-  
+  png_bytep row_pointers[height];
+
   for (row = 0;row < height; row++) {
     row_pointers[row] = NULL;
-    
+
   }
   free(row_pointers);
 
@@ -230,7 +230,7 @@ void IOManager::SaveCanvasToFile(void) {
   // png_free(png_ptr,palette);
   png_destroy_write_struct(&png_ptr, &info_ptr);
   fclose(fp);
-} 
+}
 
 
 
