@@ -150,7 +150,7 @@ void IOManager::LoadImageToStamp(void) {
       file_name_ << std::endl;
 }
 
-void IOManager::SaveCanvasToFile(void) {
+void IOManager::SaveCanvasToFile(const std::string & file_name) {
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
 
