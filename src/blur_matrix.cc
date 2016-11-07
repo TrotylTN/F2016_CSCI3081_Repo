@@ -25,7 +25,7 @@ namespace image_tools {
 * Member Functions
 ******************************************************************************/
 void BlurMatrix::Resize(float incoming_size, int blur_type) {
-  int n = (int) incoming_size;
+  int n = (int) incoming_size / 2;
   int new_matrix_size = n * 2 + 1;
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));

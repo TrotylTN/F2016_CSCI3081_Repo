@@ -41,15 +41,17 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
       for (int i = 0; i < matrix_size_; i++)
         for (int j = 0; j < matrix_size_; j++)
         {
+          if (matrix_[i][j] == 0)
+            continue;
           int s_x = x + i - shift_length;
           int s_y = y + j - shift_length;
           if (s_x >= 0 && s_y >= 0 &&
               s_x < original_buffer->width() &&
               s_y < original_buffer->height()) {
-                temp_color = original_buffer->get_pixel(s_x, s_y) *
-                             matrix_[i][j] +
-                             temp_color;
-                subtot_matrix += matrix_[i][j];
+            temp_color = original_buffer->get_pixel(s_x, s_y) *
+                         matrix_[i][j] +
+                         temp_color;
+            subtot_matrix += matrix_[i][j];
           }
           actualtot_matrix += matrix_[i][j];
         }
