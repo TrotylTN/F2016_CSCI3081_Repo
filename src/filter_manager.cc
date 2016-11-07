@@ -61,6 +61,7 @@ void FilterManager::ApplyBlur(PixelBuffer* &display_buffer) {
   buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
   delete buffer_to_be_deleted_;
+  delete transform_matrix_;
 }
 
 void FilterManager::ApplySharpen(void) {
@@ -79,6 +80,7 @@ void FilterManager::ApplyMotionBlur(PixelBuffer* &display_buffer) {
   buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
   delete buffer_to_be_deleted_;
+  delete transform_matrix_;
 }
 
 void FilterManager::ApplyEdgeDetect(void) {

@@ -31,7 +31,7 @@ namespace image_tools {
  */
 class BlurMatrix : public FilterMatrix {
  public:
-   BlurMatrix() : FilterMatrix::FilterMatrix() {}
+   BlurMatrix() : FilterMatrix::FilterMatrix(), blur_type_(-1) {}
    ~BlurMatrix() {}
   /**
    * @brief apply a new size for a filter matrix
@@ -40,6 +40,10 @@ class BlurMatrix : public FilterMatrix {
    */
   void Resize(float incoming_size, int blur_type);
 
+  PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
+
+ private:
+  int blur_type_;
 };
 }
 

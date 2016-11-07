@@ -47,11 +47,13 @@ class FilterMatrix {
    *
    * @param[in] original_buffer the display_buffer of GUI
    */
-  PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
+  virtual PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
 
   void SetMatrixSize(int new_matrix_size);
 
   void SetMatrix(std::vector <std::vector<float> > new_matrix);
+
+  int matrix_size(void) {return matrix_size_;}
 
  private:
    int  matrix_size_;

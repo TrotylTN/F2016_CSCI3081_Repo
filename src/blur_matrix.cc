@@ -25,6 +25,7 @@ namespace image_tools {
 * Member Functions
 ******************************************************************************/
 void BlurMatrix::Resize(float incoming_size, int blur_type) {
+  this->blur_type_ = blur_type;
   int n = (int) incoming_size / 2;
   int new_matrix_size = n * 2 + 1;
   std::vector <std::vector<float> > new_matrix;
@@ -34,57 +35,93 @@ void BlurMatrix::Resize(float incoming_size, int blur_type) {
     float value_in_cell = 1.0 / tot_cell;
     printf("$$$%f\n", value_in_cell);
     for (int i = 0; i < new_matrix_size; i++) {
-      printf("\n");
       for (int j = 0; j < new_matrix_size; j++) {
         int dis = fabs(i - n) + fabs(j - n);
         if (dis <= n)
         new_matrix[i][j] = value_in_cell;
         else
         new_matrix[i][j] = 0;
-        printf("%f ", new_matrix[i][j]);
       }
     }
   }
-  else
-  {
-    float tot_cell = new_matrix_size;
+  else {
+    new_matrix.clear();
+  }
+  FilterMatrix::SetMatrixSize(new_matrix_size);
+  FilterMatrix::SetMatrix(new_matrix);
+}
+
+PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
+  if (this->blur_type_ == -1) {
+    FilterMatrix::ApplyMatrix(original_buffer);
+  }
+  else {
+    int n = matrix_size() / 2;
+    PixelBuffer* result_buffer;
+    ColorData temp_color;
+    float tot_cell = matrix_size();
     float value_in_cell = 1.0 / tot_cell;
     printf("$$$%f\n", value_in_cell);
     int init_x, init_y;
     int delta_x, delta_y;
-    if (blur_type == 0) {
+    if (this->blur_type_ == 0) {
       init_x = n;
       init_y = 0;
       delta_x = 0;
       delta_y = 1;
     }
-    else if (blur_type == 1) {
+    else if (this->blur_type_ == 1) {
       init_x = 0;
       init_y = n;
       delta_x = 1;
       delta_y = 0;
     }
-    else if (blur_type == 2) {
+    else if (this->blur_type_ == 2) {
       init_x = 0;
       init_y = 0;
       delta_x = 1;
       delta_y = 1;
     }
-    else if (blur_type == 3) {
+    else if (this->blur_type_ == 3) {
       init_x = 0;
-      init_y = new_matrix_size - 1;
+      init_y = matrix_size() - 1;
       delta_x = 1;
       delta_y = -1;
     }
-    for (int i = 0, x = init_x, y = init_y;
-         i < new_matrix_size;
-         x += delta_x, y += delta_y, i++) {
-      printf("x:%d y:%d \n", x, y);
-      new_matrix[x][y] = value_in_cell;
-    }
+
+    result_buffer = new PixelBuffer(original_buffer->width(),
+                                    original_buffer->height(),
+                                    original_buffer->background_color());
+
+    for (int x = 0; x < original_buffer->width(); x++)
+      for (int y = 0; y < original_buffer->height(); y++) {
+        temp_color = ColorData(0, 0, 0);
+        float subtot_matrix = 0;
+        float actualtot_matrix = 0;
+        for (int i = 0, d_x = init_x, d_y = init_y;
+             i < matrix_size();
+             d_x += delta_x, d_y += delta_y, i++) {
+          // printf("x:%d y:%d \n", x, y);
+          int s_x = x + d_x - n;
+          int s_y = y + d_y - n;
+          // printf("%d %d\n", s_x, s_y );
+          if (s_x >= 0 && s_y >= 0 &&
+              s_x < original_buffer->width() &&
+              s_y < original_buffer->height()) {
+            temp_color = original_buffer->get_pixel(s_x, s_y) *
+                         value_in_cell +
+                         temp_color;
+            subtot_matrix += value_in_cell;
+          }
+          actualtot_matrix += value_in_cell;
+        }
+        // printf("%s\n", );
+        if (subtot_matrix != 0)
+          temp_color = temp_color * (actualtot_matrix / subtot_matrix);
+        result_buffer->set_pixel(x, y, temp_color);
+      }
+      return result_buffer;
   }
-  FilterMatrix::SetMatrixSize(new_matrix_size);
-  FilterMatrix::SetMatrix(new_matrix);
 }
 
 } /* namespace image_tools */
