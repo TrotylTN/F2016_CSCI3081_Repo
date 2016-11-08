@@ -38,7 +38,7 @@ class EdgeMatrix : public FilterMatrix {
    *
    * @param[in] incoming_size the new size of this matrix
    */
-  void Resize(float incoming_size, int detect_type);
+  void Resize(float incoming_size, float detect_type);
 
  private:
   int detect_type_;

@@ -24,8 +24,8 @@ namespace image_tools {
 /*******************************************************************************
 * Member Functions
 ******************************************************************************/
-void BlurMatrix::Resize(float incoming_size, int blur_type) {
-  this->blur_type_ = blur_type;
+void BlurMatrix::Resize(float incoming_size, float blur_type) {
+  this->blur_type_ = (int) blur_type;
   int n = (int) incoming_size / 2;
   int new_matrix_size = n * 2 + 1;
   std::vector <std::vector<float> > new_matrix;
@@ -47,8 +47,8 @@ void BlurMatrix::Resize(float incoming_size, int blur_type) {
   else {
     new_matrix.clear();
   }
-  FilterMatrix::SetMatrixSize(new_matrix_size);
-  FilterMatrix::SetMatrix(new_matrix);
+  FilterMatrix::MatrixSize(new_matrix_size);
+  FilterMatrix::Matrix(new_matrix);
 }
 
 PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
@@ -56,10 +56,10 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
     FilterMatrix::ApplyMatrix(original_buffer);
   }
   else {
-    int n = matrix_size() / 2;
+    int n = MatrixSize() / 2;
     PixelBuffer* result_buffer;
     ColorData temp_color;
-    float tot_cell = matrix_size();
+    float tot_cell = MatrixSize();
     float value_in_cell = 1.0 / tot_cell;
     printf("$$$%f\n", value_in_cell);
     int init_x, init_y;
@@ -84,7 +84,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
     }
     else if (this->blur_type_ == 3) {
       init_x = 0;
-      init_y = matrix_size() - 1;
+      init_y = MatrixSize() - 1;
       delta_x = 1;
       delta_y = -1;
     }
@@ -97,7 +97,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
       for (int y = 0; y < original_buffer->height(); y++) {
         temp_color = ColorData(0, 0, 0);
         for (int i = 0, d_x = init_x, d_y = init_y;
-             i < matrix_size();
+             i < MatrixSize();
              d_x += delta_x, d_y += delta_y, i++) {
           int s_x = x + d_x - n;
           int s_y = y + d_y - n;

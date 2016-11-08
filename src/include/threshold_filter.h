@@ -15,7 +15,7 @@
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include "include/single_filter.h"
+#include "include/filter_matrix.h"
 
 /*******************************************************************************
  * Namespaces
@@ -28,16 +28,20 @@ namespace image_tools {
 /**
  * @brief This class is threshold filter which would be used by FilterManager
  */
-class ThresholdFilter : public SingleFilter{
+class ThresholdFilter : public FilterMatrix{
  public:
-  ThresholdFilter() : SingleFilter::SingleFilter() {}
+  ThresholdFilter() : FilterMatrix::FilterMatrix() {}
   ~ThresholdFilter() {}
   /**
    * @brief apply the filter on the buffer then return the cached buffer
    *
    * @param[in] original_buffer the display_buffer of GUI
    */
-  PixelBuffer* ApplyFilter(PixelBuffer* original_buffer);
+  void Resize(float incoming_size, float threshold_amount);
+
+  PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
+ private:
+  float threshold_amount_;
 };
 }
 

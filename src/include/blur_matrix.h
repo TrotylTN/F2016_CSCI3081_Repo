@@ -38,7 +38,7 @@ class BlurMatrix : public FilterMatrix {
    *
    * @param[in] incoming_size the new size of this matrix
    */
-  void Resize(float incoming_size, int blur_type);
+  void Resize(float incoming_size, float blur_type);
 
   PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
 

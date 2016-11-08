@@ -22,7 +22,18 @@ namespace image_tools {
 /*******************************************************************************
 * Member Functions
 ******************************************************************************/
-PixelBuffer* ThresholdFilter::ApplyFilter(PixelBuffer* original_buffer) {
+
+void ThresholdFilter::Resize(float incoming_size, float threshold_amount) {
+  this->threshold_amount_ = threshold_amount;
+  int new_matrix_size = int(incoming_size);
+  std::vector <std::vector<float> > new_matrix;
+  new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
+  new_matrix[0][0] = 1;
+  FilterMatrix::MatrixSize(new_matrix_size);
+  FilterMatrix::Matrix(new_matrix);
+}
+
+PixelBuffer* ThresholdFilter::ApplyMatrix(PixelBuffer* original_buffer) {
   PixelBuffer* result_buffer;
   ColorData temp_color;
   result_buffer = new PixelBuffer(original_buffer->width(),
@@ -31,15 +42,15 @@ PixelBuffer* ThresholdFilter::ApplyFilter(PixelBuffer* original_buffer) {
   for (int x = 0; x < result_buffer->width(); x++)
     for (int y = 0; y < result_buffer->height(); y++) {
       temp_color = original_buffer->get_pixel(x, y);
-      if (temp_color.red() > FilterArg())
+      if (temp_color.red() > this->threshold_amount_)
         temp_color.red(1);
       else
         temp_color.red(0);
-      if (temp_color.green() > FilterArg())
+      if (temp_color.green() > this->threshold_amount_)
         temp_color.green(1);
       else
         temp_color.green(0);
-      if (temp_color.blue() > FilterArg())
+      if (temp_color.blue() > this->threshold_amount_)
         temp_color.blue(1);
       else
         temp_color.blue(0);
