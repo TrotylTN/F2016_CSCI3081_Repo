@@ -88,7 +88,6 @@ void FlashPhotoApp::Display(void) {
 }
 
 void FlashPhotoApp::MouseDragged(int x, int y) {
-  int max_steps = 30;
 
   // We implimented a smoothing feature by interpolating between
   // mouse events. This is at the expense of processing, though,
@@ -105,12 +104,6 @@ void FlashPhotoApp::MouseDragged(int x, int y) {
   // completely between the two event locations.
   float pixels_between = fmax(abs(delta_x), abs(delta_y));
   int step_size = 1;
-
-  // Optimize by maxing out at the max_steps,
-  // and fill evenly between
-  if (pixels_between > max_steps) {
-    step_size = pixels_between/max_steps;
-  }
 
   // Iterate between the event locations
   for (int i = 0; i < pixels_between; i+=step_size) {
