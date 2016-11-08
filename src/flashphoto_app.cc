@@ -290,10 +290,10 @@ void FlashPhotoApp::GluiControl(int control_id) {
       filter_manager_.ApplyEdgeDetect(display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
-      filter_manager_.ApplyThreshold();
+      filter_manager_.ApplyThreshold(display_buffer_);
       break;
     case UICtrl::UI_APPLY_DITHER:
-      filter_manager_.ApplyThreshold();
+      filter_manager_.ApplyThreshold(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
       filter_manager_.ApplySaturate();
