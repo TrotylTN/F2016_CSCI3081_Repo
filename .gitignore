@@ -64,6 +64,7 @@ ext/jpeg-9a/libtool
 ext/jpeg-9a/rdjpgcom
 ext/jpeg-9a/stamp-h1
 ext/jpeg-9a/wrjpgcom
+ext/jpeg-9a/.libs/
 
 # png16 config
 ext/libpng-1.6.16/.deps/*
@@ -93,6 +94,8 @@ ext/libpng-1.6.16/pngtest
 ext/libpng-1.6.16/pngunknown
 ext/libpng-1.6.16/pngvalid
 ext/libpng-1.6.16/stamp-h1
+ext/libpng-1.6.16/.libs/
+ext/libpng-1.6.16/libpng.sym
 
 # ctags temp files
 tags

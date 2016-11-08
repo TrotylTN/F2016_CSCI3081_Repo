@@ -38,10 +38,18 @@ FlashPhotoApp::FlashPhotoApp(int width, int height) : BaseGfxApp(width, height),
                                                       cur_tool_(0),
                                                       tools_(),
                                                       mouse_last_x_(0),
-                                                      mouse_last_y_(0),                                                      
+                                                      mouse_last_y_(0),
                                                       cur_color_red_(0.0),
                                                       cur_color_green_(0.0),
                                                       cur_color_blue_(0.0) {}
+
+FlashPhotoApp::~FlashPhotoApp(void) {
+  if (display_buffer_)
+    delete display_buffer_;
+  for (int i = 0; i < ToolFactory::num_tools(); i++)
+    if (tools_[i])
+      delete tools_[i];
+}
 
 /*******************************************************************************
  * Member Functions
@@ -79,15 +87,7 @@ void FlashPhotoApp::Display(void) {
   DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
 
-FlashPhotoApp::~FlashPhotoApp(void) {
-  if (display_buffer_) {
-    delete display_buffer_;
-  }
-}
-
-
 void FlashPhotoApp::MouseDragged(int x, int y) {
-  int max_steps = 30;
 
   // We implimented a smoothing feature by interpolating between
   // mouse events. This is at the expense of processing, though,
@@ -104,12 +104,6 @@ void FlashPhotoApp::MouseDragged(int x, int y) {
   // completely between the two event locations.
   float pixels_between = fmax(abs(delta_x), abs(delta_y));
   int step_size = 1;
-
-  // Optimize by maxing out at the max_steps,
-  // and fill evenly between
-  if (pixels_between > max_steps) {
-    step_size = pixels_between/max_steps;
-  }
 
   // Iterate between the event locations
   for (int i = 0; i < pixels_between; i+=step_size) {
@@ -277,22 +271,22 @@ void FlashPhotoApp::GluiControl(int control_id) {
       update_colors();
       break;
     case UICtrl::UI_APPLY_BLUR:
-      filter_manager_.ApplyBlur();
+      filter_manager_.ApplyBlur(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SHARP:
-      filter_manager_.ApplySharpen();
+      filter_manager_.ApplySharpen(display_buffer_);
       break;
     case UICtrl::UI_APPLY_MOTION_BLUR:
-      filter_manager_.ApplyMotionBlur();
+      filter_manager_.ApplyMotionBlur(display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
-      filter_manager_.ApplyEdgeDetect();
+      filter_manager_.ApplyEdgeDetect(display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
-      filter_manager_.ApplyThreshold();
+      filter_manager_.ApplyThreshold(display_buffer_);
       break;
     case UICtrl::UI_APPLY_DITHER:
-      filter_manager_.ApplyThreshold();
+      filter_manager_.ApplyThreshold(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
       filter_manager_.ApplySaturate();
