@@ -28,9 +28,10 @@ void EdgeMatrix::Resize(float incoming_size, int detect_type) {
   this->detect_type_ = detect_type;
   int n = (int) incoming_size / 2;
   int new_matrix_size = n * 2 + 1;
+  float value_in_cell;
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
-  if (detect_type == 0) {
+  if (detect_type == -1) {
     for (int i = 0; i < new_matrix_size; i++) {
       new_matrix[0][i] = -1;
       new_matrix[i][0] = -1;
@@ -40,7 +41,14 @@ void EdgeMatrix::Resize(float incoming_size, int detect_type) {
     new_matrix[n][n] = 8;
   }
   else {
-    // new_matrix.clear();
+    value_in_cell = detect_type / 5.0;
+    for (int i = 0; i < new_matrix_size; i++) {
+      new_matrix[0][i] = -value_in_cell;
+      new_matrix[i][0] = -value_in_cell;
+      new_matrix[new_matrix_size - 1][i] = -value_in_cell;
+      new_matrix[i][new_matrix_size - 1] = -value_in_cell;
+    }
+    new_matrix[n][n] = 1 + 8 * value_in_cell;
   }
   for (int i = 0; i < new_matrix_size; i++) {
     for (int j = 0; j < new_matrix_size; j++)

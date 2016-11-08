@@ -281,7 +281,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       filter_manager_.ApplyBlur(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SHARP:
-      filter_manager_.ApplySharpen();
+      filter_manager_.ApplySharpen(display_buffer_);
       break;
     case UICtrl::UI_APPLY_MOTION_BLUR:
       filter_manager_.ApplyMotionBlur(display_buffer_);
