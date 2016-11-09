@@ -20,6 +20,8 @@
 #include "jpeglib.h"
 #include <setjmp.h>
 #include "png.h"
+#include "include/color_data.h"
+#include "include/pixel_buffer.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -180,107 +182,55 @@ void IOManager::LoadImageToStamp(void) {
   }
 
   /* Shrink the PixelBuffer */
-  
+
 }
 
-void IOManager::SaveCanvasToFile(const std::string & file_name) {
-  std::cout << "Save Canvas been clicked for file " <<
-      file_name_ << std::endl;
+void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
+  png_image image;
+  png_bytep buffer;
+  ColorData collor;
 
-  FILE *fp;
-  int row;
-  png_structp png_ptr;
-  png_infop info_ptr;
-  png_colorp palette;
+  memset(&image, 0,(sizeof image));
 
-  /*Open the file if*/
-  std::cout << file_name.c_str()<<std::endl;
-  fp = fopen(file_name.c_str(),"wb");
-  if (fp == NULL )
-    std::cout << "in the save Canvas function the varibale fb is null1111111111"
-        << std::endl;
-    return;
+  image.opaque  = NULL;
+  image.version = PNG_IMAGE_VERSION;
+  image.width   = display_buffer->width();
+  image.height  = display_buffer->height();
+  image.format  = PNG_FORMAT_RGBA;
 
-  /* Create and Initialize the png_struct with the desired error handler
-   * functions.
-   */
 
-  png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-     NULL,NULL,NULL);
 
-  if (png_ptr == NULL) {
-    fclose(fp);
-    std::cout << "in the save Canvas to file  png_ptr is null"<<
-        std::endl;
-    return;
+  buffer =(png_byte*)malloc(PNG_IMAGE_SIZE(image));
+
+  for(int y = 0; y < display_buffer->height(); y++) {
+
+    for(int x = 0;x < display_buffer->width();x++ ) {
+
+      collor = display_buffer->get_pixel(x,display_buffer->height()-y-1);
+
+      buffer[y * 4 * image.width + x * 4 + 0] = (png_byte) static_cast<unsigned int>(collor.red()*255);
+      buffer[y * 4 * image.width + x * 4 + 1] = (png_byte) static_cast<unsigned int>(collor.green()*255);
+      buffer[y * 4 * image.width + x * 4 + 2] = (png_byte) static_cast<unsigned int>(collor.blue()*255);
+      buffer[y * 4 * image.width + x * 4 + 3] = (png_byte) static_cast<unsigned int>(collor.alpha()*255);
+
+    }
   }
 
+  if (png_image_write_to_file(&image, file_name().c_str(), 0/*convert_to_8bit*/,
+              buffer, 0/*row_stride*/, NULL/*colormap*/) != 0) {
+               /* The image has been written successfully. */
+               std::cout << "Save Canvas been clicked for file " <<
+                   file_name_ << std::endl;
+           } else {
 
-  /* Allocate/initialize the image information date
-   */
-  info_ptr = png_create_info_struct(png_ptr);
-
-  if (info_ptr == NULL) {
-    fclose(fp);
-    png_destroy_write_struct(&png_ptr, &info_ptr);
-    std::cout << "Error in info_pter, then destory write struct" << std::endl;
-    return;
-  }
-
-  /* set error handleing */
-  if (setjmp(png_jmpbuf(png_ptr))) {
-    fclose(fp);
-    png_destroy_write_struct(&png_ptr, &info_ptr);
-    std::cout << "Error in the setjmp" << std::endl;
-    return;
-  }
-
-  png_init_io(png_ptr, fp);
-
-  int width = png_get_image_width(png_ptr,info_ptr);
-  int height = png_get_image_height(png_ptr,info_ptr);
-  int PNG_COLOR_TYPE = png_get_color_type(png_ptr,info_ptr);
-
-  /*set up the image information here. such like the width and high
-   * and the bit_depth which we choose the 8 bit, since we have RGBA
-   */
-  png_set_IHDR(png_ptr, info_ptr, width,
-               height, 8,PNG_COLOR_TYPE_RGB
-               ,PNG_INTERLACE_NONE,
-               PNG_COMPRESSION_TYPE_BASE,
-               PNG_FILTER_TYPE_BASE);
-
-  palette = (png_colorp)png_malloc(png_ptr, PNG_MAX_PALETTE_LENGTH *sizeof(png_color));
-
-  png_set_PLTE(png_ptr, info_ptr, palette,PNG_MAX_PALETTE_LENGTH);
-
-  png_write_info(png_ptr, info_ptr);
-  
-  /* 3 is the byte_per_pixel (i dont know we change the value or not)*/
-  png_byte image[height][width];
-
-  /*start to write the image*/
-  png_bytep row_pointers[height];
-  
-  for (int k = 0; k < height; k++){
-    row_pointers[k] = image[k];
-  }
-
-  png_write_image(png_ptr, row_pointers);
-
-  for (row = 0;row < height; row++) {
-    row_pointers[row] = NULL;
-
-  }
-
-  png_free(png_ptr,row_pointers);
+              fprintf(stderr, "Save png file error.\n");
+           }
+  return;
 
 
-  png_write_end(png_ptr, info_ptr);
-  // png_free(png_ptr,palette);
-  png_destroy_write_struct(&png_ptr, &info_ptr);
-  fclose(fp);
-}
+
+
+ }
 
 PixelBuffer *IOManager::LoadPNG(void) {
   PixelBuffer* temp_buffer = NULL;
