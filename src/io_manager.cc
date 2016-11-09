@@ -17,6 +17,8 @@
 #include <iostream>
 #include "include/ui_ctrl.h"
 #include <png.h>
+#include "jpeglib.h"
+#include <setjmp.h>
 
 /*******************************************************************************
  * Namespaces
@@ -142,68 +144,20 @@ void IOManager::set_image_file(const std::string & file_name) {
   }
 }
 
-void IOManager::LoadImageToCanvas(void) {
+void IOManager::LoadImageToCanvas(PixelBuffer* &display_buffer) {
   std::cout << "Load Canvas has been clicked for file " <<
       file_name_ << std::endl;
   /* load image starts here */
-  FILE *fp;
-  fp = fopen(file_name().c_str(), "rb");
-  if (fp == NULL) {
-    fprintf(stderr, "Invalid image file");
-    return;
+  PixelBuffer* temp_buffer;
+  if (has_suffix(file_name_, ".png")) {
+    if ((temp_buffer = LoadPNG()) == NULL) {
+      return;
+    }
+    display_buffer = temp_buffer;
   }
-
-  png_structp png_ptr;
-  png_infop info_ptr;
-
-  png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-  if (png_ptr == NULL) {
-    fclose(fp);
-    fprintf(stderr, "Linking png pointer failed");
-    return;
+  else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")) {
+    display_buffer = LoadJPEG();
   }
-
-  info_ptr = png_create_info_struct(png_ptr);
-  if (info_ptr == NULL) {
-    fclose(fp);
-    png_destroy_read_struct(&png_ptr, NULL, NULL);
-    fprintf(stderr, "Getting png file info failed");
-    return;
-  }
-
-  if (setjmp(png_jmpbuf(png_ptr))) {
-    fclose(fp);
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-    fprintf(stderr, "Error occured");
-    return;
-  }
-
-  png_init_io(png_ptr, fp);
-
-  png_read_info(png_ptr, info_ptr);
-
-  int width, height;
-  width = png_get_image_width(png_ptr, info_ptr);
-  height = png_get_image_height(png_ptr, info_ptr);
-
-  png_bytep row_pointers[height];
-  int row;
-  for (row = 0; row < height; row++) {
-    row_pointers[row] = NULL;
-  }
-
-  for (row = 0; row < height; row++) {
-    row_pointers[row] = (png_bytep) png_malloc(png_ptr, png_get_rowbytes(png_ptr, info_ptr));
-  }
-
-  png_read_image(png_ptr, row_pointers);
-  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-  fclose(fp);
-
-  PixelBuffer *test_display = ***row_pointers;
-
-  std::cout << "Test success" << std::endl;
-  return;
 }
 
 void IOManager::LoadImageToStamp(void) {
@@ -214,6 +168,103 @@ void IOManager::LoadImageToStamp(void) {
 void IOManager::SaveCanvasToFile(void) {
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
+}
+
+PixelBuffer *IOManager::LoadPNG(void) {
+  PixelBuffer* temp_buffer = NULL;
+  png_image image;
+  memset(&image, 0, (sizeof image));
+  image.version = PNG_IMAGE_VERSION;
+
+  if (png_image_begin_read_from_file(&image, file_name_.c_str()) != 0) {
+    temp_buffer = new PixelBuffer(image.width, image.height, ColorData(0.0, 0.0, 0.0));
+
+    png_bytep buffer;
+    image.format = PNG_FORMAT_RGBA;
+    buffer = (png_byte*) malloc(PNG_IMAGE_SIZE(image));
+
+    if (temp_buffer != NULL && png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0) {
+
+      const float BASE_COLOR = 255.0;
+      for (int y = 0; y < image.height; y++) {
+        for (int x = 0; x < image.width; x ++) {
+          float r = (float) buffer[(y * image.width + x) * 4];
+          float g = (float) buffer[(y * image.width + x) * 4 + 1];
+          float b = (float) buffer[(y * image.width + x) * 4 + 2];
+          float a = (float) buffer[(y * image.width + x) * 4 + 3];
+          temp_buffer->set_pixel(x, image.height - y - 1, ColorData(r / BASE_COLOR, g / BASE_COLOR, b / BASE_COLOR, a / BASE_COLOR));
+        }
+      }
+      delete(buffer);
+      return temp_buffer;
+    } else {
+      delete(buffer);
+      delete(temp_buffer);
+      return NULL;
+    }
+
+    fprintf(stderr, "pngtopixel_buffer: error: %s\n", image.message);
+    exit (1);
+  }
+
+  fprintf(stderr, "pngtopixel_buffer: usage: pngtopixel_buffer input-file output-file\n");
+  exit(1);
+}
+
+PixelBuffer *IOManager::LoadJPEG(void) {
+  float r, g, b;
+  const float BASE_COLOR = 255.0;
+  int width, height;
+  PixelBuffer *temp_buffer = NULL;
+
+  struct jpeg_decompress_struct cinfo;
+  struct jpeg_error_mgr jerr;
+  FILE * fp;
+  JSAMPARRAY buffer;
+  int row_stride;
+
+  if ((fp = fopen(file_name_.c_str(), "rb")) == NULL) {
+    fprintf(stderr, "can't open %s\n", file_name_.c_str());
+    return NULL;
+  }
+
+  cinfo.err = jpeg_std_error(&jerr);
+
+  jpeg_create_decompress(&cinfo);
+  jpeg_stdio_src(&cinfo, fp);
+
+  (void) jpeg_read_header(&cinfo, TRUE);
+  (void) jpeg_start_decompress(&cinfo);
+
+  width = cinfo.output_width;
+  height = cinfo.output_height;
+
+  temp_buffer = new PixelBuffer(width, height, ColorData(0.0, 0.0, 0.0));
+
+  row_stride = cinfo.output_width * cinfo.output_components;
+  buffer = (*cinfo.mem->alloc_sarray)
+		((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+
+  while (cinfo.output_scanline < cinfo.output_height) {
+    (void) jpeg_read_scanlines(&cinfo, buffer, 1);
+    for (int x = 0; x < width; x++) {
+      r = buffer[0][cinfo.output_components * x];
+      if (cinfo.output_components > 2) {
+        g = buffer[0][cinfo.output_components * x + 1];
+        b = buffer[0][cinfo.output_components * x + 2];
+      } else {
+        g = r;
+        b = r;
+      }
+
+      temp_buffer->set_pixel(x, height - cinfo.output_scanline, ColorData(r / BASE_COLOR, g / BASE_COLOR, b / BASE_COLOR));
+    }
+  }
+
+  (void) jpeg_finish_decompress(&cinfo);
+  jpeg_destroy_decompress(&cinfo);
+  fclose(fp);
+  return temp_buffer;
 }
 
 }  /* namespace image_tools */

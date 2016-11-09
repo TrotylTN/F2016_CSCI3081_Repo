@@ -38,7 +38,7 @@ FlashPhotoApp::FlashPhotoApp(int width, int height) : BaseGfxApp(width, height),
                                                       cur_tool_(0),
                                                       tools_(),
                                                       mouse_last_x_(0),
-                                                      mouse_last_y_(0),                                                      
+                                                      mouse_last_y_(0),
                                                       cur_color_red_(0.0),
                                                       cur_color_green_(0.0),
                                                       cur_color_blue_(0.0) {}
@@ -310,7 +310,8 @@ void FlashPhotoApp::GluiControl(int control_id) {
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
       break;
     case UICtrl::UI_LOAD_CANVAS_BUTTON:
-      io_manager_.LoadImageToCanvas();
+      io_manager_.LoadImageToCanvas(display_buffer_);
+      SetWindowDimensions(display_buffer_->width(), display_buffer_->height());
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
       io_manager_.LoadImageToStamp();
