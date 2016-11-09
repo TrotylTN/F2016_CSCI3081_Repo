@@ -147,7 +147,7 @@ void IOManager::set_image_file(const std::string & file_name) {
 void IOManager::LoadImageToCanvas(PixelBuffer* &display_buffer) {
   std::cout << "Load Canvas has been clicked for file " <<
       file_name_ << std::endl;
-  /* load image starts here */
+  /* load image */
   PixelBuffer* temp_buffer;
   if (has_suffix(file_name_, ".png")) {
     if ((temp_buffer = LoadPNG()) == NULL) {
@@ -156,13 +156,30 @@ void IOManager::LoadImageToCanvas(PixelBuffer* &display_buffer) {
     display_buffer = temp_buffer;
   }
   else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")) {
-    display_buffer = LoadJPEG();
+    if ((temp_buffer = LoadJPEG()) == NULL) {
+      return;
+    }
+    display_buffer = temp_buffer;
   }
 }
 
 void IOManager::LoadImageToStamp(void) {
   std::cout << "Load Stamp has been clicked for file " <<
       file_name_ << std::endl;
+  /* load image */
+  PixelBuffer* temp_buffer;
+  if (has_suffix(file_name_, ".png")) {
+    if ((temp_buffer = LoadPNG()) == NULL) {
+      return;
+    }
+  }
+  else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")) {
+    if ((temp_buffer = LoadJPEG()) == NULL) {
+      return;
+    }
+  }
+
+  /* Shrink the PixelBuffer */
 }
 
 void IOManager::SaveCanvasToFile(void) {
@@ -177,14 +194,16 @@ PixelBuffer *IOManager::LoadPNG(void) {
   image.version = PNG_IMAGE_VERSION;
 
   if (png_image_begin_read_from_file(&image, file_name_.c_str()) != 0) {
-    temp_buffer = new PixelBuffer(image.width, image.height, ColorData(0.0, 0.0, 0.0));
+    temp_buffer = new PixelBuffer(image.width,
+                                  image.height,
+                                  ColorData(0.0, 0.0, 0.0));
 
     png_bytep buffer;
     image.format = PNG_FORMAT_RGBA;
     buffer = (png_byte*) malloc(PNG_IMAGE_SIZE(image));
 
-    if (temp_buffer != NULL && png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0) {
-
+    if (temp_buffer != NULL &&
+        png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0) {
       const float BASE_COLOR = 255.0;
       for (int y = 0; y < image.height; y++) {
         for (int x = 0; x < image.width; x ++) {
@@ -192,7 +211,11 @@ PixelBuffer *IOManager::LoadPNG(void) {
           float g = (float) buffer[(y * image.width + x) * 4 + 1];
           float b = (float) buffer[(y * image.width + x) * 4 + 2];
           float a = (float) buffer[(y * image.width + x) * 4 + 3];
-          temp_buffer->set_pixel(x, image.height - y - 1, ColorData(r / BASE_COLOR, g / BASE_COLOR, b / BASE_COLOR, a / BASE_COLOR));
+          temp_buffer->set_pixel(x, image.height - y - 1,
+                                 ColorData(r / BASE_COLOR,
+                                           g / BASE_COLOR,
+                                           b / BASE_COLOR,
+                                           a / BASE_COLOR));
         }
       }
       delete(buffer);
@@ -207,7 +230,8 @@ PixelBuffer *IOManager::LoadPNG(void) {
     exit (1);
   }
 
-  fprintf(stderr, "pngtopixel_buffer: usage: pngtopixel_buffer input-file output-file\n");
+  fprintf(stderr,
+        "pngtopixel_buffer: usage: pngtopixel_buffer input-file output-file\n");
   exit(1);
 }
 
@@ -257,7 +281,10 @@ PixelBuffer *IOManager::LoadJPEG(void) {
         b = r;
       }
 
-      temp_buffer->set_pixel(x, height - cinfo.output_scanline, ColorData(r / BASE_COLOR, g / BASE_COLOR, b / BASE_COLOR));
+      temp_buffer->set_pixel(x, height - cinfo.output_scanline,
+                             ColorData(r / BASE_COLOR,
+                                       g / BASE_COLOR,
+                                       b / BASE_COLOR));
     }
   }
 
