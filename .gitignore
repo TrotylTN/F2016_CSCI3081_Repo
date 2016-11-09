@@ -87,6 +87,7 @@ ext/libpng-1.6.16/png-fix-itxt
 ext/libpng-1.6.16/pngfix
 ext/libpng-1.6.16/pngimage
 ext/libpng-1.6.16/pnglibconf.c
+ext/libpng-1.6.16/pnglibconf.h
 ext/libpng-1.6.16/pngprefix.h
 ext/libpng-1.6.16/pngstest
 ext/libpng-1.6.16/pngtest
