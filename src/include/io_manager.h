@@ -19,7 +19,7 @@
 #include <string>
 #include "GL/glui.h"
 #include "include/ui_ctrl.h"
-
+#include "include/pixel_buffer.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -86,7 +86,7 @@ class IOManager {
    * @brief Save the current state of the canvas to a file
    *
    */
-  void SaveCanvasToFile(const std::string & filepath);
+  void SaveCanvasToFile(PixelBuffer *display_buffer);
 
   PixelBuffer *LoadPNG(void);
 
