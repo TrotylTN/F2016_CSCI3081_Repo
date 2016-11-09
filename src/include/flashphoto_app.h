@@ -25,7 +25,7 @@
 #include "include/ui_ctrl.h"
 #include "include/state_manager.h"
 #include "include/tool.h"
-
+#include "include/pixel_buffer.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/

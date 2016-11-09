@@ -20,6 +20,7 @@
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
 #include "include/tool_factory.h"
+#include "include/io_manager.h"
 
 /*******************************************************************************
  * Namespaces
@@ -311,7 +312,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       io_manager_.LoadImageToStamp();
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
-      io_manager_.SaveCanvasToFile(io_manager_.file_browser()->get_file());
+      io_manager_.SaveCanvasToFile(this->display_buffer_);
       // Reload the current directory:
       io_manager_.file_browser()->fbreaddir(".");
       break;
