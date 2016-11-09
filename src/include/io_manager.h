@@ -15,6 +15,7 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
+#include "include/pixel_buffer.h"
 #include <string>
 #include "GL/glui.h"
 #include "include/ui_ctrl.h"
@@ -73,7 +74,7 @@ class IOManager {
    * @brief Load the selected image file to the canvas
    *
    */
-  void LoadImageToCanvas(void);
+  void LoadImageToCanvas(PixelBuffer* &display_buffer);
 
   /**
    * @brief Load the selected image file to the stamp
@@ -86,6 +87,10 @@ class IOManager {
    *
    */
   void SaveCanvasToFile(const std::string & filepath);
+
+  PixelBuffer *LoadPNG(void);
+
+  PixelBuffer *LoadJPEG(void);
 
  private:
   /* Copy/move assignment/construction disallowed */
