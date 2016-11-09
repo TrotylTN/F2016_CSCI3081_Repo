@@ -198,8 +198,6 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
   image.height  = display_buffer->height();
   image.format  = PNG_FORMAT_RGBA;
 
-
-
   buffer =(png_byte*)malloc(PNG_IMAGE_SIZE(image));
 
   for(int y = 0; y < display_buffer->height(); y++) {
@@ -231,6 +229,47 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
 
 
  }
+
+void IOManager::SaveJEPG(PixelBuffer *display_buffer){
+
+  struct jpeg_compress_struct cinfo;
+
+  struct jpeg_error_mgr jerr;
+
+  FILE * outfile;
+  JSAMPROW row_pointer[1];
+  int row_stride;
+  
+  cinfo.err = jpeg_std_error(&jerr);
+  jpeg_create_compress(&cinfo);
+
+  if((outfile = fopen(file_name.c_str(),"wb")) == NULL) {
+    fprintf(stderr, "can not open %s \n", file_name.c_str());
+    exit(1);
+  }
+  jpeg_stdio_dest(&cinfo,outfile);
+
+  cinfo.image_width  = display_buffer->width();
+  cinfo.image.height = display_buffer->height();
+  cinfo.input_components = 3;
+  cinfo.in_color_space = JCS_RGB;
+
+  jpeg_set_defaults(&cinfo);
+
+  jpeg_set_quality(&info, quality,TRUE);
+  jpeg_start_compress(&info, TRUE);
+
+
+  
+
+} 
+
+
+
+
+
+
+
 
 PixelBuffer *IOManager::LoadPNG(void) {
   PixelBuffer* temp_buffer = NULL;
