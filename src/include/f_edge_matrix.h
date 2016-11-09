@@ -1,16 +1,16 @@
 /*******************************************************************************
- * Name            : blur_matrix.h
+ * Name            : f_edge_matrix.h
  * Project         : FlashPhoto
  * Module          : filter_manager
- * Description     : Header for BlurMatrix class
+ * Description     : Header for EdgeMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Creation Date   : Sat Nov 5 16:24:11 2016
+ * Creation Date   : Sun Nov 6 20:40:17 2016
  * Original Author : Tiannan Zhou
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_BLUR_MATRIX_H_
-#define SRC_INCLUDE_BLUR_MATRIX_H_
+#ifndef SRC_INCLUDE_EDGE_MATRIX_H_
+#define SRC_INCLUDE_EDGE_MATRIX_H_
 
 /*******************************************************************************
 * Includes
@@ -29,21 +29,19 @@ namespace image_tools {
 /**
  * @brief This class is the matrix tool which would be used by FilterManager
  */
-class BlurMatrix : public FilterMatrix {
+class EdgeMatrix : public FilterMatrix {
  public:
-   BlurMatrix() : FilterMatrix::FilterMatrix(), blur_type_(-1) {}
-   ~BlurMatrix() {}
+   EdgeMatrix() : FilterMatrix::FilterMatrix(), detect_type_(0) {}
+   ~EdgeMatrix() {}
   /**
    * @brief apply a new size for a filter matrix
    *
    * @param[in] incoming_size the new size of this matrix
    */
-  void Resize(float incoming_size, float blur_type);
-
-  PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
+  void Resize(float incoming_size, float detect_type);
 
  private:
-  int blur_type_;
+  int detect_type_;
 };
 }
 

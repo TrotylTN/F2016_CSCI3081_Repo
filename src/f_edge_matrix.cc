@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : edge_matrix.cc
+ * Name            : f_edge_matrix.cc
  * Project         : FlashPhoto
  * Module          : filter_manager
  * Description     : Implementation for EdgeMatrix class
@@ -12,7 +12,7 @@
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include "include/edge_matrix.h"
+#include "include/f_edge_matrix.h"
 #include <cstdio>
 
 using namespace std;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : threshold_filter.h
+ * Name            : f_threshold_filter.h
  * Project         : FlashPhoto
  * Module          : filter_manager
  * Description     : Header for ThresholdFilter class

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : threshold_filter.cc
+ * Name            : f_threshold_filter.cc
  * Project         : FlashPhoto
  * Module          : filter_manager
  * Description     : Implementation for ThresholdFilter class
@@ -12,7 +12,7 @@
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include "include/threshold_filter.h"
+#include "include/f_threshold_filter.h"
 
 /*******************************************************************************
  * Namespaces

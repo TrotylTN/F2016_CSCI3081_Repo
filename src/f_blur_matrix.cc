@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : blur_matrix.cc
+ * Name            : f_blur_matrix.cc
  * Project         : FlashPhoto
  * Module          : filter_manager
  * Description     : Implementation for BlurMatrix class
@@ -12,7 +12,7 @@
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include "include/blur_matrix.h"
+#include "include/f_blur_matrix.h"
 #include <cstdio>
 
 using namespace std;
