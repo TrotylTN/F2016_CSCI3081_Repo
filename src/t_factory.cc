@@ -20,6 +20,7 @@
 #include "include/t_highlighter.h"
 #include "include/t_spray_can.h"
 #include "include/t_chalk.h"
+#include "include/t_stamp.h"
 
 /*******************************************************************************
  * Namespaces
@@ -50,6 +51,9 @@ Tool* ToolFactory::CreateTool(int tool_id) {
       break;
     case TOOL_CHALK:
       tool = new TChalk();
+      break;
+    case TOOL_STAMP:
+      tool = new TStamp();
       break;
     default:
       tool = nullptr;
