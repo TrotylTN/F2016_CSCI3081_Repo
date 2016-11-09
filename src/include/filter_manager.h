@@ -18,6 +18,11 @@
 #include "GL/glui.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
+#include "include/filter_matrix.h"
+#include "include/blur_matrix.h"
+#include "include/edge_matrix.h"
+#include "include/single_filter.h"
+#include "include/threshold_filter.h"
 
 /*******************************************************************************
  * Namespaces
@@ -42,7 +47,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyBlur(void);
+  void ApplyBlur(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a sharpening filter to the buffer, sharpening blurry/undefined
@@ -50,28 +55,28 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySharpen(void);
+  void ApplySharpen(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a motion blurring filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyMotionBlur(void);
+  void ApplyMotionBlur(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply an edge detection filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyEdgeDetect(void);
+  void ApplyEdgeDetect(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a threshold detection filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyThreshold(void);
+  void ApplyThreshold(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a channel filter to the buffer
@@ -123,6 +128,12 @@ class FilterManager {
   float motion_blur_amount_;
   enum UICtrl::MotionBlurDirection motion_blur_direction_;
   int quantize_bins_;
+
+  /** Pointer to pixel data for the temp cache */
+  FilterMatrix* transform_matrix_;
+  SingleFilter* single_filter_;
+  PixelBuffer* buffer_to_be_deleted_;
+  PixelBuffer* temp_buffer_;
 };
 
 }  /* namespace image_tools */
