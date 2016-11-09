@@ -180,6 +180,7 @@ void IOManager::LoadImageToStamp(void) {
   }
 
   /* Shrink the PixelBuffer */
+  
 }
 
 void IOManager::SaveCanvasToFile(void) {
