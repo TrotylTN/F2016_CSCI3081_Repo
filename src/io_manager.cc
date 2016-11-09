@@ -244,25 +244,42 @@ PixelBuffer *IOManager::LoadPNG(void) {
                                   ColorData(0.0, 0.0, 0.0));
 
     png_bytep buffer;
-    image.format = PNG_FORMAT_RGBA;
+
     buffer = (png_byte*) malloc(PNG_IMAGE_SIZE(image));
 
     if (temp_buffer != NULL &&
-        png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0) {
+        png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0 &&
+        (image.format == PNG_FORMAT_RGBA || image.format == PNG_FORMAT_RGB)) {
       const float BASE_COLOR = 255.0;
-      for (int y = 0; y < image.height; y++) {
-        for (int x = 0; x < image.width; x ++) {
-          float r = (float) buffer[(y * image.width + x) * 4];
-          float g = (float) buffer[(y * image.width + x) * 4 + 1];
-          float b = (float) buffer[(y * image.width + x) * 4 + 2];
-          float a = (float) buffer[(y * image.width + x) * 4 + 3];
-          temp_buffer->set_pixel(x, image.height - y - 1,
-                                 ColorData(r / BASE_COLOR,
-                                           g / BASE_COLOR,
-                                           b / BASE_COLOR,
-                                           a / BASE_COLOR));
+
+      if (image.format == PNG_FORMAT_RGBA) {
+        for (int y = 0; y < image.height; y++) {
+          for (int x = 0; x < image.width; x ++) {
+            float r = (float) buffer[(y * image.width + x) * 4];
+            float g = (float) buffer[(y * image.width + x) * 4 + 1];
+            float b = (float) buffer[(y * image.width + x) * 4 + 2];
+            float a = (float) buffer[(y * image.width + x) * 4 + 3];
+            temp_buffer->set_pixel(x, image.height - y - 1,
+                                   ColorData(r / BASE_COLOR,
+                                             g / BASE_COLOR,
+                                             b / BASE_COLOR,
+                                             a / BASE_COLOR));
+          }
+        }
+      } else {
+        for (int y = 0; y < image.height; y++) {
+          for (int x = 0; x < image.width; x ++) {
+            float r = (float) buffer[(y * image.width + x) * 3];
+            float g = (float) buffer[(y * image.width + x) * 3 + 1];
+            float b = (float) buffer[(y * image.width + x) * 3 + 2];
+            temp_buffer->set_pixel(x, image.height - y - 1,
+                                   ColorData(r / BASE_COLOR,
+                                             g / BASE_COLOR,
+                                             b / BASE_COLOR));
+          }
         }
       }
+
       delete(buffer);
       return temp_buffer;
     } else {
@@ -272,12 +289,12 @@ PixelBuffer *IOManager::LoadPNG(void) {
     }
 
     fprintf(stderr, "pngtopixel_buffer: error: %s\n", image.message);
-    exit (1);
+    return NULL;
   }
 
   fprintf(stderr,
         "pngtopixel_buffer: usage: pngtopixel_buffer input-file output-file\n");
-  exit(1);
+  return NULL;
 }
 
 PixelBuffer *IOManager::LoadJPEG(void) {
