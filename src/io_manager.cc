@@ -16,14 +16,10 @@
 #include "include/pixel_buffer.h"
 #include <iostream>
 #include "include/ui_ctrl.h"
-<<<<<<< HEAD
 #include <png.h>
 #include "jpeglib.h"
 #include <setjmp.h>
-
-=======
 #include "png.h"
->>>>>>> refs/remotes/origin/master
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
