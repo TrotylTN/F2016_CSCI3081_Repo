@@ -165,23 +165,25 @@ void IOManager::LoadImageToCanvas(PixelBuffer* &display_buffer) {
   }
 }
 
-void IOManager::LoadImageToStamp(void) {
+PixelBuffer *IOManager::LoadImageToStamp(void) {
   std::cout << "Load Stamp has been clicked for file " <<
       file_name_ << std::endl;
   /* load image */
   PixelBuffer* temp_buffer;
   if (has_suffix(file_name_, ".png")) {
     if ((temp_buffer = LoadPNG()) == NULL) {
-      return;
+      return temp_buffer;
     }
   }
   else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")) {
     if ((temp_buffer = LoadJPEG()) == NULL) {
-      return;
+      return temp_buffer;
     }
   }
 
   /* Shrink the PixelBuffer */
+
+  return temp_buffer;
 
 }
 

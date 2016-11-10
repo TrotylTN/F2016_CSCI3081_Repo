@@ -309,7 +309,8 @@ void FlashPhotoApp::GluiControl(int control_id) {
       SetWindowDimensions(display_buffer_->width(), display_buffer_->height());
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
-      io_manager_.LoadImageToStamp();
+      //tools_[ToolFactory::TOOL_STAMP]->stamp_mask(io_manager_.LoadImageToStamp());
+      printf("ToolFactory::TOOL_STAMP : %i\n", ToolFactory::TOOL_STAMP);
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       io_manager_.SaveCanvasToFile(this->display_buffer_);
