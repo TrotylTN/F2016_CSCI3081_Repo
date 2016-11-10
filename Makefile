@@ -205,7 +205,7 @@ $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)): | $(OBJDIR)
 # The Target Executable. Note that libglui is an order-only prerequisite, in
 # that as long as it exists, make will not attempt to recompile it. This makes
 # sense; once you build GLUI, you should never have to rebuild it.
-$(TARGET): $(LIBS_A) $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) | $(BINDIR)
+$(TARGET): $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) | $(BINDIR)
 	$(CXX) $(CXXFLAGS) $(CXXLIBDIRS) $(addprefix $(OBJDIR)/, $(OBJECTS_CXX)) -o $@ $(CXXLIBS)
 
 # GLUI
@@ -256,6 +256,6 @@ documentation:
 # from any .cc file in src/. Before doing compilation, emit (possibly) make
 # rules for the includes for the .cc file, as they may have changed since the
 # last invocation of make.
-$(OBJDIR)/%.o: $(SRCDIR)/%.cc
+$(OBJDIR)/%.o: $(SRCDIR)/%.cc $(LIBS_A)
 	@$(call make-depend-cxx,$<,$@,$(subst .o,.d,$@))
 	$(CXX) $(CXXFLAGS) $(CXXLIBDIRS) -c -o  $@ $<
