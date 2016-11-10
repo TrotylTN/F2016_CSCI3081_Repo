@@ -40,6 +40,7 @@ ColorData TStamp::color_blend_math(
   // TBC
 }
 
+/* Implemented wrongly */
 void TStamp::ApplyToBuffer(
     int tool_x,
     int tool_y,

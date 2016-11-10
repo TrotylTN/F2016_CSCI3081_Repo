@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Name            : t_highlighter.h
+ * Name            : t_stamp.h
  * Project         : image_tools
  * Module          : Tool
- * Description     : Header file for Highlighter class
- * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
- * Creation Date   : 2/15/15
- * Original Author : Seth Johnson
+ * Description     : Header file for Stamp class
+ * Copyright       : 2016 Group A1. All rights reserved.
+ * Creation Date   : 11/09/16
+ * Original Author : 2016 Group A1
  *
  ******************************************************************************/
 
@@ -43,12 +43,14 @@ class TStamp : public Tool {
    *
    * @return The new ColorData for the pixel
    */
+   // not implemented yet
   ColorData color_blend_math(
       float mask_pixel_amount,
       const ColorData& tool_color,
       const ColorData& current_color,
       const ColorData& background_color);
 
+  // implemented wrongly
   virtual void ApplyToBuffer(
       int tool_x,
       int tool_y,
@@ -59,8 +61,10 @@ class TStamp : public Tool {
 
 private:
   PixelBuffer *stamp_mask_;
+  /* not working */
   void stamp_mask(PixelBuffer *stamp) { stamp_mask_ = stamp; }
-  PixelBuffer* stamp_mask(void) { return stamp_mask_; }
+  PixelBuffer* stamp_mask(void) const { return stamp_mask_; }
+  /* not working */
 };
 
 }  /* namespace image_tools */

@@ -96,6 +96,8 @@ class IOManager {
 
   PixelBuffer *LoadJPEG(void);
 
+  PixelBuffer *resample(PixelBuffer *display_buffer, int new_height, int new_width);
+
  private:
   /* Copy/move assignment/construction disallowed */
   IOManager(const IOManager &rhs) = delete;

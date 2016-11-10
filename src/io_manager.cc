@@ -182,10 +182,21 @@ PixelBuffer *IOManager::LoadImageToStamp(void) {
   }
 
   /* Shrink the PixelBuffer */
+  int stamp_limit = 80;
+  int buffer_height = temp_buffer->height();
+  int buffer_width = temp_buffer->width();
+  double scale;
+  if (buffer_height > buffer_width) {
+    scale = (double) stamp_limit / buffer_height;
+    temp_buffer = resample(temp_buffer, stamp_limit, buffer_width * scale);
+  } else {
+    scale = (double) stamp_limit / buffer_width;
+    temp_buffer = resample(temp_buffer, buffer_height * scale, stamp_limit);
+  }
 
   return temp_buffer;
-
 }
+
 void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer){
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
@@ -203,7 +214,6 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer){
   }
   return;
 }
-
 
 void IOManager::SavePNG(PixelBuffer *display_buffer) {
   png_image image;
@@ -252,12 +262,10 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
 
 
 
- }
+}
 
 void IOManager::SaveJEPG(PixelBuffer *display_buffer){
-
   struct jpeg_compress_struct cinfo;
-
   struct jpeg_error_mgr jerr;
 
   FILE * outfile;
@@ -287,7 +295,6 @@ void IOManager::SaveJEPG(PixelBuffer *display_buffer){
 
   row_stride = display_buffer->width()*3;
 
-
   buffer = (JSAMPLE *)malloc(row_stride * display_buffer->height());
 
   for (int y = 0; y < display_buffer->height();y++) {
@@ -314,16 +321,7 @@ void IOManager::SaveJEPG(PixelBuffer *display_buffer){
   fclose(outfile);
   jpeg_destroy_compress(&cinfo);
 
-
-
 }
-
-
-
-
-
-
-
 
 PixelBuffer *IOManager::LoadPNG(void) {
   PixelBuffer* temp_buffer = NULL;
@@ -435,6 +433,26 @@ PixelBuffer *IOManager::LoadJPEG(void) {
   jpeg_destroy_decompress(&cinfo);
   fclose(fp);
   return temp_buffer;
+}
+
+PixelBuffer *IOManager::resample(PixelBuffer *display_buffer, int new_height, int new_width) {
+  int old_height = display_buffer->height();
+  int old_width = display_buffer->width();
+  double h_scale = (double) new_height / (double) old_height;
+  double w_scale = (double) new_width / (double) old_width;
+  PixelBuffer *stamp_buffer = new PixelBuffer(new_width, new_height, display_buffer->background_color());
+
+  /* Nearest Neighbor */
+  for (int y = 0; y < new_height; y++) {
+    int nearest_match_y = y / h_scale;
+    for (int x = 0; x < new_width; x++) {
+      int nearest_match_x = x / h_scale;
+      ColorData temp_color = display_buffer->get_pixel(nearest_match_x, nearest_match_y);
+      stamp_buffer->set_pixel(x, y, temp_color);
+    }
+  }
+
+  return stamp_buffer;
 }
 
 }  /* namespace image_tools */
