@@ -40,7 +40,10 @@ class RGBFilter : public FilterMatrix{
    *
    * @param[in] original_buffer the display_buffer of GUI
    */
-  void Resize(float incoming_size, float r_amount, g_amount, b_amount);
+  void Resize(float incoming_size,
+              float r_amount,
+              float g_amount,
+              float b_amount);
 
   PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
 

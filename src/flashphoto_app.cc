@@ -293,7 +293,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       filter_manager_.ApplySaturate(display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
-      filter_manager_.ApplyChannel();
+      filter_manager_.ApplyChannel(display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
       filter_manager_.ApplyQuantize();

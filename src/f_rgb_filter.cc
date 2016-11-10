@@ -38,7 +38,7 @@ void RGBFilter::Resize(float incoming_size,
   FilterMatrix::Matrix(new_matrix);
 }
 
-PixelBuffer* SaturationFilter::ApplyMatrix(PixelBuffer* original_buffer) {
+PixelBuffer* RGBFilter::ApplyMatrix(PixelBuffer* original_buffer) {
   PixelBuffer* result_buffer;
   ColorData temp_color;
   result_buffer = new PixelBuffer(original_buffer->width(),
