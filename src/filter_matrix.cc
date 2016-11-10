@@ -56,16 +56,9 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
                          temp_color;
           }
         }
-      if (temp_color.green() < 0 ||
-          temp_color.blue() < 0 ||
-          temp_color.red() < 0)
-        temp_color = ColorData(0,0,0);
-      if (temp_color.green() > 1 ||
-          temp_color.blue() > 1 ||
-          temp_color.red() > 1)
-        temp_color = ColorData(1,1,1);
       result_buffer->set_pixel(x, y, temp_color);
     }
+  result_buffer->ValidPixel();
   return result_buffer;
 }
 
