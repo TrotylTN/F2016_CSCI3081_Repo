@@ -40,7 +40,7 @@ class FilterMatrix {
    *
    * @param[in] incoming_size the new size of this matrix
    */
-  virtual void Resize(float incoming_size, int args_for_resize) {}
+  virtual void Resize(float incoming_size, float args_for_resize) {}
 
   /**
    * @brief apply the matrix on the buffer then return the cached buffer
@@ -49,11 +49,13 @@ class FilterMatrix {
    */
   virtual PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
 
-  void SetMatrixSize(int new_matrix_size);
+  int MatrixSize(void);
 
-  void SetMatrix(std::vector <std::vector<float> > new_matrix);
+  void MatrixSize(int new_matrix_size);
 
-  int matrix_size(void) {return matrix_size_;}
+  std::vector <std::vector<float> > Matrix(void);
+
+  void Matrix(std::vector <std::vector<float> > new_matrix);
 
  private:
    int  matrix_size_;

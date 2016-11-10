@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : edge_matrix.cc
+ * Name            : f_edge_matrix.cc
  * Project         : FlashPhoto
  * Module          : filter_manager
  * Description     : Implementation for EdgeMatrix class
@@ -12,7 +12,7 @@
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include "include/edge_matrix.h"
+#include "include/f_edge_matrix.h"
 #include <cstdio>
 
 using namespace std;
@@ -24,8 +24,8 @@ namespace image_tools {
 /*******************************************************************************
 * Member Functions
 ******************************************************************************/
-void EdgeMatrix::Resize(float incoming_size, int detect_type) {
-  this->detect_type_ = detect_type;
+void EdgeMatrix::Resize(float incoming_size, float detect_type) {
+  this->detect_type_ = (int)detect_type;
   int n = (int) incoming_size / 2;
   int new_matrix_size = n * 2 + 1;
   float value_in_cell;
@@ -56,8 +56,8 @@ void EdgeMatrix::Resize(float incoming_size, int detect_type) {
     printf("\n");
   }
 
-  FilterMatrix::SetMatrixSize(new_matrix_size);
-  FilterMatrix::SetMatrix(new_matrix);
+  FilterMatrix::MatrixSize(new_matrix_size);
+  FilterMatrix::Matrix(new_matrix);
 }
 
 } /* namespace image_tools */

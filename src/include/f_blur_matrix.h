@@ -1,23 +1,22 @@
 /*******************************************************************************
- * Name            : single_filter.h
+ * Name            : f_blur_matrix.h
  * Project         : FlashPhoto
  * Module          : filter_manager
- * Description     : Header for SingleFilter class
+ * Description     : Header for BlurMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Creation Date   : Mon Nov 7 20:13:37 2016
+ * Creation Date   : Sat Nov 5 16:24:11 2016
  * Original Author : Tiannan Zhou
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_SINGLE_FILTER_H_
-#define SRC_INCLUDE_SINGLE_FILTER_H_
+#ifndef SRC_INCLUDE_BLUR_MATRIX_H_
+#define SRC_INCLUDE_BLUR_MATRIX_H_
 
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include <cmath>
-#include "include/color_data.h"
-#include "include/pixel_buffer.h"
+#include "include/filter_matrix.h"
+#include <string>
 
 /*******************************************************************************
  * Namespaces
@@ -28,24 +27,24 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
 /**
- * @brief This class is the filter tool which would be used by FilterManager
+ * @brief This class is the matrix tool which would be used by FilterManager
  */
-class SingleFilter {
+class BlurMatrix : public FilterMatrix {
  public:
-  SingleFilter() : filter_arg_(0) {}
-  virtual ~SingleFilter() {}
-
-  float FilterArg(void) { return filter_arg_; }
-  void FilterArg(float arg) { filter_arg_ = arg; }
+   BlurMatrix() : FilterMatrix::FilterMatrix(), blur_type_(-1) {}
+   ~BlurMatrix() {}
   /**
-   * @brief apply the filter on the buffer then return the cached buffer
+   * @brief apply a new size for a filter matrix
    *
-   * @param[in] original_buffer the display_buffer of GUI
+   * @param[in] incoming_size the new size of this matrix
    */
-  virtual PixelBuffer* ApplyFilter(PixelBuffer* original_buffer) = 0;
+  void Resize(float incoming_size, float blur_type);
+
+  PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
+
  private:
-  float filter_arg_;
+  int blur_type_;
 };
 }
 
-#endif  // SRC_INCLUDE_SINGLE_FILTER_H_
+#endif  // SRC_INCLUDE_BLUR_MATRIX_H_

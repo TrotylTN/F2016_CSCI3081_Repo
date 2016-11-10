@@ -72,12 +72,21 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
 // void Resize(float incoming_size) {}
 // void Resize(float incoming_size, int args_for_resize) {}
 
-void FilterMatrix::SetMatrixSize(int new_matrix_size) {
+int FilterMatrix::MatrixSize(void) {
+  return this->matrix_size_;
+}
+
+std::vector <std::vector<float> > FilterMatrix::Matrix(void) {
+  return this->matrix_;
+}
+
+void FilterMatrix::MatrixSize(int new_matrix_size) {
   this->matrix_size_ = new_matrix_size;
 }
 
-void FilterMatrix::SetMatrix(std::vector <std::vector<float> > new_matrix) {
+void FilterMatrix::Matrix(std::vector <std::vector<float> > new_matrix) {
   this->matrix_ = new_matrix;
 }
+
 
 } /* namespace image_tools */
