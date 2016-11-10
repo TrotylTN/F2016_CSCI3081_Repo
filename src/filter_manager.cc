@@ -39,11 +39,22 @@ FilterManager::FilterManager(void) :
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-void FilterManager::ApplyChannel(void) {
+void FilterManager::ApplyChannel(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Channels with red = "
             << channel_color_red_
             << ", green = " << channel_color_green_
             << ", blue = " << channel_color_blue_ << std::endl;
+  transform_matrix_ = new RGBFilter();
+  transform_matrix_->Resize(1,
+                            channel_color_red_,
+                            channel_color_green_,
+                            channel_color_blue_);
+  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
+  delete transform_matrix_;
 }
 
 void FilterManager::ApplySaturate(PixelBuffer* &display_buffer) {
