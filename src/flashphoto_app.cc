@@ -290,7 +290,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       filter_manager_.ApplyThreshold(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
-      filter_manager_.ApplySaturate();
+      filter_manager_.ApplySaturate(display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
       filter_manager_.ApplyChannel();
@@ -309,9 +309,9 @@ void FlashPhotoApp::GluiControl(int control_id) {
       SetWindowDimensions(display_buffer_->width(), display_buffer_->height());
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
-      /* Not working */
-      tools_[ToolFactory::TOOL_STAMP]->stamp_mask(io_manager_.LoadImageToStamp());
-      printf("ToolFactory::TOOL_STAMP : %i\n", ToolFactory::TOOL_STAMP);
+      /* Testing function */
+      display_buffer_ = io_manager_.LoadImageToStamp();
+      SetWindowDimensions(display_buffer_->width(), display_buffer_->height());
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       io_manager_.SaveCanvasToFile(this->display_buffer_);
