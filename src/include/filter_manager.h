@@ -19,10 +19,10 @@
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
 #include "include/filter_matrix.h"
-#include "include/blur_matrix.h"
-#include "include/edge_matrix.h"
-#include "include/single_filter.h"
-#include "include/threshold_filter.h"
+#include "include/f_blur_matrix.h"
+#include "include/f_edge_matrix.h"
+#include "include/f_threshold_filter.h"
+#include "include/f_saturation_filter.h"
 
 /*******************************************************************************
  * Namespaces
@@ -90,7 +90,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySaturate(void);
+  void ApplySaturate(PixelBuffer* &display_buffer);
 
 
   /**
@@ -131,7 +131,6 @@ class FilterManager {
 
   /** Pointer to pixel data for the temp cache */
   FilterMatrix* transform_matrix_;
-  SingleFilter* single_filter_;
   PixelBuffer* buffer_to_be_deleted_;
   PixelBuffer* temp_buffer_;
 };
