@@ -186,8 +186,26 @@ PixelBuffer *IOManager::LoadImageToStamp(void) {
   return temp_buffer;
 
 }
+void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer){
+  std::cout << "Save Canvas been clicked for file " <<
+      file_name_ << std::endl;
+  if (has_suffix(file_name_, ".png") && display_buffer != NULL) {
 
-void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
+    SavePNG(display_buffer);
+
+  }
+  else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")
+            && display_buffer != NULL) {
+
+   SaveJEPG(display_buffer);
+  } else {
+    exit(1);
+  }
+  return;
+}
+
+
+void IOManager::SavePNG(PixelBuffer *display_buffer) {
   png_image image;
   png_bytep buffer;
   ColorData collor;
@@ -200,8 +218,6 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
   image.height  = display_buffer->height();
   image.format  = PNG_FORMAT_RGBA;
 
-
-
   buffer =(png_byte*)malloc(PNG_IMAGE_SIZE(image));
 
   for(int y = 0; y < display_buffer->height(); y++) {
@@ -210,10 +226,14 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
 
       collor = display_buffer->get_pixel(x,display_buffer->height()-y-1);
 
-      buffer[y * 4 * image.width + x * 4 + 0] = (png_byte) static_cast<unsigned int>(collor.red()*255);
-      buffer[y * 4 * image.width + x * 4 + 1] = (png_byte) static_cast<unsigned int>(collor.green()*255);
-      buffer[y * 4 * image.width + x * 4 + 2] = (png_byte) static_cast<unsigned int>(collor.blue()*255);
-      buffer[y * 4 * image.width + x * 4 + 3] = (png_byte) static_cast<unsigned int>(collor.alpha()*255);
+      buffer[y * 4 * image.width + x * 4 + 0] =
+                    (png_byte) static_cast<unsigned int>(collor.red()*255);
+      buffer[y * 4 * image.width + x * 4 + 1] =
+                    (png_byte) static_cast<unsigned int>(collor.green()*255);
+      buffer[y * 4 * image.width + x * 4 + 2] =
+                    (png_byte) static_cast<unsigned int>(collor.blue()*255);
+      buffer[y * 4 * image.width + x * 4 + 3] =
+                    (png_byte) static_cast<unsigned int>(collor.alpha()*255);
 
     }
   }
@@ -233,6 +253,77 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
 
 
  }
+
+void IOManager::SaveJEPG(PixelBuffer *display_buffer){
+
+  struct jpeg_compress_struct cinfo;
+
+  struct jpeg_error_mgr jerr;
+
+  FILE * outfile;
+  JSAMPROW row_pointer[1];
+  JSAMPLE *buffer;
+  int row_stride;
+  ColorData color;
+
+  cinfo.err = jpeg_std_error(&jerr);
+  jpeg_create_compress(&cinfo);
+
+  if((outfile = fopen(file_name().c_str(),"wb")) == NULL) {
+    fprintf(stderr, "can not open %s \n", file_name().c_str());
+    exit(1);
+  }
+  jpeg_stdio_dest(&cinfo,outfile);
+
+  cinfo.image_width  = display_buffer->width();
+  cinfo.image_height = display_buffer->height();
+  cinfo.input_components = 3;
+  cinfo.in_color_space = JCS_RGB;
+
+  jpeg_set_defaults(&cinfo);
+
+  jpeg_set_quality(&cinfo, 3,TRUE);
+  jpeg_start_compress(&cinfo, TRUE);
+
+  row_stride = display_buffer->width()*3;
+
+
+  buffer = (JSAMPLE *)malloc(row_stride * display_buffer->height());
+
+  for (int y = 0; y < display_buffer->height();y++) {
+
+    for (int x = 0 ; x < display_buffer->width(); x++) {
+      color = display_buffer->get_pixel(x,display_buffer->height() - y -1);
+
+      buffer[y * 3 * display_buffer->width() + x * 3 + 0] = (JSAMPLE) (color.red()*255);
+      buffer[y * 3 * display_buffer->width() + x * 3 + 1] = (JSAMPLE) (color.green()*255);
+      buffer[y * 3 * display_buffer->width() + x * 3 + 2] = (JSAMPLE) (color.blue()*255);
+
+    }
+  }
+
+   while (cinfo.next_scanline < cinfo.image_height) {
+
+     row_pointer[0] = & buffer[cinfo.next_scanline * row_stride];
+     (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
+
+  }
+
+  jpeg_finish_compress(&cinfo);
+
+  fclose(outfile);
+  jpeg_destroy_compress(&cinfo);
+
+
+
+}
+
+
+
+
+
+
+
 
 PixelBuffer *IOManager::LoadPNG(void) {
   PixelBuffer* temp_buffer = NULL;
