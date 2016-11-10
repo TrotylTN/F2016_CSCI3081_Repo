@@ -182,7 +182,7 @@ PixelBuffer *IOManager::LoadImageToStamp(void) {
   }
 
   /* Shrink the PixelBuffer */
-  int stamp_limit = 800;
+  int stamp_limit = 80;
   int buffer_height = temp_buffer->height();
   int buffer_width = temp_buffer->width();
   double scale;
