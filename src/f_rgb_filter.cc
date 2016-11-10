@@ -52,6 +52,7 @@ PixelBuffer* RGBFilter::ApplyMatrix(PixelBuffer* original_buffer) {
       temp_color.blue(temp_color.blue() * this->channel_color_blue_);
       result_buffer->set_pixel(x, y, temp_color);
     }
+  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */
