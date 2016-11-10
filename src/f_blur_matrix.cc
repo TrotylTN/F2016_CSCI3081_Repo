@@ -38,9 +38,9 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
       for (int j = 0; j < new_matrix_size; j++) {
         int dis = fabs(i - n) + fabs(j - n);
         if (dis <= n)
-        new_matrix[i][j] = value_in_cell;
+          new_matrix[i][j] = value_in_cell;
         else
-        new_matrix[i][j] = 0;
+          new_matrix[i][j] = 0;
       }
     }
   }
@@ -53,7 +53,7 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
 
 PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
   if (this->blur_type_ == -1) {
-    FilterMatrix::ApplyMatrix(original_buffer);
+    return FilterMatrix::ApplyMatrix(original_buffer);
   }
   else {
     int n = MatrixSize() / 2;
@@ -112,20 +112,9 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
             temp_color = ColorData() * value_in_cell + temp_color;
           }
         }
-        if (temp_color.green() < 0)
-          temp_color.green(0);
-        if (temp_color.blue() < 0)
-          temp_color.blue(0);
-        if (temp_color.red() < 0)
-          temp_color.red(0);
-        if (temp_color.green() > 1)
-          temp_color.green(1);
-        if (temp_color.blue() > 1)
-          temp_color.blue(1);
-        if (temp_color.red() > 1)
-          temp_color.red(1);
         result_buffer->set_pixel(x, y, temp_color);
       }
+      result_buffer->ValidPixel();
       return result_buffer;
   }
 }

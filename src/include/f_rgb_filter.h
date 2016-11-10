@@ -1,16 +1,16 @@
 /*******************************************************************************
- * Name            : f_saturation_filter.h
+ * Name            : f_rgb_filter.h
  * Project         : FlashPhoto
  * Module          : filter_manager
- * Description     : Header for SaturationFilter class
+ * Description     : Header for RGBFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Creation Date   : Wed Nov 9 17:1:52 2016
+ * Creation Date   : Thu Nov 10 14:01:18 2016
  * Original Author : Tiannan Zhou
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_SATURATION_FILTER_H_
-#define SRC_INCLUDE_SATURATION_FILTER_H_
+#ifndef SRC_INCLUDE_RGB_FILTER_H_
+#define SRC_INCLUDE_RGB_FILTER_H_
 
 /*******************************************************************************
 * Includes
@@ -28,21 +28,30 @@ namespace image_tools {
 /**
  * @brief This class is threshold filter which would be used by FilterManager
  */
-class SaturationFilter : public FilterMatrix{
+class RGBFilter : public FilterMatrix{
  public:
-  SaturationFilter() : FilterMatrix::FilterMatrix(), saturation_amount_(1) {}
-  ~SaturationFilter() {}
+  RGBFilter() : FilterMatrix::FilterMatrix(),
+                channel_color_red_(1),
+                channel_color_green_(1),
+                channel_color_blue_(1) {}
+  ~RGBFilter() {}
   /**
    * @brief apply the filter on the buffer then return the cached buffer
    *
    * @param[in] original_buffer the display_buffer of GUI
    */
-  void Resize(float incoming_size, float saturation_amount);
+  void Resize(float incoming_size,
+              float r_amount,
+              float g_amount,
+              float b_amount);
 
   PixelBuffer* ApplyMatrix(PixelBuffer* original_buffer);
+
  private:
-  float saturation_amount_;
+  float channel_color_red_;
+  float channel_color_green_;
+  float channel_color_blue_;
 };
 }
 
-#endif  // SRC_INCLUDE_SATURATION_FILTER_H_
+#endif  // SRC_INCLUDE_RGB_FILTER_H_
