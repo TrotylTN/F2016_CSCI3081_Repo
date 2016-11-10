@@ -88,6 +88,10 @@ class IOManager {
    */
   void SaveCanvasToFile(PixelBuffer *display_buffer);
 
+  void SaveJEPG(PixelBuffer *display_buffer);
+
+  void SavePNG(PixelBuffer *display_buffer);
+
   PixelBuffer *LoadPNG(void);
 
   PixelBuffer *LoadJPEG(void);
