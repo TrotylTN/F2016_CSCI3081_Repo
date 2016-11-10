@@ -30,7 +30,7 @@ namespace image_tools {
  */
 class ThresholdFilter : public FilterMatrix{
  public:
-  ThresholdFilter() : FilterMatrix::FilterMatrix() {}
+  ThresholdFilter() : FilterMatrix::FilterMatrix(), threshold_amount_(0) {}
   ~ThresholdFilter() {}
   /**
    * @brief apply the filter on the buffer then return the cached buffer
