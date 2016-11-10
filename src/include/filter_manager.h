@@ -23,6 +23,7 @@
 #include "include/f_edge_matrix.h"
 #include "include/f_threshold_filter.h"
 #include "include/f_saturation_filter.h"
+#include "include/f_rgb_filter.h"
 
 /*******************************************************************************
  * Namespaces
@@ -83,7 +84,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyChannel(void);
+  void ApplyChannel(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a channel filter to the buffer
