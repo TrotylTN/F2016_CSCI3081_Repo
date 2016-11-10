@@ -30,7 +30,7 @@ namespace image_tools {
  */
 class SaturationFilter : public FilterMatrix{
  public:
-  SaturationFilter() : FilterMatrix::FilterMatrix() {}
+  SaturationFilter() : FilterMatrix::FilterMatrix(), saturation_amount_(1) {}
   ~SaturationFilter() {}
   /**
    * @brief apply the filter on the buffer then return the cached buffer
