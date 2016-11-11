@@ -273,7 +273,7 @@ void FilterManager::InitGlui(const GLUI *const glui,
 
     // YOUR SPECIAL FILTER PANEL
     GLUI_Panel *specialFilterPanel = new GLUI_Panel(filter_panel,
-                                                    "Special Filter");
+                                                    "Emboss");
     {
       new GLUI_Button(specialFilterPanel,
                       "Apply",
