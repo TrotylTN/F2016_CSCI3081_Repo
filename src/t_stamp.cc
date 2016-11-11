@@ -27,6 +27,7 @@ namespace image_tools {
  ******************************************************************************/
 TStamp::TStamp(void) {
     stamp_mask(NULL);
+    drag_status(false);
 }
 
 /*******************************************************************************
@@ -77,7 +78,8 @@ void TStamp::ApplyToBuffer(
           buffer->background_color());
 */
       ColorData c = stamp_mask_->get_pixel(mask_x, mask_y);
-      if (!(c == buffer->background_color()))
+      if (!(c == buffer->background_color() ||
+            c == stamp_mask_->background_color()))
         buffer->set_pixel(x, y, c);
     }
   }

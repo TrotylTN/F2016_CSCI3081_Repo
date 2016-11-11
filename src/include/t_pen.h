@@ -34,7 +34,10 @@ namespace image_tools {
  */
 class TPen : public Tool {
  public:
-  TPen(void) { mask(new MConstant(1.0, 1.0)); }
+  TPen(void) {
+    mask(new MConstant(1.0, 1.0));
+    drag_status(true);
+  }
 
   std::string name(void) { return "Pen"; }
 };

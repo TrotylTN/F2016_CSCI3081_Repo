@@ -25,7 +25,10 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructor
  ******************************************************************************/
-TEraser::TEraser(void) { mask(new MConstant(10.0, 1.0)); }
+TEraser::TEraser(void) {
+  mask(new MConstant(10.0, 1.0));
+  drag_status(true);
+}
 
 /*******************************************************************************
  * Member Functions

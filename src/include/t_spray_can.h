@@ -32,7 +32,10 @@ namespace image_tools {
  */
 class TSprayCan : public Tool {
  public:
-  TSprayCan(void) { mask(new MLinear(30, 0.2)); }
+  TSprayCan(void) {
+    mask(new MLinear(30, 0.2));
+    drag_status(true);
+  }
 
   std::string name(void) { return "Spray Can"; }
 };

@@ -35,7 +35,10 @@ namespace image_tools {
  */
 class TCalligraphyPen : public Tool {
  public:
-  TCalligraphyPen(void) { mask(new MOval(7.0, 1.0, 70.0, 0.333)); }
+  TCalligraphyPen(void) {
+    mask(new MOval(7.0, 1.0, 70.0, 0.333));
+    drag_status(true);
+  }
 
     std::string name(void) { return "Caligraphy Pen"; }
 };

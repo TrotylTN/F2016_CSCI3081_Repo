@@ -62,6 +62,8 @@ class Tool {
 
   virtual void stamp_mask(PixelBuffer *stamp) {};
 
+  bool drag_status(void) { return drag_status_; }
+
  protected:
   /**
    * @brief The definition of how the tool will operate on a single pixel on
@@ -89,12 +91,15 @@ class Tool {
    */
   void mask(Mask* mask) { mask_ = mask; }
 
+  void drag_status(bool status) { drag_status_ = status; }
+
  private:
   /* Usage of copy/move construction or assignment is disallowed */
   Tool(const Tool& rhs) = delete;
   Tool& operator=(const Tool& rhs) = delete;
 
   Mask *mask_;
+  bool drag_status_;
 };
 
 }  /* namespace image_tools */

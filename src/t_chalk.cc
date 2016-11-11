@@ -27,7 +27,10 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructor
  ******************************************************************************/
-TChalk::TChalk(void) : seed_(0) { mask(new MLinear(5.0, 1.0)); }
+TChalk::TChalk(void) : seed_(0) {
+  mask(new MLinear(5.0, 1.0));
+  drag_status(true);
+}
 
 /*******************************************************************************
  * Member Functions

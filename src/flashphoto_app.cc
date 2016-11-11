@@ -98,29 +98,31 @@ void FlashPhotoApp::MouseDragged(int x, int y) {
 
   // Get the differences between the events
   // in each direction
-  int delta_x = x-mouse_last_x_;
-  int delta_y = y-mouse_last_y_;
+  if (tools_[cur_tool_]->drag_status()) {
+    int delta_x = x-mouse_last_x_;
+    int delta_y = y-mouse_last_y_;
 
-  // Calculate the min number of steps necesary to fill
-  // completely between the two event locations.
-  float pixels_between = fmax(abs(delta_x), abs(delta_y));
-  int step_size = 1;
+    // Calculate the min number of steps necesary to fill
+    // completely between the two event locations.
+    float pixels_between = fmax(abs(delta_x), abs(delta_y));
+    int step_size = 1;
 
-  // Iterate between the event locations
-  for (int i = 0; i < pixels_between; i+=step_size) {
-    int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
-    int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
+    // Iterate between the event locations
+    for (int i = 0; i < pixels_between; i+=step_size) {
+      int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
+      int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
 
-    tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
-                                     ColorData(cur_color_red_,
-                                               cur_color_green_,
-                                               cur_color_blue_),
-                                     display_buffer_);
+      tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
+                                       ColorData(cur_color_red_,
+                                                 cur_color_green_,
+                                                 cur_color_blue_),
+                                       display_buffer_);
+    }
+
+    // let the previous point catch up with the current.
+    mouse_last_x_ = x;
+    mouse_last_y_ = y;
   }
-
-  // let the previous point catch up with the current.
-  mouse_last_x_ = x;
-  mouse_last_y_ = y;
 }
 
 void FlashPhotoApp::MouseMoved(int x, int y) {}
