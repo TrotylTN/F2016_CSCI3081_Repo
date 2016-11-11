@@ -24,6 +24,7 @@
 #include "include/f_threshold_filter.h"
 #include "include/f_saturation_filter.h"
 #include "include/f_rgb_filter.h"
+#include "include/f_quan_filter.h"
 
 /*******************************************************************************
  * Namespaces
@@ -99,7 +100,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyQuantize(void);
+  void ApplyQuantize(PixelBuffer* &display_buffer);
 
   /**
    * @brief Apply a special filter to the buffer
