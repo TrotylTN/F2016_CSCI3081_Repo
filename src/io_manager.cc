@@ -332,7 +332,7 @@ PixelBuffer *IOManager::LoadPNG(void) {
   if (png_image_begin_read_from_file(&image, file_name_.c_str()) != 0) {
     temp_buffer = new PixelBuffer(image.width,
                                   image.height,
-                                  ColorData(1.0, 1.0, 1.0, 0.0));
+                                  ColorData(0, 0, 0, 0));
 
     png_bytep buffer;
     image.format = PNG_FORMAT_RGBA;
@@ -404,7 +404,7 @@ PixelBuffer *IOManager::LoadJPEG(void) {
   width = cinfo.output_width;
   height = cinfo.output_height;
 
-  temp_buffer = new PixelBuffer(width, height, ColorData(0.0, 0.0, 0.0));
+  temp_buffer = new PixelBuffer(width, height, ColorData(0.0, 0.0, 0.0, 0.0));
 
   row_stride = cinfo.output_width * cinfo.output_components;
   buffer = (*cinfo.mem->alloc_sarray)

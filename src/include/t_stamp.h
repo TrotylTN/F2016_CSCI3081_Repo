@@ -38,8 +38,8 @@ class TStamp : public Tool {
   TStamp(void);
 
   /**
-   * @brief Overrides the super's function to include the luminance of the
-   * canvas_color in the calculation of the tool's intensity
+   * @brief
+   *
    *
    * @return The new ColorData for the pixel
    */
@@ -59,12 +59,10 @@ class TStamp : public Tool {
 
   std::string name(void) { return "Stamp"; }
 
+  void stamp_mask(PixelBuffer *stamp) { stamp_mask_ = stamp; }
+
 private:
   PixelBuffer *stamp_mask_;
-  /* not working */
-  void stamp_mask(PixelBuffer *stamp) { stamp_mask_ = stamp; }
-  PixelBuffer* stamp_mask(void) const { return stamp_mask_; }
-  /* not working */
 };
 
 }  /* namespace image_tools */

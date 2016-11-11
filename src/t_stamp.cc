@@ -26,7 +26,7 @@ namespace image_tools {
  * Constructors/Destructors
  ******************************************************************************/
 TStamp::TStamp(void) {
-    stamp_mask(nullptr);
+    stamp_mask(NULL);
 }
 
 /*******************************************************************************
@@ -46,7 +46,7 @@ void TStamp::ApplyToBuffer(
     int tool_y,
     ColorData tool_color,
     PixelBuffer* buffer) {
-  if (stamp_mask_ == nullptr) {
+  if (stamp_mask_ == NULL) {
     printf("Stamp not initialized.\n");
     return;
   }
@@ -59,8 +59,8 @@ void TStamp::ApplyToBuffer(
                              buffer->height()-1);
 
   #pragma omp for
-  for (int y = lower_bound; y <= upper_bound; y++) {
-    for (int x = left_bound; x <= right_bound; x++) {
+  for (int y = lower_bound; y < upper_bound; y++) {
+    for (int x = left_bound; x < right_bound; x++) {
       int mask_x = x - (tool_x - stamp_mask_->width()/2);
       int mask_y = y - (tool_y - stamp_mask_->height()/2);
 /*      float mask_value = mask_->value(mask_x, mask_y);
@@ -77,7 +77,8 @@ void TStamp::ApplyToBuffer(
           buffer->background_color());
 */
       ColorData c = stamp_mask_->get_pixel(mask_x, mask_y);
-      buffer->set_pixel(x, y, c);
+      if (!(c == buffer->background_color()))
+        buffer->set_pixel(x, y, c);
     }
   }
 }

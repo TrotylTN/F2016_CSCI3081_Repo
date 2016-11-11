@@ -60,6 +60,8 @@ class Tool {
    */
   virtual std::string name(void) = 0;
 
+  virtual void stamp_mask(PixelBuffer *stamp) {};
+
  protected:
   /**
    * @brief The definition of how the tool will operate on a single pixel on

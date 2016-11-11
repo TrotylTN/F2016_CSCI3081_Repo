@@ -59,6 +59,7 @@ class ColorData {
   friend ColorData operator* (const ColorData& a, float f);
   friend ColorData operator+ (const ColorData& a, const ColorData& b);
   friend ColorData operator- (const ColorData& a, const ColorData& b);
+  friend bool operator== (const ColorData& a, const ColorData& b);
 
  private:
   static inline float clamp_value(float input, float a, float b)
