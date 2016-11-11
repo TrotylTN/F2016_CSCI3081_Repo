@@ -2,7 +2,7 @@
  * Name            : io_manager.h
  * Project         : FlashPhoto
  * Module          : io_manager
- * Description     : Header for IoManager class
+ * Description     : Header for IOManager class
  * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
  * Creation Date   : Wed Sep 21 20:40:20 2016
  * Original Author : jharwell
@@ -15,7 +15,6 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "include/pixel_buffer.h"
 #include <string>
 #include "GL/glui.h"
 #include "include/ui_ctrl.h"
@@ -74,7 +73,7 @@ class IOManager {
    * @brief Load the selected image file to the canvas
    *
    */
-  void LoadImageToCanvas(PixelBuffer* &display_buffer);
+  PixelBuffer *LoadImageToCanvas();
 
   /**
    * @brief Load the selected image file to the stamp
