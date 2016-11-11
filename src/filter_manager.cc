@@ -122,9 +122,17 @@ void FilterManager::ApplyEdgeDetect(PixelBuffer* &display_buffer) {
   delete transform_matrix_;
 }
 
-void FilterManager::ApplyQuantize(void) {
+void FilterManager::ApplyQuantize(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Quantize with bins = "
             << quantize_bins_ << std::endl;
+  transform_matrix_ = new QuanFilter();
+  transform_matrix_->Resize(1, quantize_bins_);
+  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
+  delete transform_matrix_;
 }
 void FilterManager::ApplyThreshold(PixelBuffer* &display_buffer) {
   std::cout << "Apply Threshold has been clicked with amount ="
@@ -137,8 +145,14 @@ void FilterManager::ApplyThreshold(PixelBuffer* &display_buffer) {
   delete buffer_to_be_deleted_;
   delete transform_matrix_;
 }
-void FilterManager::ApplySpecial(void) {
+void FilterManager::ApplySpecial(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Special" << std::endl;
+  transform_matrix_ = new EmbossMatrix();
+  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
+  delete transform_matrix_;
 }
 
 void FilterManager::InitGlui(const GLUI *const glui,
@@ -259,7 +273,7 @@ void FilterManager::InitGlui(const GLUI *const glui,
 
     // YOUR SPECIAL FILTER PANEL
     GLUI_Panel *specialFilterPanel = new GLUI_Panel(filter_panel,
-                                                    "Special Filter");
+                                                    "Emboss");
     {
       new GLUI_Button(specialFilterPanel,
                       "Apply",

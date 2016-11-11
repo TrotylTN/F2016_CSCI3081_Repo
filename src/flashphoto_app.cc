@@ -298,10 +298,10 @@ void FlashPhotoApp::GluiControl(int control_id) {
       filter_manager_.ApplyChannel(display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
-      filter_manager_.ApplyQuantize();
+      filter_manager_.ApplyQuantize(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SPECIAL_FILTER:
-      filter_manager_.ApplySpecial();
+      filter_manager_.ApplySpecial(display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
