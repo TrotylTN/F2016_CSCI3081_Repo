@@ -25,7 +25,7 @@
 #include "include/f_saturation_filter.h"
 #include "include/f_rgb_filter.h"
 #include "include/f_quan_filter.h"
-
+#include "include/f_emboss_matrix.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -107,7 +107,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySpecial(void);
+  void ApplySpecial(PixelBuffer* &display_buffer);
 
   /**
    * @brief Initialize the elements of the GLUI interface required by the
