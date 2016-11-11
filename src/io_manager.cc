@@ -149,7 +149,6 @@ void IOManager::set_image_file(const std::string & file_name) {
 void IOManager::LoadImageToCanvas(PixelBuffer* &display_buffer) {
   std::cout << "Load Canvas has been clicked for file " <<
       file_name_ << std::endl;
-  /* load image */
   PixelBuffer* temp_buffer;
   if (has_suffix(file_name_, ".png")) {
     if ((temp_buffer = LoadPNG()) == NULL) {
@@ -181,34 +180,31 @@ PixelBuffer *IOManager::LoadImageToStamp(void) {
     }
   }
 
-  /* Shrink the PixelBuffer */
+  /* Resize the image to stamp's size */
   int stamp_limit = 80;
   int buffer_height = temp_buffer->height();
   int buffer_width = temp_buffer->width();
   double scale;
   if (buffer_height > buffer_width) {
     scale = (double) stamp_limit / buffer_height;
-    temp_buffer = resample(temp_buffer, stamp_limit, buffer_width * scale);
+    temp_buffer = Resample(temp_buffer, stamp_limit, buffer_width * scale);
   } else {
     scale = (double) stamp_limit / buffer_width;
-    temp_buffer = resample(temp_buffer, buffer_height * scale, stamp_limit);
+    temp_buffer = Resample(temp_buffer, buffer_height * scale, stamp_limit);
   }
 
   return temp_buffer;
 }
 
-void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer){
+void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
   std::cout << "Save Canvas been clicked for file " <<
       file_name_ << std::endl;
   if (has_suffix(file_name_, ".png") && display_buffer != NULL) {
-
     SavePNG(display_buffer);
-
   }
   else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")
             && display_buffer != NULL) {
-
-   SaveJEPG(display_buffer);
+   SaveJPEG(display_buffer);
   } else {
     exit(1);
   }
@@ -222,20 +218,20 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
 
   memset(&image, 0,(sizeof image));
 
+  /* Set image attributes */
   image.opaque  = NULL;
   image.version = PNG_IMAGE_VERSION;
   image.width   = display_buffer->width();
   image.height  = display_buffer->height();
   image.format  = PNG_FORMAT_RGBA;
 
+  /* allocate buffer memory */
   buffer =(png_byte*)malloc(PNG_IMAGE_SIZE(image));
 
+  /* set rgba values of every pixels into buffer */
   for(int y = 0; y < display_buffer->height(); y++) {
-
     for(int x = 0;x < display_buffer->width();x++ ) {
-
       collor = display_buffer->get_pixel(x,display_buffer->height()-y-1);
-
       buffer[y * 4 * image.width + x * 4 + 0] =
                     (png_byte) static_cast<unsigned int>(collor.red()*255);
       buffer[y * 4 * image.width + x * 4 + 1] =
@@ -244,27 +240,22 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
                     (png_byte) static_cast<unsigned int>(collor.blue()*255);
       buffer[y * 4 * image.width + x * 4 + 3] =
                     (png_byte) static_cast<unsigned int>(collor.alpha()*255);
-
     }
   }
 
+  /* write buffer to png file */
   if (png_image_write_to_file(&image, file_name().c_str(), 0/*convert_to_8bit*/,
               buffer, 0/*row_stride*/, NULL/*colormap*/) != 0) {
                /* The image has been written successfully. */
                std::cout << "Save Canvas been clicked for file " <<
                    file_name_ << std::endl;
            } else {
-
-              fprintf(stderr, "Save png file error.\n");
+             fprintf(stderr, "Save png file error.\n");
            }
   return;
-
-
-
-
 }
 
-void IOManager::SaveJEPG(PixelBuffer *display_buffer){
+void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
   struct jpeg_compress_struct cinfo;
   struct jpeg_error_mgr jerr;
 
@@ -274,6 +265,7 @@ void IOManager::SaveJEPG(PixelBuffer *display_buffer){
   int row_stride;
   ColorData color;
 
+  /* set error */
   cinfo.err = jpeg_std_error(&jerr);
   jpeg_create_compress(&cinfo);
 
@@ -283,6 +275,7 @@ void IOManager::SaveJEPG(PixelBuffer *display_buffer){
   }
   jpeg_stdio_dest(&cinfo,outfile);
 
+  /* set jpeg file attributes */
   cinfo.image_width  = display_buffer->width();
   cinfo.image_height = display_buffer->height();
   cinfo.input_components = 3;
@@ -293,34 +286,35 @@ void IOManager::SaveJEPG(PixelBuffer *display_buffer){
   jpeg_set_quality(&cinfo, 3,TRUE);
   jpeg_start_compress(&cinfo, TRUE);
 
+  /* initialize line-writer */
   row_stride = display_buffer->width()*3;
 
+  /* allocate buffer memory */
   buffer = (JSAMPLE *)malloc(row_stride * display_buffer->height());
 
+  /* write in rgb value of every pixel into buffer */
   for (int y = 0; y < display_buffer->height();y++) {
-
     for (int x = 0 ; x < display_buffer->width(); x++) {
       color = display_buffer->get_pixel(x,display_buffer->height() - y -1);
-
-      buffer[y * 3 * display_buffer->width() + x * 3 + 0] = (JSAMPLE) (color.red()*255);
-      buffer[y * 3 * display_buffer->width() + x * 3 + 1] = (JSAMPLE) (color.green()*255);
-      buffer[y * 3 * display_buffer->width() + x * 3 + 2] = (JSAMPLE) (color.blue()*255);
+      buffer[y * 3 * display_buffer->width() + x * 3 + 0] =
+                                                  (JSAMPLE) (color.red()*255);
+      buffer[y * 3 * display_buffer->width() + x * 3 + 1] =
+                                                  (JSAMPLE) (color.green()*255);
+      buffer[y * 3 * display_buffer->width() + x * 3 + 2] =
+                                                  (JSAMPLE) (color.blue()*255);
 
     }
   }
 
+  /* writing buffer into jpeg file */
    while (cinfo.next_scanline < cinfo.image_height) {
-
      row_pointer[0] = & buffer[cinfo.next_scanline * row_stride];
      (void) jpeg_write_scanlines(&cinfo, row_pointer, 1);
-
   }
 
   jpeg_finish_compress(&cinfo);
-
   fclose(outfile);
   jpeg_destroy_compress(&cinfo);
-
 }
 
 PixelBuffer *IOManager::LoadPNG(void) {
@@ -329,6 +323,7 @@ PixelBuffer *IOManager::LoadPNG(void) {
   memset(&image, 0, (sizeof image));
   image.version = PNG_IMAGE_VERSION;
 
+  /* read all files attributes */
   if (png_image_begin_read_from_file(&image, file_name_.c_str()) != 0) {
     temp_buffer = new PixelBuffer(image.width,
                                   image.height,
@@ -337,8 +332,10 @@ PixelBuffer *IOManager::LoadPNG(void) {
     png_bytep buffer;
     image.format = PNG_FORMAT_RGBA;
 
+    /* malloc buffer memory */
     buffer = (png_byte*) malloc(PNG_IMAGE_SIZE(image));
 
+    /* read whole image to temporary pixel buffer */
     if (temp_buffer != NULL &&
         png_image_finish_read(&image, NULL, buffer, 0, NULL) != 0) {
       const float BASE_COLOR = 255.0;
@@ -395,6 +392,7 @@ PixelBuffer *IOManager::LoadJPEG(void) {
 
   cinfo.err = jpeg_std_error(&jerr);
 
+  /* decompress jpeg file */
   jpeg_create_decompress(&cinfo);
   jpeg_stdio_src(&cinfo, fp);
 
@@ -406,10 +404,13 @@ PixelBuffer *IOManager::LoadJPEG(void) {
 
   temp_buffer = new PixelBuffer(width, height, ColorData(0.0, 0.0, 0.0, 0.0));
 
+  /* set line reader */
   row_stride = cinfo.output_width * cinfo.output_components;
+  /* allocate buffer memory */
   buffer = (*cinfo.mem->alloc_sarray)
 		((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
+  /* read whole image to temporary pixel buffer */
   while (cinfo.output_scanline < cinfo.output_height) {
     (void) jpeg_read_scanlines(&cinfo, buffer, 1);
     for (int x = 0; x < width; x++) {
@@ -435,19 +436,23 @@ PixelBuffer *IOManager::LoadJPEG(void) {
   return temp_buffer;
 }
 
-PixelBuffer *IOManager::resample(PixelBuffer *display_buffer, int new_height, int new_width) {
+PixelBuffer *IOManager::Resample(PixelBuffer *display_buffer,
+                                 int new_height, int new_width) {
+  /* Initialize variables */
   int old_height = display_buffer->height();
   int old_width = display_buffer->width();
   double h_scale = (double) new_height / (double) old_height;
   double w_scale = (double) new_width / (double) old_width;
-  PixelBuffer *stamp_buffer = new PixelBuffer(new_width, new_height, display_buffer->background_color());
+  PixelBuffer *stamp_buffer =
+    new PixelBuffer(new_width, new_height, display_buffer->background_color());
 
-  /* Nearest Neighbor */
+  /* Nearest Neighbor algorithm */
   for (int y = 0; y < new_height; y++) {
     int nearest_match_y = y / h_scale;
     for (int x = 0; x < new_width; x++) {
       int nearest_match_x = x / h_scale;
-      ColorData temp_color = display_buffer->get_pixel(nearest_match_x, nearest_match_y);
+      ColorData temp_color = display_buffer->get_pixel(nearest_match_x,
+                                                       nearest_match_y);
       stamp_buffer->set_pixel(x, y, temp_color);
     }
   }

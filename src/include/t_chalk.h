@@ -30,7 +30,7 @@ namespace image_tools {
  * @brief This tool simulates the usage of Chalk.
  * It has an linear mask with a radius of 5.0 (diameter of 11), an opacity of
  * 1.0 (completely opaque).  color_blend_math() is overriden to randomly change
- * the tool's intensity at a pixel.
+ * the tool's intensity at a pixel. It is able to drag.
  */
 class TChalk : public Tool {
  public:

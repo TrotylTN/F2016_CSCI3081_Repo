@@ -88,15 +88,39 @@ class IOManager {
    */
   void SaveCanvasToFile(PixelBuffer *display_buffer);
 
-  void SaveJEPG(PixelBuffer *display_buffer);
+  /**
+   * @brief Save received image to a jpeg file
+   *
+   */
+  void SaveJPEG(PixelBuffer *display_buffer);
 
+  /**
+   * @brief Save received image to a png file
+   *
+   */
   void SavePNG(PixelBuffer *display_buffer);
 
+  /**
+   * @brief Read out the pixels value of selected png file
+   *
+   * @return PixelBuffer* if selected png file is valid, NULL otherwise.
+   */
   PixelBuffer *LoadPNG(void);
 
+  /**
+   * @brief Read out the pixels value of selected jpeg file
+   *
+   * @return PixelBuffer* if selected jpeg file is valid, NULL otherwise.
+   */
   PixelBuffer *LoadJPEG(void);
 
-  PixelBuffer *resample(PixelBuffer *display_buffer, int new_height, int new_width);
+  /**
+   * @brief Resize the size of the image to stamp's size
+   *
+   * @return modified PixelBuffer*.
+   */
+  PixelBuffer *Resample(PixelBuffer *display_buffer,
+                        int new_height, int new_width);
 
  private:
   /* Copy/move assignment/construction disallowed */

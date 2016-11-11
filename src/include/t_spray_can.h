@@ -28,7 +28,9 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
 /**
- * @brief SETH FILL THIS IN
+ * @brief This tool simulates the usage of a Spray Can.
+ * It has an linear mask with a radius of 30.0 (diameter of 61), an opacity of
+ * 0.2 (minor opaque). It is able to drag.
  */
 class TSprayCan : public Tool {
  public:

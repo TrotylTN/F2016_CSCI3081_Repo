@@ -3,9 +3,9 @@
  * Project         : image_tools
  * Module          : Tool
  * Description     : Header file for Stamp class
- * Copyright       : 2016 Group A1. All rights reserved.
+ * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : 11/09/16
- * Original Author : 2016 Group A1
+ * Original Author : Yu Xian Ang
  *
  ******************************************************************************/
 
@@ -29,9 +29,8 @@ namespace image_tools {
  ******************************************************************************/
 /**
  * @brief This tool simulates the usage of a Stamp.
- * It has a oval mask with a radius of 7.0 (diameter of 15), an opacity of 0.4
- * (semi-transparent), an angle of 90 degrees counter-clockwise from the x-axis,
- * and an elongation ratio of 0.3
+ * It has no mask but it has a pixel buffer. It overwrites the ApplyToBuffer to
+ * set the canvas pixel to its pixel. It is unable to drag.
  */
 class TStamp : public Tool {
  public:
@@ -39,7 +38,6 @@ class TStamp : public Tool {
 
   /**
    * @brief
-   *
    *
    * @return The new ColorData for the pixel
    */
@@ -50,7 +48,6 @@ class TStamp : public Tool {
       const ColorData& current_color,
       const ColorData& background_color);
 
-  // implemented wrongly
   virtual void ApplyToBuffer(
       int tool_x,
       int tool_y,

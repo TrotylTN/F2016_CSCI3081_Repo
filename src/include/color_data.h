@@ -52,7 +52,7 @@ class ColorData {
    */
   inline ColorData clamped_color(void) const;
 
-  /*
+  /**
    * Arithmetic operators (friends so that non-member functions can access
    * private variables)
    */

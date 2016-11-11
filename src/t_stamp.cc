@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Name            : t_highlighter.cc
- * Project         : BrushWork
+ * Name            : t_stamp.cc
+ * Project         : image_tools
  * Module          : Tool
- * Description     : Implementation of highlighter tool class
- * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
- * Creation Date   : 2/15/15
- * Original Author : Seth Johnson
+ * Description     : Header file for Stamp class
+ * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
+ * Creation Date   : 11/09/16
+ * Original Author : Yu Xian Ang
  *
  ******************************************************************************/
 
@@ -41,7 +41,6 @@ ColorData TStamp::color_blend_math(
   // TBC
 }
 
-/* Implemented wrongly */
 void TStamp::ApplyToBuffer(
     int tool_x,
     int tool_y,

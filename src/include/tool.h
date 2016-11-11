@@ -62,6 +62,10 @@ class Tool {
 
   virtual void stamp_mask(PixelBuffer *stamp) {};
 
+  /**
+   * @brief Get the drag status associated with the tool
+   * @return The drag status
+   */
   bool drag_status(void) { return drag_status_; }
 
  protected:
@@ -91,6 +95,9 @@ class Tool {
    */
   void mask(Mask* mask) { mask_ = mask; }
 
+  /**
+   * Set the drag status associated with the tool
+   */
   void drag_status(bool status) { drag_status_ = status; }
 
  private:
