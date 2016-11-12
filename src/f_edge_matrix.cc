@@ -13,7 +13,6 @@
 * Includes
 ******************************************************************************/
 #include "include/f_edge_matrix.h"
-#include <cstdio>
 
 using namespace std;
 /*******************************************************************************
@@ -49,11 +48,6 @@ void EdgeMatrix::Resize(float incoming_size, float detect_type) {
       new_matrix[i][new_matrix_size - 1] = -value_in_cell;
     }
     new_matrix[n][n] = 1 + 8 * value_in_cell;
-  }
-  for (int i = 0; i < new_matrix_size; i++) {
-    for (int j = 0; j < new_matrix_size; j++)
-      printf("%f ", new_matrix[i][j]);
-    printf("\n");
   }
 
   FilterMatrix::MatrixSize(new_matrix_size);
