@@ -30,7 +30,7 @@ namespace image_tools {
  * @brief This tool simulates the usage of a Highlighter.
  * It has a oval mask with a radius of 7.0 (diameter of 15), an opacity of 0.4
  * (semi-transparent), an angle of 90 degrees counter-clockwise from the x-axis,
- * and an elongation ratio of 0.3
+ * and an elongation ratio of 0.3. It is able to drag.
  */
 class THighlighter : public Tool {
  public:

@@ -30,11 +30,14 @@ namespace image_tools {
 /**
  * @brief This tool simulates the usage of a Pen.
  * It has a constant mask with a radius of 1.0 (diameter of 3) and an opacity
- * of 1.0
+ * of 1.0, It is able to drag.
  */
 class TPen : public Tool {
  public:
-  TPen(void) { mask(new MConstant(1.0, 1.0)); }
+  TPen(void) {
+    mask(new MConstant(1.0, 1.0));
+    drag_status(true);
+  }
 
   std::string name(void) { return "Pen"; }
 };

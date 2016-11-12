@@ -1,11 +1,11 @@
 /*******************************************************************************
- * Name            : t_highlighter.cc
- * Project         : BrushWork
+ * Name            : t_stamp.cc
+ * Project         : image_tools
  * Module          : Tool
- * Description     : Implementation of highlighter tool class
- * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
- * Creation Date   : 2/15/15
- * Original Author : Seth Johnson
+ * Description     : Header file for Stamp class
+ * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
+ * Creation Date   : 11/09/16
+ * Original Author : Yu Xian Ang
  *
  ******************************************************************************/
 
@@ -26,7 +26,8 @@ namespace image_tools {
  * Constructors/Destructors
  ******************************************************************************/
 TStamp::TStamp(void) {
-    stamp_mask(nullptr);
+    stamp_mask(NULL);
+    drag_status(false);
 }
 
 /*******************************************************************************
@@ -40,13 +41,12 @@ ColorData TStamp::color_blend_math(
   // TBC
 }
 
-/* Implemented wrongly */
 void TStamp::ApplyToBuffer(
     int tool_x,
     int tool_y,
     ColorData tool_color,
     PixelBuffer* buffer) {
-  if (stamp_mask_ == nullptr) {
+  if (stamp_mask_ == NULL) {
     printf("Stamp not initialized.\n");
     return;
   }
@@ -59,8 +59,8 @@ void TStamp::ApplyToBuffer(
                              buffer->height()-1);
 
   #pragma omp for
-  for (int y = lower_bound; y <= upper_bound; y++) {
-    for (int x = left_bound; x <= right_bound; x++) {
+  for (int y = lower_bound; y < upper_bound; y++) {
+    for (int x = left_bound; x < right_bound; x++) {
       int mask_x = x - (tool_x - stamp_mask_->width()/2);
       int mask_y = y - (tool_y - stamp_mask_->height()/2);
 /*      float mask_value = mask_->value(mask_x, mask_y);
@@ -77,7 +77,9 @@ void TStamp::ApplyToBuffer(
           buffer->background_color());
 */
       ColorData c = stamp_mask_->get_pixel(mask_x, mask_y);
-      buffer->set_pixel(x, y, c);
+      if (!(c == buffer->background_color() ||
+            c == stamp_mask_->background_color()))
+        buffer->set_pixel(x, y, c);
     }
   }
 }

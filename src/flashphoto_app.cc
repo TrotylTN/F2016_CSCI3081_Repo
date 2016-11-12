@@ -98,29 +98,31 @@ void FlashPhotoApp::MouseDragged(int x, int y) {
 
   // Get the differences between the events
   // in each direction
-  int delta_x = x-mouse_last_x_;
-  int delta_y = y-mouse_last_y_;
+  if (tools_[cur_tool_]->drag_status()) {
+    int delta_x = x-mouse_last_x_;
+    int delta_y = y-mouse_last_y_;
 
-  // Calculate the min number of steps necesary to fill
-  // completely between the two event locations.
-  float pixels_between = fmax(abs(delta_x), abs(delta_y));
-  int step_size = 1;
+    // Calculate the min number of steps necesary to fill
+    // completely between the two event locations.
+    float pixels_between = fmax(abs(delta_x), abs(delta_y));
+    int step_size = 1;
 
-  // Iterate between the event locations
-  for (int i = 0; i < pixels_between; i+=step_size) {
-    int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
-    int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
+    // Iterate between the event locations
+    for (int i = 0; i < pixels_between; i+=step_size) {
+      int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
+      int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
 
-    tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
-                                     ColorData(cur_color_red_,
-                                               cur_color_green_,
-                                               cur_color_blue_),
-                                     display_buffer_);
+      tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
+                                       ColorData(cur_color_red_,
+                                                 cur_color_green_,
+                                                 cur_color_blue_),
+                                       display_buffer_);
+    }
+
+    // let the previous point catch up with the current.
+    mouse_last_x_ = x;
+    mouse_last_y_ = y;
   }
-
-  // let the previous point catch up with the current.
-  mouse_last_x_ = x;
-  mouse_last_y_ = y;
 }
 
 void FlashPhotoApp::MouseMoved(int x, int y) {}
@@ -305,13 +307,15 @@ void FlashPhotoApp::GluiControl(int control_id) {
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
       break;
     case UICtrl::UI_LOAD_CANVAS_BUTTON:
-      io_manager_.LoadImageToCanvas(display_buffer_);
-      SetWindowDimensions(display_buffer_->width(), display_buffer_->height());
+      PixelBuffer* temp_buffer;
+      if ((temp_buffer = io_manager_.LoadImageToCanvas()) != NULL) {
+        display_buffer_ = temp_buffer;
+        SetWindowDimensions(display_buffer_->width(),
+                            display_buffer_->height());
+      }
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
-      /* Testing function */
-      display_buffer_ = io_manager_.LoadImageToStamp();
-      SetWindowDimensions(display_buffer_->width(), display_buffer_->height());
+      tools_[ToolFactory::TOOL_STAMP]->stamp_mask(io_manager_.LoadImageToStamp());
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       io_manager_.SaveCanvasToFile(this->display_buffer_);
