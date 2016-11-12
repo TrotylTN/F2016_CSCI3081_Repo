@@ -42,7 +42,7 @@ namespace image_tools {
 class FilterManager {
  public:
   FilterManager();
-  ~FilterManager() {}
+  ~FilterManager();
 
   /**
    * @brief Apply a blur filter to the buffer, blurring sharply defined edges
@@ -132,7 +132,7 @@ class FilterManager {
   int quantize_bins_;
 
   /** Pointer to pixel data for the temp cache */
-  FilterMatrix* transform_matrix_;
+  std::vector<FilterMatrix*> filters_;
   PixelBuffer* buffer_to_be_deleted_;
   PixelBuffer* temp_buffer_;
 };

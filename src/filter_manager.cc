@@ -36,127 +36,119 @@ FilterManager::FilterManager(void) :
     motion_blur_direction_(UICtrl::UI_DIR_E_W),
     quantize_bins_(0) {}
 
+FilterManager::~FilterManager() {
+  for (int i = 0; i < 9; i++) {
+    if (filters_[i])
+      delete filters_[i];
+  }
+}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-void FilterManager::ApplyChannel(PixelBuffer* &display_buffer) {
-  std::cout << "Apply has been clicked for Channels with red = "
-            << channel_color_red_
-            << ", green = " << channel_color_green_
-            << ", blue = " << channel_color_blue_ << std::endl;
-  transform_matrix_ = new RGBFilter();
-  transform_matrix_->Resize(1,
-                            channel_color_red_,
-                            channel_color_green_,
-                            channel_color_blue_);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
-
-  buffer_to_be_deleted_ = display_buffer;
-  display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
-  delete transform_matrix_;
-}
-
-void FilterManager::ApplySaturate(PixelBuffer* &display_buffer) {
-  std::cout << "Apply has been clicked for Saturate with amount = "
-            << saturation_amount_ << std::endl;
-  transform_matrix_ = new SaturationFilter();
-  transform_matrix_->Resize(1, saturation_amount_);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
-
-  buffer_to_be_deleted_ = display_buffer;
-  display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
-  delete transform_matrix_;
-}
 
 void FilterManager::ApplyBlur(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Blur with amount = "
             << blur_amount_ << std::endl;
-  transform_matrix_ = new BlurMatrix();
-  transform_matrix_->Resize(blur_amount_, -1);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
-
+  filters_[0]->Resize(blur_amount_, -1);
+  temp_buffer_ = filters_[0]->ApplyMatrix(display_buffer);
   buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
   delete buffer_to_be_deleted_;
-  delete transform_matrix_;
-}
-
-void FilterManager::ApplySharpen(PixelBuffer* &display_buffer) {
-  std::cout << "Apply has been clicked for Sharpen with amount = "
-            << sharpen_amount_ << std::endl;
-  transform_matrix_ = new EdgeMatrix();
-  transform_matrix_->Resize(3, sharpen_amount_);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
-
-  buffer_to_be_deleted_ = display_buffer;
-  display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
-  delete transform_matrix_;
-
 }
 
 void FilterManager::ApplyMotionBlur(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Sharpen with amount = "
             << motion_blur_amount_
             << " and direction " << motion_blur_direction_ << std::endl;
-  transform_matrix_ = new BlurMatrix();
-  transform_matrix_->Resize(motion_blur_amount_, motion_blur_direction_);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
-
+  filters_[1]->Resize(motion_blur_amount_, motion_blur_direction_);
+  temp_buffer_ = filters_[1]->ApplyMatrix(display_buffer);
   buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
   delete buffer_to_be_deleted_;
-  delete transform_matrix_;
+}
+
+void FilterManager::ApplySharpen(PixelBuffer* &display_buffer) {
+  std::cout << "Apply has been clicked for Sharpen with amount = "
+            << sharpen_amount_ << std::endl;
+  filters_[2]->Resize(3, sharpen_amount_);
+  temp_buffer_ = filters_[2]->ApplyMatrix(display_buffer);
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyEdgeDetect(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Edge Detect" << std::endl;
-  transform_matrix_ = new EdgeMatrix();
-  transform_matrix_->Resize(3, -1);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+  temp_buffer_ = filters_[3]->ApplyMatrix(display_buffer);
   buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
   delete buffer_to_be_deleted_;
-  delete transform_matrix_;
+}
+
+void FilterManager::ApplyThreshold(PixelBuffer* &display_buffer) {
+  std::cout << "Apply Threshold has been clicked with amount ="
+            << threshold_amount_ << std::endl;
+  filters_[4]->Resize(1, threshold_amount_);
+  temp_buffer_ = filters_[4]->ApplyMatrix(display_buffer);
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
+}
+
+void FilterManager::ApplySaturate(PixelBuffer* &display_buffer) {
+  std::cout << "Apply has been clicked for Saturate with amount = "
+            << saturation_amount_ << std::endl;
+  filters_[5]->Resize(1, saturation_amount_);
+  temp_buffer_ = filters_[5]->ApplyMatrix(display_buffer);
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
+}
+
+void FilterManager::ApplyChannel(PixelBuffer* &display_buffer) {
+  std::cout << "Apply has been clicked for Channels with red = "
+            << channel_color_red_
+            << ", green = " << channel_color_green_
+            << ", blue = " << channel_color_blue_ << std::endl;
+  filters_[6]->Resize(1,
+                      channel_color_red_,
+                      channel_color_green_,
+                      channel_color_blue_);
+  temp_buffer_ = filters_[6]->ApplyMatrix(display_buffer);
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyQuantize(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Quantize with bins = "
             << quantize_bins_ << std::endl;
-  transform_matrix_ = new QuanFilter();
-  transform_matrix_->Resize(1, quantize_bins_);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+  filters_[7]->Resize(1, quantize_bins_);
+  temp_buffer_ = filters_[7]->ApplyMatrix(display_buffer);
+  buffer_to_be_deleted_ = display_buffer;
+  display_buffer = temp_buffer_;
+  delete buffer_to_be_deleted_;
+}
 
-  buffer_to_be_deleted_ = display_buffer;
-  display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
-  delete transform_matrix_;
-}
-void FilterManager::ApplyThreshold(PixelBuffer* &display_buffer) {
-  std::cout << "Apply Threshold has been clicked with amount ="
-            << threshold_amount_ << std::endl;
-  transform_matrix_ = new ThresholdFilter();
-  transform_matrix_->Resize(1, threshold_amount_);
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
-  display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
-  delete transform_matrix_;
-}
 void FilterManager::ApplySpecial(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Special" << std::endl;
-  transform_matrix_ = new EmbossMatrix();
-  temp_buffer_ = transform_matrix_->ApplyMatrix(display_buffer);
+  temp_buffer_ = filters_[8]->ApplyMatrix(display_buffer);
   buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
   delete buffer_to_be_deleted_;
-  delete transform_matrix_;
 }
 
 void FilterManager::InitGlui(const GLUI *const glui,
                              void (*s_gluicallback)(int)) {
+  filters_.push_back(new BlurMatrix());
+  filters_.push_back(new BlurMatrix());
+  filters_.push_back(new EdgeMatrix());
+  filters_.push_back(new EdgeMatrix());
+  filters_.push_back(new ThresholdFilter());
+  filters_.push_back(new SaturationFilter());
+  filters_.push_back(new RGBFilter());
+  filters_.push_back(new QuanFilter());
+  filters_.push_back(new EmbossMatrix());
   new GLUI_Column(const_cast<GLUI*>(glui), true);
   GLUI_Panel *filter_panel = new GLUI_Panel(const_cast<GLUI*>(glui), "Filters");
   {
