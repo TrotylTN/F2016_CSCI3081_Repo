@@ -177,10 +177,10 @@ PixelBuffer *IOManager::LoadImageToStamp(void) {
   int buffer_width = temp_buffer->width();
   double scale;
   if (buffer_height > buffer_width) {
-    scale = double{stamp_limit} / buffer_height;
+    scale = static_cast<double>(stamp_limit) / buffer_height;
     temp_buffer = Resample(temp_buffer, stamp_limit, buffer_width * scale);
   } else {
-    scale = double{stamp_limit} / buffer_width;
+    scale = static_cast<double>(stamp_limit) / buffer_width;
     temp_buffer = Resample(temp_buffer, buffer_height * scale, stamp_limit);
   }
 
@@ -431,8 +431,8 @@ PixelBuffer *IOManager::Resample(PixelBuffer *display_buffer,
   /* Initialize variables */
   int old_height = display_buffer->height();
   int old_width = display_buffer->width();
-  double h_scale = double{new_height} / old_height;
-  double w_scale = double{new_width} / old_width;
+  double h_scale = static_cast<double>(new_height) / old_height;
+  double w_scale = static_cast<double>(new_width) / old_width;
   PixelBuffer *stamp_buffer =
     new PixelBuffer(new_width, new_height, display_buffer->background_color());
 
