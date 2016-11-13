@@ -31,9 +31,10 @@ namespace image_tools {
  */
 class EdgeMatrix : public FilterMatrix {
  public:
-   EdgeMatrix() : FilterMatrix::FilterMatrix() {
-     Resize(3, -1);
-   }
+   EdgeMatrix() : FilterMatrix::FilterMatrix(),
+                  detect_type_(-1) {
+                    Resize(3, -1);
+                  }
    ~EdgeMatrix() {}
   /**
    * @brief apply a new size for a filter matrix
