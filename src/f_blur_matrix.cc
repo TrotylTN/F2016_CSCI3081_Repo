@@ -13,7 +13,6 @@
 * Includes
 ******************************************************************************/
 #include "include/f_blur_matrix.h"
-#include <cstdio>
 
 using namespace std;
 /*******************************************************************************
@@ -33,7 +32,6 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
   if (blur_type == -1) {
     float tot_cell = 2 * n * n + 2 * n + 1;
     float value_in_cell = 1.0 / tot_cell;
-    printf("$$$%f\n", value_in_cell);
     for (int i = 0; i < new_matrix_size; i++) {
       for (int j = 0; j < new_matrix_size; j++) {
         int dis = fabs(i - n) + fabs(j - n);
@@ -61,7 +59,6 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
     ColorData temp_color;
     float tot_cell = MatrixSize();
     float value_in_cell = 1.0 / tot_cell;
-    printf("$$$%f\n", value_in_cell);
     int init_x, init_y;
     int delta_x, delta_y;
     if (this->blur_type_ == 0) {
