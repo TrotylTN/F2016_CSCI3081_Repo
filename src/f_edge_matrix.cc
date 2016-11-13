@@ -30,7 +30,7 @@ void EdgeMatrix::Resize(float incoming_size, float detect_type) {
   float value_in_cell;
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
-  if (detect_type == -1) {
+  if (this->detect_type_ == -1) {
     for (int i = 0; i < new_matrix_size; i++) {
       new_matrix[0][i] = -1;
       new_matrix[i][0] = -1;
