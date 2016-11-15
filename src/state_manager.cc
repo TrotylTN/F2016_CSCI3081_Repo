@@ -26,7 +26,12 @@ namespace image_tools {
  ******************************************************************************/
 StateManager::StateManager(void) :
     undo_btn_(nullptr),
-    redo_btn_(nullptr) {}
+    redo_btn_(nullptr),
+    cached_buffer_({}),
+    size_limit_(20),
+    state_ptr_(-1) {
+      cached_buffer_.clear();
+    }
 
 /*******************************************************************************
  * Member Functions
@@ -42,12 +47,50 @@ void StateManager::InitGlui(const GLUI *const glui,
   redo_toggle(false);
 }
 
-void StateManager::UndoOperation(void) {
-  std::cout << "Undoing..." << std::endl;
+void StateManager::UndoOperation(PixelBuffer* &display_buffer) {
+  state_ptr_--;
+  std::cout << "Undoing... state_ptr: " << state_ptr_ << std::endl;
+  display_buffer = this->cached_buffer_[state_ptr_];
+  if (state_ptr_ < this->cached_buffer_.size() - 1)
+    redo_toggle(true);
+  else
+    redo_toggle(false);
+  if (state_ptr_ > 0)
+    undo_toggle(true);
+  else
+    undo_toggle(false);
 }
 
-void StateManager::RedoOperation(void) {
-  std::cout << "Redoing..." << std::endl;
+void StateManager::RedoOperation(PixelBuffer* &display_buffer) {
+  state_ptr_++;
+  std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
+  display_buffer = this->cached_buffer_[state_ptr_];
+  if (state_ptr_ < this->cached_buffer_.size() - 1)
+    redo_toggle(true);
+  else
+    redo_toggle(false);
+  if (state_ptr_ > 0)
+    undo_toggle(true);
+  else
+    undo_toggle(false);
+}
+
+void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
+  for (int i = this->cached_buffer_.size() - 1; i > state_ptr_; i--) {
+    delete this->cached_buffer_[i];
+    this->cached_buffer_.erase(this->cached_buffer_.begin() + i);
+  }
+  this->cached_buffer_.push_back(new_buffer);
+  state_ptr_++;
+  std::cout << "Current state_ptr: " << state_ptr_ << std::endl;
+  if (state_ptr_ < this->cached_buffer_.size() - 1)
+    redo_toggle(true);
+  else
+    redo_toggle(false);
+  if (state_ptr_ > 0)
+    undo_toggle(true);
+  else
+    undo_toggle(false);
 }
 
 }  /* namespace image_tools */

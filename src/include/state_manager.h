@@ -16,8 +16,10 @@
  * Includes
  ******************************************************************************/
 #include <string>
+#include <vector>
 #include "GL/glui.h"
 #include "include/ui_ctrl.h"
+#include "include/pixel_buffer.h"
 
 /*******************************************************************************
  * Namespaces
@@ -42,7 +44,13 @@ namespace image_tools {
 class StateManager {
  public:
   StateManager();
-  ~StateManager() {}
+  ~StateManager() {
+    for (int i = 0; i < cached_buffer_.size(); i++) {
+      if (cached_buffer_[i])
+        delete cached_buffer_[i];
+    }
+    cached_buffer_.clear();
+  }
 
   void InitGlui(const GLUI *const glui,
                 void (*s_gluicallback)(int));
@@ -52,16 +60,21 @@ class StateManager {
    * can still be re-done later)
    *
    */
-  void UndoOperation(void);
+  void UndoOperation(PixelBuffer* &display_buffer);
 
   /**
    * @brief Re-does the last un-done operation applied to the canvas (not
    * permanently; it can be undone again later)
    *
    */
-  void RedoOperation(void);
+  void RedoOperation(PixelBuffer* &display_buffer);
+
+  void InsertNewBuffer(PixelBuffer* new_buffer);
 
  private:
+  std::vector <PixelBuffer*> cached_buffer_;
+  int size_limit_;
+  int state_ptr_;
   void redo_toggle(bool select) {
     UICtrl::button_toggle(redo_btn_, select);
   }
