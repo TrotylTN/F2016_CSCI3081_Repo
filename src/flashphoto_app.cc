@@ -340,12 +340,12 @@ void FlashPhotoApp::GluiControl(int control_id) {
       io_manager_.set_image_file(io_manager_.file_name());
       break;
     case UICtrl::UI_UNDO:
-      state_manager_.UndoOperation(display_buffer_);
+      state_manager_.UndoOperation(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                           display_buffer_->height());
       break;
     case UICtrl::UI_REDO:
-      state_manager_.RedoOperation(display_buffer_);
+      state_manager_.RedoOperation(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                           display_buffer_->height());
       break;
