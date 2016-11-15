@@ -29,7 +29,9 @@ StateManager::StateManager(void) :
     redo_btn_(nullptr),
     cached_buffer_({}),
     size_limit_(20),
-    state_ptr_(0) {}
+    state_ptr_(-1) {
+      cached_buffer_.clear();
+    }
 
 /*******************************************************************************
  * Member Functions
@@ -46,21 +48,31 @@ void StateManager::InitGlui(const GLUI *const glui,
 }
 
 void StateManager::UndoOperation(PixelBuffer* &display_buffer) {
-  std::cout << "Undoing..." << std::endl;
   state_ptr_--;
+  std::cout << "Undoing... state_ptr: " << state_ptr_ << std::endl;
   display_buffer = this->cached_buffer_[state_ptr_];
-  if (state_ptr_ == 0) {
+  if (state_ptr_ < this->cached_buffer_.size() - 1)
+    redo_toggle(true);
+  else
+    redo_toggle(false);
+  if (state_ptr_ > 0)
     undo_toggle(true);
-  }
+  else
+    undo_toggle(false);
 }
 
 void StateManager::RedoOperation(PixelBuffer* &display_buffer) {
-  std::cout << "Redoing..." << std::endl;
   state_ptr_++;
+  std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
   display_buffer = this->cached_buffer_[state_ptr_];
-  if (state_ptr_ == this->cached_buffer_.size() - 1) {
+  if (state_ptr_ < this->cached_buffer_.size() - 1)
     redo_toggle(true);
-  }
+  else
+    redo_toggle(false);
+  if (state_ptr_ > 0)
+    undo_toggle(true);
+  else
+    undo_toggle(false);
 }
 
 void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
@@ -70,8 +82,15 @@ void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
   }
   this->cached_buffer_.push_back(new_buffer);
   state_ptr_++;
-  redo_toggle(false);
-  redo_toggle(true);
+  std::cout << "Current state_ptr: " << state_ptr_ << std::endl;
+  if (state_ptr_ < this->cached_buffer_.size() - 1)
+    redo_toggle(true);
+  else
+    redo_toggle(false);
+  if (state_ptr_ > 0)
+    undo_toggle(true);
+  else
+    undo_toggle(false);
 }
 
 }  /* namespace image_tools */

@@ -146,8 +146,7 @@ void FlashPhotoApp::LeftMouseUp(int x, int y) {
 
 void FlashPhotoApp::InitializeBuffers(ColorData background_color,
                                       int width, int height) {
-  display_buffer_ = new PixelBuffer(width, height, background_color);
-  state_manager_.InsertNewBuffer(display_buffer_);
+  display_buffer_ = new PixelBuffer(width, height, background_color);\
 }
 
 void FlashPhotoApp::InitGlui(void) {
@@ -223,6 +222,7 @@ void FlashPhotoApp::InitGlui(void) {
 
   /* Initialize image I/O */
   io_manager_.InitGlui(glui(), s_gluicallback);
+  state_manager_.InsertNewBuffer(display_buffer_);
   return;
 }
 
@@ -341,9 +341,13 @@ void FlashPhotoApp::GluiControl(int control_id) {
       break;
     case UICtrl::UI_UNDO:
       state_manager_.UndoOperation(display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
       break;
     case UICtrl::UI_REDO:
       state_manager_.RedoOperation(display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
       break;
     default:
       break;

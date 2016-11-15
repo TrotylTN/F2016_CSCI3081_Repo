@@ -51,9 +51,7 @@ void FilterManager::ApplyBlur(PixelBuffer* &display_buffer) {
             << blur_amount_ << std::endl;
   filters_[0]->Resize(blur_amount_, -1);
   temp_buffer_ = filters_[0]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyMotionBlur(PixelBuffer* &display_buffer) {
@@ -62,9 +60,7 @@ void FilterManager::ApplyMotionBlur(PixelBuffer* &display_buffer) {
             << " and direction " << motion_blur_direction_ << std::endl;
   filters_[1]->Resize(motion_blur_amount_, motion_blur_direction_);
   temp_buffer_ = filters_[1]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplySharpen(PixelBuffer* &display_buffer) {
@@ -72,17 +68,13 @@ void FilterManager::ApplySharpen(PixelBuffer* &display_buffer) {
             << sharpen_amount_ << std::endl;
   filters_[2]->Resize(3, sharpen_amount_);
   temp_buffer_ = filters_[2]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyEdgeDetect(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Edge Detect" << std::endl;
   temp_buffer_ = filters_[3]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyThreshold(PixelBuffer* &display_buffer) {
@@ -90,9 +82,7 @@ void FilterManager::ApplyThreshold(PixelBuffer* &display_buffer) {
             << threshold_amount_ << std::endl;
   filters_[4]->Resize(1, threshold_amount_);
   temp_buffer_ = filters_[4]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplySaturate(PixelBuffer* &display_buffer) {
@@ -100,9 +90,7 @@ void FilterManager::ApplySaturate(PixelBuffer* &display_buffer) {
             << saturation_amount_ << std::endl;
   filters_[5]->Resize(1, saturation_amount_);
   temp_buffer_ = filters_[5]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyChannel(PixelBuffer* &display_buffer) {
@@ -115,9 +103,7 @@ void FilterManager::ApplyChannel(PixelBuffer* &display_buffer) {
                       channel_color_green_,
                       channel_color_blue_);
   temp_buffer_ = filters_[6]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplyQuantize(PixelBuffer* &display_buffer) {
@@ -125,17 +111,13 @@ void FilterManager::ApplyQuantize(PixelBuffer* &display_buffer) {
             << quantize_bins_ << std::endl;
   filters_[7]->Resize(1, quantize_bins_);
   temp_buffer_ = filters_[7]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::ApplySpecial(PixelBuffer* &display_buffer) {
   std::cout << "Apply has been clicked for Special" << std::endl;
   temp_buffer_ = filters_[8]->ApplyMatrix(display_buffer);
-  buffer_to_be_deleted_ = display_buffer;
   display_buffer = temp_buffer_;
-  delete buffer_to_be_deleted_;
 }
 
 void FilterManager::InitGlui(const GLUI *const glui,
