@@ -9,14 +9,14 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_EDGE_MATRIX_H_
-#define SRC_INCLUDE_EDGE_MATRIX_H_
+#ifndef SRC_INCLUDE_F_EDGE_MATRIX_H_
+#define SRC_INCLUDE_F_EDGE_MATRIX_H_
 
 /*******************************************************************************
 * Includes
 ******************************************************************************/
 #include "include/filter_matrix.h"
-#include <string>
+
 
 /*******************************************************************************
  * Namespaces
@@ -31,11 +31,11 @@ namespace image_tools {
  */
 class EdgeMatrix : public FilterMatrix {
  public:
-   EdgeMatrix() : FilterMatrix::FilterMatrix(),
+  EdgeMatrix() : FilterMatrix::FilterMatrix(),
                   detect_type_(-1) {
                     Resize(3, -1);
                   }
-   ~EdgeMatrix() {}
+  ~EdgeMatrix() {}
   /**
    * @brief apply a new size for a filter matrix
    *
@@ -46,6 +46,7 @@ class EdgeMatrix : public FilterMatrix {
  private:
   int detect_type_;
 };
-}
+}  // namespace image_tools
 
-#endif  // SRC_INCLUDE_BLUR_MATRIX_H_
+
+#endif  // SRC_INCLUDE_F_EDGE_MATRIX_H_

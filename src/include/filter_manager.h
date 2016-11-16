@@ -15,6 +15,7 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
+#include <vector>
 #include "GL/glui.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
@@ -26,6 +27,7 @@
 #include "include/f_rgb_filter.h"
 #include "include/f_quan_filter.h"
 #include "include/f_emboss_matrix.h"
+
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
