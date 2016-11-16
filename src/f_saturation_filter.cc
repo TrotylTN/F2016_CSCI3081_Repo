@@ -25,7 +25,7 @@ namespace image_tools {
 
 void SaturationFilter::Resize(float incoming_size, float saturation_amount) {
   this->saturation_amount_ = saturation_amount;
-  int new_matrix_size = int(incoming_size);
+  int new_matrix_size = static_cast<int>(incoming_size);
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
   new_matrix[0][0] = 1;

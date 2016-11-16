@@ -32,13 +32,11 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
                                   original_buffer->height(),
                                   original_buffer->background_color());
   for (int x = 0; x < original_buffer->width(); x++)
-    for (int y = 0; y < original_buffer->height(); y++)
-    {
+    for (int y = 0; y < original_buffer->height(); y++) {
       temp_color = ColorData(0, 0, 0);
       int shift_length = matrix_size_ / 2;
       for (int i = 0; i < matrix_size_; i++)
-        for (int j = 0; j < matrix_size_; j++)
-        {
+        for (int j = 0; j < matrix_size_; j++) {
           if (matrix_[i][j] == 0)
             continue;
           int s_x = x + i - shift_length;
@@ -49,8 +47,7 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
             temp_color = original_buffer->get_pixel(s_x, s_y) *
                          matrix_[i][j] +
                          temp_color;
-          }
-          else {
+          } else {
             temp_color = ColorData() *
                          matrix_[i][j] +
                          temp_color;

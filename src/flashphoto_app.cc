@@ -89,13 +89,11 @@ void FlashPhotoApp::Display(void) {
 }
 
 void FlashPhotoApp::MouseDragged(int x, int y) {
-
   // We implimented a smoothing feature by interpolating between
   // mouse events. This is at the expense of processing, though,
   // because we just "stamp" the tool many times between the two
   // even locations. you can reduce max_steps until it runs
   // smoothly on your machine.
-
   // Get the differences between the events
   // in each direction
   if (tools_[cur_tool_]->drag_status()) {
@@ -129,6 +127,7 @@ void FlashPhotoApp::MouseMoved(int x, int y) {}
 
 void FlashPhotoApp::LeftMouseDown(int x, int y) {
   std::cout << "mousePressed " << x << " " << y << std::endl;
+  display_buffer_ = new PixelBuffer(*display_buffer_);
   tools_[cur_tool_]->ApplyToBuffer(x, height()-y,
                                    ColorData(cur_color_red_,
                                              cur_color_green_,
@@ -140,11 +139,12 @@ void FlashPhotoApp::LeftMouseDown(int x, int y) {
 
 void FlashPhotoApp::LeftMouseUp(int x, int y) {
   std::cout << "mouseReleased " << x << " " << y << std::endl;
+  state_manager_.InsertNewBuffer(display_buffer_);
 }
 
 void FlashPhotoApp::InitializeBuffers(ColorData background_color,
                                       int width, int height) {
-  display_buffer_ = new PixelBuffer(width, height, background_color);
+  display_buffer_ = new PixelBuffer(width, height, background_color);\
 }
 
 void FlashPhotoApp::InitGlui(void) {
@@ -220,6 +220,7 @@ void FlashPhotoApp::InitGlui(void) {
 
   /* Initialize image I/O */
   io_manager_.InitGlui(glui(), s_gluicallback);
+  state_manager_.InsertNewBuffer(display_buffer_);
   return;
 }
 
@@ -274,34 +275,44 @@ void FlashPhotoApp::GluiControl(int control_id) {
       update_colors();
       break;
     case UICtrl::UI_APPLY_BLUR:
-      filter_manager_.ApplyBlur(display_buffer_);
+      filter_manager_.ApplyBlur(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SHARP:
-      filter_manager_.ApplySharpen(display_buffer_);
+      filter_manager_.ApplySharpen(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_MOTION_BLUR:
-      filter_manager_.ApplyMotionBlur(display_buffer_);
+      filter_manager_.ApplyMotionBlur(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
-      filter_manager_.ApplyEdgeDetect(display_buffer_);
+      filter_manager_.ApplyEdgeDetect(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
-      filter_manager_.ApplyThreshold(display_buffer_);
+      filter_manager_.ApplyThreshold(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_DITHER:
-      filter_manager_.ApplyThreshold(display_buffer_);
+      filter_manager_.ApplyThreshold(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
-      filter_manager_.ApplySaturate(display_buffer_);
+      filter_manager_.ApplySaturate(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
-      filter_manager_.ApplyChannel(display_buffer_);
+      filter_manager_.ApplyChannel(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
-      filter_manager_.ApplyQuantize(display_buffer_);
+      filter_manager_.ApplyQuantize(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SPECIAL_FILTER:
-      filter_manager_.ApplySpecial(display_buffer_);
+      filter_manager_.ApplySpecial(&display_buffer_);
+      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
@@ -312,10 +323,12 @@ void FlashPhotoApp::GluiControl(int control_id) {
         display_buffer_ = temp_buffer;
         SetWindowDimensions(display_buffer_->width(),
                             display_buffer_->height());
+        state_manager_.InsertNewBuffer(display_buffer_);
       }
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
-      tools_[ToolFactory::TOOL_STAMP]->stamp_mask(io_manager_.LoadImageToStamp());
+      tools_[ToolFactory::TOOL_STAMP]->
+        stamp_mask(io_manager_.LoadImageToStamp());
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       io_manager_.SaveCanvasToFile(this->display_buffer_);
@@ -326,10 +339,14 @@ void FlashPhotoApp::GluiControl(int control_id) {
       io_manager_.set_image_file(io_manager_.file_name());
       break;
     case UICtrl::UI_UNDO:
-      state_manager_.UndoOperation();
+      state_manager_.UndoOperation(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
       break;
     case UICtrl::UI_REDO:
-      state_manager_.RedoOperation();
+      state_manager_.RedoOperation(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
       break;
     default:
       break;
