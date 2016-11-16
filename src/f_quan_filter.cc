@@ -18,7 +18,6 @@
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
-using namespace std;
 
 namespace image_tools {
 
@@ -27,8 +26,8 @@ namespace image_tools {
 ******************************************************************************/
 
 void QuanFilter::Resize(float incoming_size, float bins) {
-  this->quantize_bins_ = (int)bins;
-  int new_matrix_size = int(incoming_size);
+  this->quantize_bins_ = static_cast<int>(bins);
+  int new_matrix_size = static_cast<int>(incoming_size);
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
   new_matrix[0][0] = 1;
