@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_EMBOSS_MATRIX_H_
-#define SRC_INCLUDE_EMBOSS_MATRIX_H_
+#ifndef SRC_INCLUDE_F_EMBOSS_MATRIX_H_
+#define SRC_INCLUDE_F_EMBOSS_MATRIX_H_
 
 /*******************************************************************************
 * Includes
@@ -29,17 +29,17 @@ namespace image_tools {
  */
 class EmbossMatrix : public FilterMatrix {
  public:
-   EmbossMatrix() : FilterMatrix::FilterMatrix() {
+  EmbossMatrix() : FilterMatrix::FilterMatrix() {
      FilterMatrix::MatrixSize(3);;
-     FilterMatrix::Matrix({{-1,-1,0},{-1,0,1},{0,1,1}});
-   }
-   ~EmbossMatrix() {}
+     FilterMatrix::Matrix({{-1, -1, 0}, {-1, 0, 1}, {0, 1, 1}});
+  }
+  ~EmbossMatrix() {}
   /**
    * @brief apply a new size for a filter matrix
    *
    * @param[in] incoming_size the new size of this matrix
    */
 };
-}
+}  // namespace image_tools
 
-#endif  // SRC_INCLUDE_EMBOSS_MATRIX_H_
+#endif  // SRC_INCLUDE_F_EMBOSS_MATRIX_H_
