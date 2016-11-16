@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_RGB_FILTER_H_
-#define SRC_INCLUDE_RGB_FILTER_H_
+#ifndef SRC_INCLUDE_F_RGB_FILTER_H_
+#define SRC_INCLUDE_F_RGB_FILTER_H_
 
 /*******************************************************************************
 * Includes
@@ -52,6 +52,6 @@ class RGBFilter : public FilterMatrix{
   float channel_color_green_;
   float channel_color_blue_;
 };
-}
+}  // namespace image_tools
 
-#endif  // SRC_INCLUDE_RGB_FILTER_H_
+#endif  // SRC_INCLUDE_F_RGB_FILTER_H_

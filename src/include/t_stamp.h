@@ -41,7 +41,7 @@ class TStamp : public Tool {
    *
    * @return The new ColorData for the pixel
    */
-   // not implemented yet
+  // not implemented yet
   ColorData color_blend_math(
       float mask_pixel_amount,
       const ColorData& tool_color,
@@ -58,10 +58,10 @@ class TStamp : public Tool {
 
   void stamp_mask(PixelBuffer *stamp) { stamp_mask_ = stamp; }
 
-private:
+ private:
   PixelBuffer *stamp_mask_;
 };
 
-}  /* namespace image_tools */
+}  // namespace image_tools
 
-#endif  /* SRC_INCLUDE_T_STAMP_H_ */
+#endif  // SRC_INCLUDE_T_STAMP_H_

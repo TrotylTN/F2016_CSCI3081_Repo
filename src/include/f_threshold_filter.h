@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_THRESHOLD_FILTER_H_
-#define SRC_INCLUDE_THRESHOLD_FILTER_H_
+#ifndef SRC_INCLUDE_F_THRESHOLD_FILTER_H_
+#define SRC_INCLUDE_F_THRESHOLD_FILTER_H_
 
 /*******************************************************************************
 * Includes
@@ -43,6 +43,6 @@ class ThresholdFilter : public FilterMatrix{
  private:
   float threshold_amount_;
 };
-}
+}  // namespace image_tools
 
-#endif  // SRC_INCLUDE_THRESHOLD_MATRIX_H_
+#endif  // SRC_INCLUDE_F_THRESHOLD_FILTER_H_

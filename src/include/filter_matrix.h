@@ -41,8 +41,7 @@ class FilterMatrix {
    * @param[in] incoming_size the new size of this matrix
    */
   virtual void Resize(float incoming_size, float args_for_resize) {}
-  virtual void Resize(float incoming_size, float r, float g, float b) {}  
-
+  virtual void Resize(float incoming_size, float r, float g, float b) {}
   /**
    * @brief apply the matrix on the buffer then return the cached buffer
    *
@@ -59,9 +58,9 @@ class FilterMatrix {
   void Matrix(std::vector <std::vector<float> > new_matrix);
 
  private:
-   int  matrix_size_;
-   std::vector <std::vector<float> > matrix_;
+  int  matrix_size_;
+  std::vector <std::vector<float> > matrix_;
 };
-}
+}  // namespace image_tools
 
 #endif  // SRC_INCLUDE_FILTER_MATRIX_H_
