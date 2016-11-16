@@ -60,7 +60,7 @@ class Tool {
    */
   virtual std::string name(void) = 0;
 
-  virtual void stamp_mask(PixelBuffer *stamp) {};
+  virtual void stamp_mask(PixelBuffer *stamp) {}
 
   /**
    * @brief Get the drag status associated with the tool
