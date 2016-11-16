@@ -89,13 +89,11 @@ void FlashPhotoApp::Display(void) {
 }
 
 void FlashPhotoApp::MouseDragged(int x, int y) {
-
   // We implimented a smoothing feature by interpolating between
   // mouse events. This is at the expense of processing, though,
   // because we just "stamp" the tool many times between the two
   // even locations. you can reduce max_steps until it runs
   // smoothly on your machine.
-
   // Get the differences between the events
   // in each direction
   if (tools_[cur_tool_]->drag_status()) {
@@ -329,7 +327,8 @@ void FlashPhotoApp::GluiControl(int control_id) {
       }
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
-      tools_[ToolFactory::TOOL_STAMP]->stamp_mask(io_manager_.LoadImageToStamp());
+      tools_[ToolFactory::TOOL_STAMP]->
+        stamp_mask(io_manager_.LoadImageToStamp());
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       io_manager_.SaveCanvasToFile(this->display_buffer_);

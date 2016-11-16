@@ -30,7 +30,7 @@ void RGBFilter::Resize(float incoming_size,
   this->channel_color_red_ = r_amount;
   this->channel_color_green_ = g_amount;
   this->channel_color_blue_ = b_amount;
-  int new_matrix_size = int(incoming_size);
+  int new_matrix_size = static_cast<int>(incoming_size);
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
   new_matrix[0][0] = 1;

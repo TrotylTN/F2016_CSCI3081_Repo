@@ -14,7 +14,6 @@
 ******************************************************************************/
 #include "include/f_blur_matrix.h"
 
-using namespace std;
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -24,8 +23,8 @@ namespace image_tools {
 * Member Functions
 ******************************************************************************/
 void BlurMatrix::Resize(float incoming_size, float blur_type) {
-  this->blur_type_ = (int) blur_type;
-  int n = (int) incoming_size / 2;
+  this->blur_type_ = static_cast<int>(blur_type);
+  int n = static_cast<int>(incoming_size) / 2;
   int new_matrix_size = n * 2 + 1;
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
@@ -41,8 +40,7 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
           new_matrix[i][j] = 0;
       }
     }
-  }
-  else {
+  } else {
     new_matrix.clear();
   }
   FilterMatrix::MatrixSize(new_matrix_size);
@@ -52,8 +50,7 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
 PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
   if (this->blur_type_ == -1) {
     return FilterMatrix::ApplyMatrix(original_buffer);
-  }
-  else {
+  } else {
     int n = MatrixSize() / 2;
     PixelBuffer* result_buffer;
     ColorData temp_color;
@@ -66,26 +63,22 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
       init_y = 0;
       delta_x = 0;
       delta_y = 1;
-    }
-    else if (this->blur_type_ == 1) {
+    } else if (this->blur_type_ == 1) {
       init_x = 0;
       init_y = n;
       delta_x = 1;
       delta_y = 0;
-    }
-    else if (this->blur_type_ == 2) {
+    } else if (this->blur_type_ == 2) {
       init_x = 0;
       init_y = 0;
       delta_x = 1;
       delta_y = 1;
-    }
-    else if (this->blur_type_ == 3) {
+    } else if (this->blur_type_ == 3) {
       init_x = 0;
       init_y = MatrixSize() - 1;
       delta_x = 1;
       delta_y = -1;
     }
-
     result_buffer = new PixelBuffer(original_buffer->width(),
                                     original_buffer->height(),
                                     original_buffer->background_color());
@@ -104,8 +97,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
             temp_color = original_buffer->get_pixel(s_x, s_y) *
                          value_in_cell +
                          temp_color;
-          }
-          else {
+          } else {
             temp_color = ColorData() * value_in_cell + temp_color;
           }
         }

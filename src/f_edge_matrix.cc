@@ -14,7 +14,6 @@
 ******************************************************************************/
 #include "include/f_edge_matrix.h"
 
-using namespace std;
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -24,8 +23,8 @@ namespace image_tools {
 * Member Functions
 ******************************************************************************/
 void EdgeMatrix::Resize(float incoming_size, float detect_type) {
-  this->detect_type_ = (int)detect_type;
-  int n = (int) incoming_size / 2;
+  this->detect_type_ = static_cast<int>(detect_type);
+  int n = static_cast<int>(incoming_size) / 2;
   int new_matrix_size = n * 2 + 1;
   float value_in_cell;
   std::vector <std::vector<float> > new_matrix;
@@ -38,8 +37,7 @@ void EdgeMatrix::Resize(float incoming_size, float detect_type) {
       new_matrix[i][new_matrix_size - 1] = -1;
     }
     new_matrix[n][n] = 8;
-  }
-  else {
+  } else {
     value_in_cell = detect_type / 5.0;
     for (int i = 0; i < new_matrix_size; i++) {
       new_matrix[0][i] = -value_in_cell;
