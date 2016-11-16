@@ -5,7 +5,7 @@
  * Description     : Header for SaturationFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Wed Nov 9 17:1:52 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 

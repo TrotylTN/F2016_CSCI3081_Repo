@@ -5,7 +5,7 @@
  * Description     : Implementation for ThresholdFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Mon Nov 7 20:27:51 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 

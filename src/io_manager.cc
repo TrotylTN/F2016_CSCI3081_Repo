@@ -204,7 +204,7 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
 void IOManager::SavePNG(PixelBuffer *display_buffer) {
   png_image image;
   png_bytep buffer;
-  ColorData collor;
+  ColorData color;
 
   memset(&image, 0, (sizeof image));
 
@@ -224,15 +224,15 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
 
   while(y < display_buffer->height()) {
     while(x < display_buffer->width()) {
-      collor = display_buffer->get_pixel(x, display_buffer->height()-y-1);
+      color = display_buffer->get_pixel(x, display_buffer->height()-y-1);
       buffer[y * 4 * image.width + x * 4 + 0] =
-                    (png_byte) static_cast<unsigned int>(collor.red()*255);
+                    (png_byte) static_cast<unsigned int>(color.red()*255);
       buffer[y * 4 * image.width + x * 4 + 1] =
-                    (png_byte) static_cast<unsigned int>(collor.green()*255);
+                    (png_byte) static_cast<unsigned int>(color.green()*255);
       buffer[y * 4 * image.width + x * 4 + 2] =
-                    (png_byte) static_cast<unsigned int>(collor.blue()*255);
+                    (png_byte) static_cast<unsigned int>(color.blue()*255);
       buffer[y * 4 * image.width + x * 4 + 3] =
-                    (png_byte) static_cast<unsigned int>(collor.alpha()*255);
+                    (png_byte) static_cast<unsigned int>(color.alpha()*255);
       x++;
     }
     y++;
