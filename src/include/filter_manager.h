@@ -49,7 +49,7 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyBlur(PixelBuffer* &display_buffer);
+  void ApplyBlur(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply a sharpening filter to the buffer, sharpening blurry/undefined
@@ -57,42 +57,42 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySharpen(PixelBuffer* &display_buffer);
+  void ApplySharpen(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply a motion blurring filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyMotionBlur(PixelBuffer* &display_buffer);
+  void ApplyMotionBlur(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply an edge detection filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyEdgeDetect(PixelBuffer* &display_buffer);
+  void ApplyEdgeDetect(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply a threshold detection filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyThreshold(PixelBuffer* &display_buffer);
+  void ApplyThreshold(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply a channel filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyChannel(PixelBuffer* &display_buffer);
+  void ApplyChannel(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply a channel filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySaturate(PixelBuffer* &display_buffer);
+  void ApplySaturate(PixelBuffer** display_buffer);
 
 
   /**
@@ -100,14 +100,14 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyQuantize(PixelBuffer* &display_buffer);
+  void ApplyQuantize(PixelBuffer** display_buffer);
 
   /**
    * @brief Apply a special filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySpecial(PixelBuffer* &display_buffer);
+  void ApplySpecial(PixelBuffer** display_buffer);
 
   /**
    * @brief Initialize the elements of the GLUI interface required by the

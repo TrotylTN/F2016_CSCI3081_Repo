@@ -60,14 +60,14 @@ class StateManager {
    * can still be re-done later)
    *
    */
-  void UndoOperation(PixelBuffer* &display_buffer);
+  void UndoOperation(PixelBuffer** display_buffer);
 
   /**
    * @brief Re-does the last un-done operation applied to the canvas (not
    * permanently; it can be undone again later)
    *
    */
-  void RedoOperation(PixelBuffer* &display_buffer);
+  void RedoOperation(PixelBuffer** display_buffer);
 
   void InsertNewBuffer(PixelBuffer* new_buffer);
 

@@ -47,10 +47,10 @@ void StateManager::InitGlui(const GLUI *const glui,
   redo_toggle(false);
 }
 
-void StateManager::UndoOperation(PixelBuffer* &display_buffer) {
+void StateManager::UndoOperation(PixelBuffer** display_buffer) {
   state_ptr_--;
   std::cout << "Undoing... state_ptr: " << state_ptr_ << std::endl;
-  display_buffer = this->cached_buffer_[state_ptr_];
+  *display_buffer = this->cached_buffer_[state_ptr_];
   if (state_ptr_ < this->cached_buffer_.size() - 1)
     redo_toggle(true);
   else
@@ -61,10 +61,10 @@ void StateManager::UndoOperation(PixelBuffer* &display_buffer) {
     undo_toggle(false);
 }
 
-void StateManager::RedoOperation(PixelBuffer* &display_buffer) {
+void StateManager::RedoOperation(PixelBuffer** display_buffer) {
   state_ptr_++;
   std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
-  display_buffer = this->cached_buffer_[state_ptr_];
+  *display_buffer = this->cached_buffer_[state_ptr_];
   if (state_ptr_ < this->cached_buffer_.size() - 1)
     redo_toggle(true);
   else
