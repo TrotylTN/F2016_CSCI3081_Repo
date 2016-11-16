@@ -42,7 +42,7 @@ namespace image_tools {
  * application, deletion.
  */
 class FilterManager {
-  public:
+ public:
   FilterManager();
   ~FilterManager();
 
