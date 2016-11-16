@@ -26,8 +26,8 @@ namespace image_tools {
  * Constructors/Destructors
  ******************************************************************************/
 TStamp::TStamp(void) {
-    stamp_mask(NULL);
-    drag_status(false);
+  stamp_mask(NULL);
+  drag_status(false);
 }
 
 /*******************************************************************************
