@@ -277,43 +277,43 @@ void FlashPhotoApp::GluiControl(int control_id) {
       update_colors();
       break;
     case UICtrl::UI_APPLY_BLUR:
-      filter_manager_.ApplyBlur(display_buffer_);
+      filter_manager_.ApplyBlur(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SHARP:
-      filter_manager_.ApplySharpen(display_buffer_);
+      filter_manager_.ApplySharpen(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_MOTION_BLUR:
-      filter_manager_.ApplyMotionBlur(display_buffer_);
+      filter_manager_.ApplyMotionBlur(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
-      filter_manager_.ApplyEdgeDetect(display_buffer_);
+      filter_manager_.ApplyEdgeDetect(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
-      filter_manager_.ApplyThreshold(display_buffer_);
+      filter_manager_.ApplyThreshold(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_DITHER:
-      filter_manager_.ApplyThreshold(display_buffer_);
+      filter_manager_.ApplyThreshold(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
-      filter_manager_.ApplySaturate(display_buffer_);
+      filter_manager_.ApplySaturate(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
-      filter_manager_.ApplyChannel(display_buffer_);
+      filter_manager_.ApplyChannel(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
-      filter_manager_.ApplyQuantize(display_buffer_);
+      filter_manager_.ApplyQuantize(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SPECIAL_FILTER:
-      filter_manager_.ApplySpecial(display_buffer_);
+      filter_manager_.ApplySpecial(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:
