@@ -5,7 +5,7 @@
  * Description     : Header for FilterMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Sat Nov 5 14:47:31 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 
@@ -41,8 +41,7 @@ class FilterMatrix {
    * @param[in] incoming_size the new size of this matrix
    */
   virtual void Resize(float incoming_size, float args_for_resize) {}
-  virtual void Resize(float incoming_size, float r, float g, float b) {}  
-
+  virtual void Resize(float incoming_size, float r, float g, float b) {}
   /**
    * @brief apply the matrix on the buffer then return the cached buffer
    *
@@ -59,9 +58,9 @@ class FilterMatrix {
   void Matrix(std::vector <std::vector<float> > new_matrix);
 
  private:
-   int  matrix_size_;
-   std::vector <std::vector<float> > matrix_;
+  int  matrix_size_;
+  std::vector <std::vector<float> > matrix_;
 };
-}
+}  // namespace image_tools
 
 #endif  // SRC_INCLUDE_FILTER_MATRIX_H_

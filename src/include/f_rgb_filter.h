@@ -5,12 +5,12 @@
  * Description     : Header for RGBFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Thu Nov 10 14:01:18 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_RGB_FILTER_H_
-#define SRC_INCLUDE_RGB_FILTER_H_
+#ifndef SRC_INCLUDE_F_RGB_FILTER_H_
+#define SRC_INCLUDE_F_RGB_FILTER_H_
 
 /*******************************************************************************
 * Includes
@@ -52,6 +52,6 @@ class RGBFilter : public FilterMatrix{
   float channel_color_green_;
   float channel_color_blue_;
 };
-}
+}  // namespace image_tools
 
-#endif  // SRC_INCLUDE_RGB_FILTER_H_
+#endif  // SRC_INCLUDE_F_RGB_FILTER_H_

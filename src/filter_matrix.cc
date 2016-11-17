@@ -5,7 +5,7 @@
  * Description     : Implementation for FilterMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Sat Nov 5 15:26:31 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 

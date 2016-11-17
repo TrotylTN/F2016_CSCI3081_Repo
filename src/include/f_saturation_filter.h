@@ -5,12 +5,12 @@
  * Description     : Header for SaturationFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Wed Nov 9 17:1:52 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_SATURATION_FILTER_H_
-#define SRC_INCLUDE_SATURATION_FILTER_H_
+#ifndef SRC_INCLUDE_F_SATURATION_FILTER_H_
+#define SRC_INCLUDE_F_SATURATION_FILTER_H_
 
 /*******************************************************************************
 * Includes
@@ -43,6 +43,6 @@ class SaturationFilter : public FilterMatrix{
  private:
   float saturation_amount_;
 };
-}
+}  // namespace image_tools
 
-#endif  // SRC_INCLUDE_SATURATION_FILTER_H_
+#endif  // SRC_INCLUDE_F_SATURATION_FILTER_H_
