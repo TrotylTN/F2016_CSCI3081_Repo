@@ -57,4 +57,4 @@ class TBlur : public Tool {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_T_STAMP_H_ */
+#endif  /* SRC_INCLUDE_T_BLUR_H_ */

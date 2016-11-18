@@ -114,8 +114,8 @@ void FilterManager::ApplyQuantize(PixelBuffer** display_buffer) {
   *display_buffer = temp_buffer_;
 }
 
-void FilterManager::ApplySpecial(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Special" << std::endl;
+void FilterManager::ApplyEmboss(PixelBuffer** display_buffer) {
+  std::cout << "Apply has been clicked for Emboss" << std::endl;
   temp_buffer_ = filters_[8]->ApplyMatrix(*display_buffer);
   *display_buffer = temp_buffer_;
 }
