@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_FILTER_MANAGER_H_
-#define SRC_INCLUDE_FILTER_MANAGER_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_FILTER_MANAGER_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_FILTER_MANAGER_H_
 
 /*******************************************************************************
  * Includes
@@ -139,4 +139,4 @@ class FilterManager {
 };
 
 }  /* namespace image_tools */
-#endif  /* SRC_INCLUDE_FILTER_MANAGER_H_ */
+#endif  /* REPO_GROUP_A01_SRC_INCLUDE_FILTER_MANAGER_H_ */

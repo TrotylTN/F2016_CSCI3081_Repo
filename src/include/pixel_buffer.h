@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_PIXEL_BUFFER_H_
-#define SRC_INCLUDE_PIXEL_BUFFER_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_PIXEL_BUFFER_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_PIXEL_BUFFER_H_
 
 /*******************************************************************************
  * Includes
@@ -79,4 +79,4 @@ class PixelBuffer {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_PIXEL_BUFFER_H_ */
+#endif  /* REPO_GROUP_A01_SRC_INCLUDE_PIXEL_BUFFER_H_ */
