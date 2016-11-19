@@ -21,6 +21,7 @@
 #include "include/t_spray_can.h"
 #include "include/t_chalk.h"
 #include "include/t_stamp.h"
+#include "include/t_blur.h"
 
 /*******************************************************************************
  * Namespaces
@@ -54,6 +55,9 @@ Tool* ToolFactory::CreateTool(int tool_id) {
       break;
     case TOOL_STAMP:
       tool = new TStamp();
+      break;
+    case TOOL_BLUR:
+      tool = new TBlur();
       break;
     default:
       tool = nullptr;

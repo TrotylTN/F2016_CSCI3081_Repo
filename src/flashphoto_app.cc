@@ -311,7 +311,7 @@ void FlashPhotoApp::GluiControl(int control_id) {
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SPECIAL_FILTER:
-      filter_manager_.ApplySpecial(&display_buffer_);
+      filter_manager_.ApplyEmboss(&display_buffer_);
       state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:

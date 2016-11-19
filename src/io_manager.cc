@@ -159,7 +159,7 @@ PixelBuffer *IOManager::LoadImageToStamp(void) {
   std::cout << "Load Stamp has been clicked for file " <<
       file_name_ << std::endl;
   /* load image */
-  PixelBuffer* temp_buffer;
+  PixelBuffer* temp_buffer = NULL;
   if (has_suffix(file_name_, ".png")) {
     if ((temp_buffer = LoadPNG()) == NULL) {
       return temp_buffer;

@@ -105,11 +105,11 @@ class FilterManager {
   void ApplyQuantize(PixelBuffer** display_buffer);
 
   /**
-   * @brief Apply a special filter to the buffer
+   * @brief Apply a emboss filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySpecial(PixelBuffer** display_buffer);
+  void ApplyEmboss(PixelBuffer** display_buffer);
 
   /**
    * @brief Initialize the elements of the GLUI interface required by the
