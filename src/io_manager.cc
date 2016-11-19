@@ -204,7 +204,7 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
 void IOManager::SavePNG(PixelBuffer *display_buffer) {
   png_image image;
   png_bytep buffer;
-  ColorData collor;
+  ColorData color;
 
   memset(&image, 0, (sizeof image));
 
@@ -219,18 +219,23 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
   buffer = reinterpret_cast<png_byte*>(malloc(PNG_IMAGE_SIZE(image)));
 
   /* set rgba values of every pixels into buffer */
-  for (int y = 0; y < display_buffer->height(); y++) {
-    for (int x = 0; x < display_buffer->width(); x++) {
-      collor = display_buffer->get_pixel(x, display_buffer->height()-y-1);
+  int y = 0;
+  int x = 0;
+
+  while(y < display_buffer->height()) {
+    while(x < display_buffer->width()) {
+      color = display_buffer->get_pixel(x, display_buffer->height()-y-1);
       buffer[y * 4 * image.width + x * 4 + 0] =
-                    (png_byte) static_cast<unsigned int>(collor.red()*255);
+                    (png_byte) static_cast<unsigned int>(color.red()*255);
       buffer[y * 4 * image.width + x * 4 + 1] =
-                    (png_byte) static_cast<unsigned int>(collor.green()*255);
+                    (png_byte) static_cast<unsigned int>(color.green()*255);
       buffer[y * 4 * image.width + x * 4 + 2] =
-                    (png_byte) static_cast<unsigned int>(collor.blue()*255);
+                    (png_byte) static_cast<unsigned int>(color.blue()*255);
       buffer[y * 4 * image.width + x * 4 + 3] =
-                    (png_byte) static_cast<unsigned int>(collor.alpha()*255);
+                    (png_byte) static_cast<unsigned int>(color.alpha()*255);
+      x++;
     }
+    y++;
   }
 
   /* write buffer to png file */
@@ -273,7 +278,7 @@ void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
 
   jpeg_set_defaults(&cinfo);
 
-  jpeg_set_quality(&cinfo, 3, TRUE);
+  jpeg_set_quality(&cinfo, 100, TRUE);
   jpeg_start_compress(&cinfo, TRUE);
 
   /* initialize line-writer */
@@ -284,8 +289,11 @@ void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
            (malloc(row_stride * display_buffer->height()));
 
   /* write in rgb value of every pixel into buffer */
-  for (int y = 0; y < display_buffer->height(); y++) {
-    for (int x = 0 ; x < display_buffer->width(); x++) {
+  int x = 0;
+  int y = 0;
+
+  while( y < display_buffer->height()) {
+    while(x < display_buffer->width()) {
       color = display_buffer->get_pixel(x, display_buffer->height() - y -1);
       buffer[y * 3 * display_buffer->width() + x * 3 + 0] =
                                                   (JSAMPLE) (color.red()*255);
@@ -293,9 +301,9 @@ void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
                                                   (JSAMPLE) (color.green()*255);
       buffer[y * 3 * display_buffer->width() + x * 3 + 2] =
                                                   (JSAMPLE) (color.blue()*255);
+
     }
   }
-
   /* writing buffer into jpeg file */
   while (cinfo.next_scanline < cinfo.image_height) {
     row_pointer[0] = & buffer[cinfo.next_scanline * row_stride];

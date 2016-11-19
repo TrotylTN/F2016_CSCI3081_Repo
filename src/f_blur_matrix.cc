@@ -5,7 +5,7 @@
  * Description     : Implementation for BlurMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Sat Nov 5 16:26:01 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
@@ -17,11 +17,13 @@
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
+
 namespace image_tools {
 
 /*******************************************************************************
 * Member Functions
 ******************************************************************************/
+
 void BlurMatrix::Resize(float incoming_size, float blur_type) {
   this->blur_type_ = static_cast<int>(blur_type);
   int n = static_cast<int>(incoming_size) / 2;

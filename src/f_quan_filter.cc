@@ -5,7 +5,7 @@
  * Description     : Implementation for QuanFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Thu Nov 10 19:41:36 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01 
  *
  ******************************************************************************/
 

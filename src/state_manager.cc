@@ -47,10 +47,20 @@ void StateManager::InitGlui(const GLUI *const glui,
   redo_toggle(false);
 }
 
+/* implimented UndoOperation */
 void StateManager::UndoOperation(PixelBuffer** display_buffer) {
+  // switch the current buffer with the previous
+  // buffer which has been saved in that vector
+
   state_ptr_--;
   std::cout << "Undoing... state_ptr: " << state_ptr_ << std::endl;
   *display_buffer = this->cached_buffer_[state_ptr_];
+
+  // doing the error check
+  // sure when the function
+  // be called and have correct
+  // buffer return
+
   if (state_ptr_ < this->cached_buffer_.size() - 1)
     redo_toggle(true);
   else
@@ -61,7 +71,12 @@ void StateManager::UndoOperation(PixelBuffer** display_buffer) {
     undo_toggle(false);
 }
 
+/* implimented RedoOperation */
 void StateManager::RedoOperation(PixelBuffer** display_buffer) {
+  // return back to the last
+  // position where you have
+  // undoOperation
+
   state_ptr_++;
   std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
   *display_buffer = this->cached_buffer_[state_ptr_];
