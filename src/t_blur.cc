@@ -42,36 +42,14 @@ ColorData TBlur::ApplyBlur(PixelBuffer *buffer, int x, int y, int matrix_size) {
       }
       int s_x = x + i - shift_length;
       int s_y = y + j - shift_length;
-      if (s_x < 0 || s_y < 0 ||
-          s_x >= buffer->width() ||
-          s_y >= buffer->height()) {
-        if (s_x < 0 || s_y < 0) {
-          temp_color = buffer->get_pixel(std::max(s_x, 0), std::max(s_y, 0)) *
-                       value_in_cell +
-                       temp_color;
-        } else {
-          temp_color = buffer->get_pixel(std::min(s_x, buffer->width() - 1),
-                                         std::min(s_y, buffer->height() - 1)) *
-                       value_in_cell +
-                       temp_color;
-        }
-
-      } else {
-        temp_color = buffer->get_pixel(s_x, s_y) *
-                     value_in_cell +
-                     temp_color;
-      }
-/*      if (s_x >= 0 && s_y >= 0 &&
+      if (s_x >= 0 && s_y >= 0 &&
           s_x < buffer->width() &&
           s_y < buffer->height()) {
         temp_color = buffer->get_pixel(s_x, s_y) *
-                     value_in_cell +
-                     temp_color;
+                       value_in_cell + temp_color;
       } else {
-        temp_color = ColorData(1, 1, 1, 0) *
-                     value_in_cell +
-                     temp_color;
-      } */
+        temp_color = buffer->get_pixel(x, y) * value_in_cell + temp_color;
+      }
     }
   }
   return temp_color;

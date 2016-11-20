@@ -28,7 +28,7 @@ StateManager::StateManager(void) :
     undo_btn_(nullptr),
     redo_btn_(nullptr),
     cached_buffer_({}),
-    size_limit_(20),
+    size_limit_(100),
     state_ptr_(-1) {
       cached_buffer_.clear();
     }
@@ -47,10 +47,20 @@ void StateManager::InitGlui(const GLUI *const glui,
   redo_toggle(false);
 }
 
+/* implimented UndoOperation */
 void StateManager::UndoOperation(PixelBuffer** display_buffer) {
+  // switch the current buffer with the previous
+  // buffer which has been saved in that vector
+
   state_ptr_--;
   std::cout << "Undoing... state_ptr: " << state_ptr_ << std::endl;
   *display_buffer = this->cached_buffer_[state_ptr_];
+
+  // doing the error check
+  // sure when the function
+  // be called and have correct
+  // buffer return
+
   if (state_ptr_ < this->cached_buffer_.size() - 1)
     redo_toggle(true);
   else
@@ -61,7 +71,12 @@ void StateManager::UndoOperation(PixelBuffer** display_buffer) {
     undo_toggle(false);
 }
 
+/* implimented RedoOperation */
 void StateManager::RedoOperation(PixelBuffer** display_buffer) {
+  // return back to the last
+  // position where you have
+  // undoOperation
+
   state_ptr_++;
   std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
   *display_buffer = this->cached_buffer_[state_ptr_];
@@ -82,7 +97,6 @@ void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
   }
   this->cached_buffer_.push_back(new_buffer);
   state_ptr_++;
-  std::cout << "Current state_ptr: " << state_ptr_ << std::endl;
   if (state_ptr_ < this->cached_buffer_.size() - 1)
     redo_toggle(true);
   else
@@ -91,6 +105,16 @@ void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
     undo_toggle(true);
   else
     undo_toggle(false);
+  if (this->cached_buffer_.size() > this->size_limit_) {
+    int shift_val = this->cached_buffer_.size() - this->size_limit_;
+    for (int i = 0; i < shift_val; i++) {
+      delete this->cached_buffer_[0];
+      this->cached_buffer_.erase(this->cached_buffer_.begin());
+      std::cout << "poped the first ptr due to oversize\n" << std::endl;
+      state_ptr_--;
+    }
+  }
+  std::cout << "Current state_ptr: " << state_ptr_ << std::endl;
 }
 
 }  /* namespace image_tools */

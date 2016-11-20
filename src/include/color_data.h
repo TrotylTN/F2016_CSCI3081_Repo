@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_COLOR_DATA_H_
-#define SRC_INCLUDE_COLOR_DATA_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_COLOR_DATA_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_COLOR_DATA_H_
 
 /*******************************************************************************
  * Namespaces
@@ -50,7 +50,7 @@ class ColorData {
    * @brief Return a clamped version of a ColorData instance
    * All colors and the alpha value are restricted to [0.0,1.0]
    */
-  inline ColorData clamped_color(void) const;
+  ColorData clamped_color(void) const;
 
   /**
    * Arithmetic operators (friends so that non-member functions can access
@@ -73,4 +73,4 @@ class ColorData {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_COLOR_DATA_H_ */
+#endif  /* REPO_GROUP_A01_SRC_INCLUDE_COLOR_DATA_H_ */

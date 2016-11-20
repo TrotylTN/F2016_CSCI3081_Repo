@@ -5,7 +5,7 @@
  * Description     : Implementation for FilterMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Sat Nov 5 15:26:31 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
@@ -48,19 +48,17 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
                          matrix_[i][j] +
                          temp_color;
           } else {
-            temp_color = ColorData() *
-                         matrix_[i][j] +
-                         temp_color;
+            if (matrix_[i][j] > 0)
+              temp_color = ColorData() * matrix_[i][j] + temp_color;
+            else
+              temp_color = original_buffer->get_pixel(x, y) *
+                           matrix_[i][j] + temp_color;
           }
         }
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
-
-// void Resize(float incoming_size) {}
-// void Resize(float incoming_size, int args_for_resize) {}
 
 int FilterMatrix::MatrixSize(void) {
   return this->matrix_size_;

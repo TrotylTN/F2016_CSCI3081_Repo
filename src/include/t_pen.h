@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_T_PEN_H_
-#define SRC_INCLUDE_T_PEN_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_T_PEN_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_T_PEN_H_
 
 /*******************************************************************************
  * Includes
@@ -44,4 +44,4 @@ class TPen : public Tool {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_T_PEN_H_ */
+#endif  /* REPO_GROUP_A01_SRC_INCLUDE_T_PEN_H_ */

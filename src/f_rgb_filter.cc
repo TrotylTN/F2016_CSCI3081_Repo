@@ -5,7 +5,7 @@
  * Description     : Implementation for RGBFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Thu Nov 10 14:11:26 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
@@ -52,7 +52,6 @@ PixelBuffer* RGBFilter::ApplyMatrix(PixelBuffer* original_buffer) {
       temp_color.blue(temp_color.blue() * this->channel_color_blue_);
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */

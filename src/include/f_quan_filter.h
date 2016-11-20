@@ -5,12 +5,12 @@
  * Description     : Header for QuanFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Thu Nov 10 19:17:42 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_QUAN_FILTER_H_
-#define SRC_INCLUDE_F_QUAN_FILTER_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_F_QUAN_FILTER_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_F_QUAN_FILTER_H_
 
 /*******************************************************************************
 * Includes
@@ -45,4 +45,4 @@ class QuanFilter : public FilterMatrix{
 };
 }  // namespace image_tools
 
-#endif  // SRC_INCLUDE_F_QUAN_FILTER_H_
+#endif  // REPO_GROUP_A01_SRC_INCLUDE_F_QUAN_FILTER_H_

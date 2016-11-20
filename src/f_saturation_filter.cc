@@ -5,7 +5,7 @@
  * Description     : Implementation for SaturationFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Wed Nov 9 17:20:16 2016
- * Original Author : Tiannan Zhou
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
@@ -52,7 +52,6 @@ PixelBuffer* SaturationFilter::ApplyMatrix(PixelBuffer* original_buffer) {
       temp_color.blue(result_lum);
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */
