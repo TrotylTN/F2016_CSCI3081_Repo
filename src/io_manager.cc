@@ -192,8 +192,8 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
       file_name_ << std::endl;
   if (has_suffix(file_name_, ".png") && display_buffer != NULL) {
     SavePNG(display_buffer);
-  } else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")
-            && display_buffer != NULL) {
+  } else if ((has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg"))
+             && display_buffer != NULL) {
     SaveJPEG(display_buffer);
   } else {
     exit(1);
@@ -226,13 +226,13 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
     while (x < display_buffer->width()) {
       color = display_buffer->get_pixel(x, display_buffer->height()-y-1);
       buffer[y * 4 * image.width + x * 4 + 0] =
-                    (png_byte) static_cast<unsigned int>(color.red()*255);
+            static_cast<png_byte>(static_cast<unsigned int>(color.red()*255));
       buffer[y * 4 * image.width + x * 4 + 1] =
-                    (png_byte) static_cast<unsigned int>(color.green()*255);
+            static_cast<png_byte>(static_cast<unsigned int>(color.green()*255));
       buffer[y * 4 * image.width + x * 4 + 2] =
-                    (png_byte) static_cast<unsigned int>(color.blue()*255);
+            static_cast<png_byte>(static_cast<unsigned int>(color.blue()*255));
       buffer[y * 4 * image.width + x * 4 + 3] =
-                    (png_byte) static_cast<unsigned int>(color.alpha()*255);
+            static_cast<png_byte>(static_cast<unsigned int>(color.alpha()*255));
       x++;
     }
     y++;
