@@ -42,9 +42,9 @@ class ToolFactory {
     TOOL_SPRAYCAN = 2,
     TOOL_CALLIGRAPHYPEN = 3,
     TOOL_HIGHLIGHTER = 4,
-    TOOL_CHALK = 5,
-    TOOL_STAMP = 6,
-    TOOL_BLUR = 7,
+    TOOL_STAMP = 5,
+    TOOL_BLUR = 6,
+    TOOL_CHALK = 7,
     NUMTOOLS = 8
   };
 
