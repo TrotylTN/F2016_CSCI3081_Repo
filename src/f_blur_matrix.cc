@@ -106,6 +106,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
         }
         result_buffer->set_pixel(x, y, temp_color);
       }
+      result_buffer->ValidPixel();
       return result_buffer;
   }
 }
