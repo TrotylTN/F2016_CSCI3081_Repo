@@ -32,9 +32,34 @@ namespace image_tools {
  ******************************************************************************/
 FilterMatrix* FilterFactory::CreateFilter(int filter_id) {
   FilterMatrix* filter = nullptr;
-
   switch (filter_id) {
-
+    case F_BLUR:
+      filter = new BlurMatrix();
+      break;
+    case F_MOTION:
+      filter = new BlurMatrix();
+      break;
+    case F_SHARPEN:
+      filter = new EdgeMatrix();
+      break;
+    case F_EDGE:
+      filter = new EdgeMatrix();
+      break;
+    case F_THRESHOLD:
+      filter = new ThresholdFilter();
+      break;
+    case F_SATURATION:
+      filter = new SaturationFilter();
+      break;
+    case F_CHANNEL:
+      filter = new RGBFilter();
+      break;
+    case F_QUANTIZE:
+      filter = new QuanFilter();
+      break;
+    case F_EMBOSS:
+      filter = new EmbossMatrix();
+      break;
     default:
       filter = nullptr;
       break;
