@@ -311,7 +311,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
  ![Wokr Flow](Redo_Undo_Flowchart.png)
 
 
- To implement those function design in C++ code. First for all, we set the function will be calling as part of our frame. snippet 2.2 show, how we did, make the idea from idea to become real code.
+ >To implement those function design in C++ code. First for all, we set the function will be calling as part of our frame. snippet 2.2 show, how we did, make the idea from idea to become real code.
 
 ###### Figure 2.2: C++ Code implement
  ```C++
@@ -372,7 +372,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
    GLUI_Button *redo_btn_;
  };
  ```
- As the code shows above we declare a vector named cached_buffer_  as i mentioned before, and set the generic to PixelBuffer*. In addition, we also have three functions,for the “RedoOperation”  , “RedoOperation”  and  “InsertNewBuffer”. And could be calling those in the flashphoto_app.cc. The snippet 2.3 shows how those function been call.
+ >As the code shows above we declare a vector named cached_buffer_  as i mentioned before, and set the generic to PixelBuffer*. In addition, we also have three functions,for the “RedoOperation”  , “RedoOperation”  and  “InsertNewBuffer”. And could be calling those in the flashphoto_app.cc. The snippet 2.3 shows how those function been call.
 
 ###### Figure 2.3: How function been call in flashpotho_app.cc
  ```C++
@@ -435,7 +435,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
  ………...
  }
  ```
- Notice the code above,the recorde been inserted into our cached_buffer_  since every change on the pixel buffer, even include load file. The figure 2.4 below showing the how does the record been saved in cached_buffer_   since the program start .
+ >Notice the code above,the recorde been inserted into our cached_buffer_  since every change on the pixel buffer, even include load file. The figure 2.4 below showing the how does the record been saved in cached_buffer_   since the program start .
 
  ###### Figure 2.4: caced buffer status
 
@@ -447,7 +447,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
    ![Figure undo](undo.png)
 
 
- Notice the figure 2.5 above shows how the undo operation works when the undo function been called. Meanwhile, the function will move the move the state_point to the left(imaginary line) consistent by one position to recorded 4. Pay attention here, we are not actually to delete records 5, when the undo function done by call once  .
+ >Notice the figure 2.5 above shows how the undo operation works when the undo function been called. Meanwhile, the function will move the move the state_point to the left(imaginary line) consistent by one position to recorded 4. Pay attention here, we are not actually to delete records 5, when the undo function done by call once  .
 
 
 ###### Figure 2.6: redo operation
@@ -455,19 +455,19 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
   ![Figure redo](redo1.png)
 
 
- The figure 2.6 shows, how the redo works. That is really simplify idea, if we did not modify anything on current buffer, then state_point will increase by one and move from record 4 to record 5. however , if we modified the pixel buffer since last undo, then the operation are going to different, as the figure 2.7, how we will reorganize our vector.
+ >The figure 2.6 shows, how the redo works. That is really simplify idea, if we did not modify anything on current buffer, then state_point will increase by one and move from record 4 to record 5. however , if we modified the pixel buffer since last undo, then the operation are going to different, as the figure 2.7, how we will reorganize our vector.
 
 ##### Figure 2.7 reorganize vector
  ![Figure redo](redo.png)
 
- notices , the figure above clearly to show us, we will replace the record 5 with the new buffer and  clear the rest of the records. As the figure 2.7 shows the record 5 has been replaced and 6 been deleted.
+ >notices , the figure above clearly to show us, we will replace the record 5 with the new buffer and  clear the rest of the records. As the figure 2.7 shows the record 5 has been replaced and 6 been deleted.
 
 
- That is all how we define the redo and undo in our  project.
+ >That is all how we define the redo and undo in our  project.
 
 
  ### 2.2 Design Justification
- The justification for our redo/undo design are so simple. Because as we mentioned above we  will clean and reorganize our pix buffer as the figure 2.7 shows. Therefore, we do have three option to select either queue, stack and vector. However, the queue only can doing first in and first out, then we are unable to remove the element behind current element at the mid of our structure, when we want to insert a new record to our container. in addition, the similar situation will occur when we choose stack as a container to save our pixel buffer, according to the rule of the stack, we can not clean the element the at the front of our list when the size of element over the size of container. Until to here, we only left with vector, that is perfect what we want, the vector library has function call eraser() that could either remove the element from the end or binge of the container-list.  The figure 2.8 show how we using this function in our project
+ >The justification for our redo/undo design are so simple. Because as we mentioned above we  will clean and reorganize our pix buffer as the figure 2.7 shows. Therefore, we do have three option to select either queue, stack and vector. However, the queue only can doing first in and first out, then we are unable to remove the element behind current element at the mid of our structure, when we want to insert a new record to our container. in addition, the similar situation will occur when we choose stack as a container to save our pixel buffer, according to the rule of the stack, we can not clean the element the at the front of our list when the size of element over the size of container. Until to here, we only left with vector, that is perfect what we want, the vector library has function call eraser() that could either remove the element from the end or binge of the container-list.  The figure 2.8 show how we using this function in our project
  ```C++
   void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
    for (int i = this->cached_buffer_.size() - 1; i > state_ptr_; i--) {
