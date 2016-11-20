@@ -592,7 +592,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
 
 3) Finally, you have to add a caller function inside FilterManager. You have to add the declaration in filter_manager.h and the caller itself inside filter_manager.cc and also include f_invert_filter.h into filter_manager.h.
 
-  ###### Figure 3.4: src/include/filter_manager.h
+###### Figure 3.4: src/include/filter_manager.h
   ```C++
   #ifndef SRC_INCLUDE_FILTER_MANAGER_H_
   #define SRC_INCLUDE_FILTER_MANAGER_H_
@@ -625,7 +625,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
   ```
 
 
-  ###### Figure 3.5: src/filter_manager.cc
+###### Figure 3.5: src/filter_manager.cc
   ```C++
   #include "include/filter_manager.h"
   #include <iostream>
