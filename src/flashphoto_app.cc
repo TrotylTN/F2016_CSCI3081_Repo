@@ -12,10 +12,10 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "include/flashphoto_app.h"
 #include <assert.h>
 #include <cmath>
 #include <iostream>
+#include "include/flashphoto_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
