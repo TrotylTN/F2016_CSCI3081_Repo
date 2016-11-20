@@ -564,7 +564,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
 2) Then, we have to add an instance of the filter and push it into the vector filters_ in filter_manager.cc.
 
 
-  ###### Figure 3.3: src/filter_manager.cc
+###### Figure 3.3: src/filter_manager.cc
   ```C++
   #include "include/filter_manager.h"
   #include <iostream>
