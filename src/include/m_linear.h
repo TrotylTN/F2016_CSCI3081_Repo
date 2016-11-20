@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_M_LINEAR_H_
-#define SRC_INCLUDE_M_LINEAR_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_M_LINEAR_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_M_LINEAR_H_
 
 /*******************************************************************************
  * Includes
@@ -39,4 +39,4 @@ class MLinear : public Mask {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_M_LINEAR_H_ */
+#endif  /* REPO_GROUP_A01_SRC_INCLUDE_M_LINEAR_H_ */

@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_UI_CTRL_H_
-#define SRC_INCLUDE_UI_CTRL_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_UI_CTRL_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_UI_CTRL_H_
 
 /*******************************************************************************
  * Includes
@@ -77,4 +77,4 @@ class UICtrl {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_UI_CTRL_H_ */
+#endif  /* REPO_GROUP_A01_SRC_INCLUDE_UI_CTRL_H_ */

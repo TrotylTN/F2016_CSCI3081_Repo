@@ -5,12 +5,12 @@
  * Description     : Header for EmbossMatrix class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Thu Nov 10 20:19:47 2016
- * Original Author : Group-A01 
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_EMBOSS_MATRIX_H_
-#define SRC_INCLUDE_F_EMBOSS_MATRIX_H_
+#ifndef REPO_GROUP_A01_SRC_INCLUDE_F_EMBOSS_MATRIX_H_
+#define REPO_GROUP_A01_SRC_INCLUDE_F_EMBOSS_MATRIX_H_
 
 /*******************************************************************************
 * Includes
@@ -42,4 +42,4 @@ class EmbossMatrix : public FilterMatrix {
 };
 }  // namespace image_tools
 
-#endif  // SRC_INCLUDE_F_EMBOSS_MATRIX_H_
+#endif  // REPO_GROUP_A01_SRC_INCLUDE_F_EMBOSS_MATRIX_H_
