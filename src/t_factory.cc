@@ -50,14 +50,14 @@ Tool* ToolFactory::CreateTool(int tool_id) {
     case TOOL_HIGHLIGHTER:
       tool = new THighlighter();
       break;
-    case TOOL_CHALK:
-      tool = new TChalk();
-      break;
     case TOOL_STAMP:
       tool = new TStamp();
       break;
     case TOOL_BLUR:
       tool = new TBlur();
+      break;
+    case TOOL_CHALK:
+      tool = new TChalk();
       break;
     default:
       tool = nullptr;

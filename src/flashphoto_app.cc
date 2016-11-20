@@ -162,9 +162,9 @@ void FlashPhotoApp::InitGlui(void) {
     new GLUI_RadioButton(radio, "Spray Can");
     new GLUI_RadioButton(radio, "Caligraphy Pen");
     new GLUI_RadioButton(radio, "Highlighter");
-    new GLUI_RadioButton(radio, "Chalk");
     new GLUI_RadioButton(radio, "Stamp");
     new GLUI_RadioButton(radio, "Blur");
+    new GLUI_RadioButton(radio, "Chalk");
   }
 
   GLUI_Panel *color_panel = new GLUI_Panel(glui(), "Tool Color");
