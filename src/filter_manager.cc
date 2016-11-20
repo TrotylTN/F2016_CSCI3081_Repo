@@ -56,7 +56,7 @@ void FilterManager::ApplyBlur(PixelBuffer** display_buffer) {
 }
 
 void FilterManager::ApplyMotionBlur(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Sharpen with amount = "
+  std::cout << "Apply has been clicked for MotionBlur with amount = "
             << motion_blur_amount_
             << " and direction " << motion_blur_direction_ << std::endl;
   filters_[1]->Resize(motion_blur_amount_, motion_blur_direction_);
