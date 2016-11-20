@@ -48,8 +48,11 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
                          matrix_[i][j] +
                          temp_color;
           } else {
-            temp_color = original_buffer->get_pixel(x, y) *
-                         matrix_[i][j] + temp_color;
+            if (matrix_[i][j] > 0)
+              temp_color = ColorData() * matrix_[i][j] + temp_color;
+            else
+              temp_color = original_buffer->get_pixel(x, y) *
+                           matrix_[i][j] + temp_color;
           }
         }
       result_buffer->set_pixel(x, y, temp_color);

@@ -100,7 +100,7 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
                          value_in_cell +
                          temp_color;
           } else {
-            temp_color = original_buffer->get_pixel(x, y) *
+            temp_color = ColorData() *
                          value_in_cell + temp_color;
           }
         }
