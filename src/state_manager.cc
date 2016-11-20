@@ -33,6 +33,13 @@ StateManager::StateManager(void) :
   cached_buffer_.clear();
 }
 
+StateManager::~StateManager(void) {
+  for (int i = 0; i < static_cast<int>(cached_buffer_.size()); i++) {
+    if (cached_buffer_[i])
+      delete cached_buffer_[i];
+  }
+  cached_buffer_.clear();
+}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
