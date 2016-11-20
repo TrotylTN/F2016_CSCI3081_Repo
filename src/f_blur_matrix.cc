@@ -30,7 +30,7 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
   int new_matrix_size = n * 2 + 1;
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
-  if (blur_type == -1) {
+  if (this->blur_type_ == -1) {
     float tot_cell = 2 * n * n + 2 * n + 1;
     float value_in_cell = 1.0 / tot_cell;
     for (int i = 0; i < new_matrix_size; i++) {
