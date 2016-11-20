@@ -37,7 +37,9 @@ ColorData TStamp::color_blend_math(
     float mask_pixel_amount,
     const ColorData& tool_color,
     const ColorData& current_color,
-    const ColorData& background_color) {}
+    const ColorData& background_color) {
+  return ColorData();
+}
 
 void TStamp::ApplyToBuffer(
     int tool_x,
