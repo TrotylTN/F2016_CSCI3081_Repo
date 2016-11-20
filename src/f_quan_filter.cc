@@ -5,7 +5,7 @@
  * Description     : Implementation for QuanFilter class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : Thu Nov 10 19:41:36 2016
- * Original Author : Group-A01 
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
@@ -54,7 +54,6 @@ PixelBuffer* QuanFilter::ApplyMatrix(PixelBuffer* original_buffer) {
       temp_color.blue(multi_of_gap * detail_gap);
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */

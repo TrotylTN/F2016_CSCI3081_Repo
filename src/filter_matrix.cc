@@ -54,12 +54,8 @@ PixelBuffer* FilterMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
         }
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
-
-// void Resize(float incoming_size) {}
-// void Resize(float incoming_size, int args_for_resize) {}
 
 int FilterMatrix::MatrixSize(void) {
   return this->matrix_size_;
