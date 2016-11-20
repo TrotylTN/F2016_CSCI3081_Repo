@@ -20,13 +20,7 @@
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
 #include "include/filter_matrix.h"
-#include "include/f_blur_matrix.h"
-#include "include/f_edge_matrix.h"
-#include "include/f_threshold_filter.h"
-#include "include/f_saturation_filter.h"
-#include "include/f_rgb_filter.h"
-#include "include/f_quan_filter.h"
-#include "include/f_emboss_matrix.h"
+#include "include/filter_factory.h"
 
 /*******************************************************************************
  * Namespaces

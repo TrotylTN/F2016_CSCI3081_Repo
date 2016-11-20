@@ -12,8 +12,9 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "include/filter_manager.h"
+#include <assert.h>
 #include <iostream>
+#include "include/filter_manager.h"
 #include "include/ui_ctrl.h"
 
 /*******************************************************************************
@@ -34,11 +35,13 @@ FilterManager::FilterManager(void) :
     sharpen_amount_(0.0),
     motion_blur_amount_(0.0),
     motion_blur_direction_(UICtrl::UI_DIR_E_W),
-    quantize_bins_(0) {}
+    quantize_bins_(0),
+    filters_({}),
+    temp_buffer_(nullptr) {}
 
 FilterManager::~FilterManager() {
-  for (int i = 0; i < 9; i++) {
-    if (filters_[i])
+  for (int i = 0; i < FilterFactory::num_filters(); i++) {
+    if (this->filters_[i])
       delete filters_[i];
   }
 }
@@ -53,16 +56,18 @@ void FilterManager::ApplyBlur(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[0]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyMotionBlur(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Sharpen with amount = "
+  std::cout << "Apply has been clicked for MotionBlur with amount = "
             << motion_blur_amount_
             << " and direction " << motion_blur_direction_ << std::endl;
   filters_[1]->Resize(motion_blur_amount_, motion_blur_direction_);
   temp_buffer_ = filters_[1]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplySharpen(PixelBuffer** display_buffer) {
@@ -72,6 +77,7 @@ void FilterManager::ApplySharpen(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[2]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyEdgeDetect(PixelBuffer** display_buffer) {
@@ -79,6 +85,7 @@ void FilterManager::ApplyEdgeDetect(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[3]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyThreshold(PixelBuffer** display_buffer) {
@@ -88,6 +95,7 @@ void FilterManager::ApplyThreshold(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[4]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplySaturate(PixelBuffer** display_buffer) {
@@ -97,6 +105,7 @@ void FilterManager::ApplySaturate(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[5]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyChannel(PixelBuffer** display_buffer) {
@@ -111,6 +120,7 @@ void FilterManager::ApplyChannel(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[6]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyQuantize(PixelBuffer** display_buffer) {
@@ -120,6 +130,7 @@ void FilterManager::ApplyQuantize(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[7]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyEmboss(PixelBuffer** display_buffer) {
@@ -127,19 +138,16 @@ void FilterManager::ApplyEmboss(PixelBuffer** display_buffer) {
   temp_buffer_ = filters_[8]->ApplyMatrix(*display_buffer);
   temp_buffer_->ValidPixel();
   *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::InitGlui(const GLUI *const glui,
                              void (*s_gluicallback)(int)) {
-  filters_.push_back(new BlurMatrix());
-  filters_.push_back(new BlurMatrix());
-  filters_.push_back(new EdgeMatrix());
-  filters_.push_back(new EdgeMatrix());
-  filters_.push_back(new ThresholdFilter());
-  filters_.push_back(new SaturationFilter());
-  filters_.push_back(new RGBFilter());
-  filters_.push_back(new QuanFilter());
-  filters_.push_back(new EmbossMatrix());
+  for (int i = 0; i < FilterFactory::num_filters(); i++) {
+    FilterMatrix* f = FilterFactory::CreateFilter(i);
+    assert(f);
+    filters_.push_back(f);
+  }
   new GLUI_Column(const_cast<GLUI*>(glui), true);
   GLUI_Panel *filter_panel = new GLUI_Panel(const_cast<GLUI*>(glui), "Filters");
   {
