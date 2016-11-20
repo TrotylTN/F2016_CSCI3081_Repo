@@ -5,7 +5,7 @@
  * Description     : Header file for Stamp class
  * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
  * Creation Date   : 11/09/16
- * Original Author : Group-A01 
+ * Original Author : Group-A01
  *
  ******************************************************************************/
 
@@ -37,9 +37,7 @@ ColorData TStamp::color_blend_math(
     float mask_pixel_amount,
     const ColorData& tool_color,
     const ColorData& current_color,
-    const ColorData& background_color) {
-  // TBC
-}
+    const ColorData& background_color) {}
 
 void TStamp::ApplyToBuffer(
     int tool_x,

@@ -258,4 +258,4 @@ documentation:
 # last invocation of make.
 $(OBJDIR)/%.o: $(SRCDIR)/%.cc $(LIBS_A)
 	@$(call make-depend-cxx,$<,$@,$(subst .o,.d,$@))
-	$(CXX) $(CXXFLAGS) $(CXXLIBDIRS) -c -o  $@ $<
+	$(CXX) $(CXXFLAGS) -c -o  $@ $<
