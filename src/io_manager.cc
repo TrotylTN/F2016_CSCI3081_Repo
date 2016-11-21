@@ -235,6 +235,7 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
                     (png_byte) static_cast<unsigned int>(color.alpha()*255);
       x++;
     }
+    x = 0;
     y++;
   }
 
@@ -302,6 +303,7 @@ void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
       buffer[y * 3 * display_buffer->width() + x * 3 + 2] =
                                                   (JSAMPLE) (color.blue()*255);
     }
+  
   }
   /* writing buffer into jpeg file */
   while (cinfo.next_scanline < cinfo.image_height) {
