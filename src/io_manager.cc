@@ -302,8 +302,10 @@ void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
                                                   (JSAMPLE) (color.green()*255);
       buffer[y * 3 * display_buffer->width() + x * 3 + 2] =
                                                   (JSAMPLE) (color.blue()*255);
+      x++;
     }
-  
+    x = 0;
+    y++;
   }
   /* writing buffer into jpeg file */
   while (cinfo.next_scanline < cinfo.image_height) {
