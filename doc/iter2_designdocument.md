@@ -660,10 +660,12 @@ PixelBuffer* InvertFilter::ApplyMatrix(PixelBuffer* original_buffer) {
 }
 ```
 
-2) Then, we have to add the creation of the filter into FilterFactory. We just need to assign a filter number for the new filter, increase the total number of filters and added the initialization steps of this filter in filter_factory.cc.
+2) Then, we have to add the creation of the filter into FilterFactory. We just need to assign a filter number for the new filter, increase the total number of filters and added the initialization steps of this filter in filter_factory.cc. Don't forget to include the headfile f_invert_matrix.h.
 
 ###### filter_factory.h
 ```C++
+#include "include/f_invert_matrix.h"
+
 class FilterFactory {
  public:
   /**
@@ -677,7 +679,6 @@ class FilterFactory {
   };
   ...
 };
-
 
 }
 ```
@@ -704,20 +705,13 @@ FilterMatrix* FilterFactory::CreateFilter(int filter_id) {
 ```
 
 
-3) Finally, you have to add Invert Button on GUI and build a call back function for the button inside FilterManager. You have to add the declaration in filter_manager.h and the caller itself inside filter_manager.cc and also include f_invert_filter.h into filter_manager.h.
+3) Finally, you have to add Invert Button on GUI and build a call back function for the button inside FilterManager. You have to add the declaration in filter_manager.h and the caller itself inside filter_manager.cc.
 
 
 ###### filter_manager.h
 ```C++
-#ifndef SRC_INCLUDE_FILTER_MANAGER_H_
-#define SRC_INCLUDE_FILTER_MANAGER_H_
-
 ...
-#include "include/f_invert_matrix.h"
-
-
 namespace image_tools {
-
 
 class FilterManager {
  public:
@@ -725,10 +719,7 @@ class FilterManager {
    void ApplyInvert(PixelBuffer** display_buffer);
    …  
 };
-
-
 }
-#endif
 ```
 
 
