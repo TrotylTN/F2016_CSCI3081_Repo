@@ -52,7 +52,6 @@ PixelBuffer* SaturationFilter::ApplyMatrix(PixelBuffer* original_buffer) {
       temp_color.blue(result_lum);
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */

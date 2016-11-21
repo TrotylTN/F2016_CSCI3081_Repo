@@ -12,8 +12,8 @@
 /*******************************************************************************
 * Includes
 ******************************************************************************/
-#include <cstdlib>
 #include "include/f_blur_matrix.h"
+
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -30,12 +30,12 @@ void BlurMatrix::Resize(float incoming_size, float blur_type) {
   int new_matrix_size = n * 2 + 1;
   std::vector <std::vector<float> > new_matrix;
   new_matrix.resize(new_matrix_size, std::vector<float>(new_matrix_size));
-  if (this->blur_type_ == -1) {
+  if (blur_type == -1) {
     float tot_cell = 2 * n * n + 2 * n + 1;
     float value_in_cell = 1.0 / tot_cell;
     for (int i = 0; i < new_matrix_size; i++) {
       for (int j = 0; j < new_matrix_size; j++) {
-        int dis = std::abs(i - n) + std::abs(j - n);
+        int dis = fabs(i - n) + fabs(j - n);
         if (dis <= n)
           new_matrix[i][j] = value_in_cell;
         else
@@ -106,7 +106,6 @@ PixelBuffer* BlurMatrix::ApplyMatrix(PixelBuffer* original_buffer) {
         }
         result_buffer->set_pixel(x, y, temp_color);
       }
-      result_buffer->ValidPixel();
       return result_buffer;
   }
 }
