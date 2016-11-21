@@ -36,7 +36,8 @@ FilterManager::FilterManager(void) :
     motion_blur_amount_(0.0),
     motion_blur_direction_(UICtrl::UI_DIR_E_W),
     quantize_bins_(0),
-    filters_({}) {}
+    filters_({}),
+    temp_buffer_(nullptr) {}
 
 FilterManager::~FilterManager() {
   for (int i = 0; i < FilterFactory::num_filters(); i++) {
@@ -52,7 +53,10 @@ void FilterManager::ApplyBlur(PixelBuffer** display_buffer) {
   std::cout << "Apply has been clicked for Blur with amount = "
             << blur_amount_ << std::endl;
   filters_[0]->Resize(blur_amount_, -1);
-  *display_buffer = filters_[0]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[0]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyMotionBlur(PixelBuffer** display_buffer) {
@@ -60,33 +64,48 @@ void FilterManager::ApplyMotionBlur(PixelBuffer** display_buffer) {
             << motion_blur_amount_
             << " and direction " << motion_blur_direction_ << std::endl;
   filters_[1]->Resize(motion_blur_amount_, motion_blur_direction_);
-  *display_buffer = filters_[1]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[1]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplySharpen(PixelBuffer** display_buffer) {
   std::cout << "Apply has been clicked for Sharpen with amount = "
             << sharpen_amount_ << std::endl;
   filters_[2]->Resize(3, sharpen_amount_);
-  *display_buffer = filters_[2]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[2]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyEdgeDetect(PixelBuffer** display_buffer) {
   std::cout << "Apply has been clicked for Edge Detect" << std::endl;
-  *display_buffer = filters_[3]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[3]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyThreshold(PixelBuffer** display_buffer) {
   std::cout << "Apply Threshold has been clicked with amount ="
             << threshold_amount_ << std::endl;
   filters_[4]->Resize(1, threshold_amount_);
-  *display_buffer = filters_[4]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[4]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplySaturate(PixelBuffer** display_buffer) {
   std::cout << "Apply has been clicked for Saturate with amount = "
             << saturation_amount_ << std::endl;
   filters_[5]->Resize(1, saturation_amount_);
-  *display_buffer = filters_[5]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[5]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyChannel(PixelBuffer** display_buffer) {
@@ -98,19 +117,28 @@ void FilterManager::ApplyChannel(PixelBuffer** display_buffer) {
                       channel_color_red_,
                       channel_color_green_,
                       channel_color_blue_);
-  *display_buffer = filters_[6]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[6]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyQuantize(PixelBuffer** display_buffer) {
   std::cout << "Apply has been clicked for Quantize with bins = "
             << quantize_bins_ << std::endl;
   filters_[7]->Resize(1, quantize_bins_);
-  *display_buffer = filters_[7]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[7]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::ApplyEmboss(PixelBuffer** display_buffer) {
   std::cout << "Apply has been clicked for Emboss" << std::endl;
-  *display_buffer = filters_[8]->ApplyMatrix(*display_buffer);
+  temp_buffer_ = filters_[8]->ApplyMatrix(*display_buffer);
+  temp_buffer_->ValidPixel();
+  *display_buffer = temp_buffer_;
+  temp_buffer_ = nullptr;
 }
 
 void FilterManager::InitGlui(const GLUI *const glui,

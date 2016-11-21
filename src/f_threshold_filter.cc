@@ -56,7 +56,6 @@ PixelBuffer* ThresholdFilter::ApplyMatrix(PixelBuffer* original_buffer) {
         temp_color.blue(0);
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */

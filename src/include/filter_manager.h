@@ -129,6 +129,7 @@ class FilterManager {
 
   /** Pointer to pixel data for the temp cache */
   std::vector<FilterMatrix*> filters_;
+  PixelBuffer* temp_buffer_;
 };
 
 }  /* namespace image_tools */
