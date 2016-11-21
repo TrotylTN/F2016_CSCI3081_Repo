@@ -25,14 +25,21 @@ namespace image_tools {
  * Constructors/Destructor
  ******************************************************************************/
 StateManager::StateManager(void) :
-    undo_btn_(nullptr),
-    redo_btn_(nullptr),
     cached_buffer_({}),
     size_limit_(100),
-    state_ptr_(-1) {
-      cached_buffer_.clear();
-    }
+    state_ptr_(-1),
+    undo_btn_(nullptr),
+    redo_btn_(nullptr) {
+  cached_buffer_.clear();
+}
 
+StateManager::~StateManager(void) {
+  for (int i = 0; i < static_cast<int>(cached_buffer_.size()); i++) {
+    if (cached_buffer_[i])
+      delete cached_buffer_[i];
+  }
+  cached_buffer_.clear();
+}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
@@ -61,7 +68,7 @@ void StateManager::UndoOperation(PixelBuffer** display_buffer) {
   // be called and have correct
   // buffer return
 
-  if (state_ptr_ < this->cached_buffer_.size() - 1)
+  if (state_ptr_ < static_cast<int>(this->cached_buffer_.size()) - 1)
     redo_toggle(true);
   else
     redo_toggle(false);
@@ -80,7 +87,7 @@ void StateManager::RedoOperation(PixelBuffer** display_buffer) {
   state_ptr_++;
   std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
   *display_buffer = this->cached_buffer_[state_ptr_];
-  if (state_ptr_ < this->cached_buffer_.size() - 1)
+  if (state_ptr_ < static_cast<int>(this->cached_buffer_.size()) - 1)
     redo_toggle(true);
   else
     redo_toggle(false);
@@ -91,13 +98,15 @@ void StateManager::RedoOperation(PixelBuffer** display_buffer) {
 }
 
 void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
-  for (int i = this->cached_buffer_.size() - 1; i > state_ptr_; i--) {
+  for (int i = static_cast<int>(this->cached_buffer_.size()) - 1;
+       i > state_ptr_;
+       i--) {
     delete this->cached_buffer_[i];
     this->cached_buffer_.erase(this->cached_buffer_.begin() + i);
   }
   this->cached_buffer_.push_back(new_buffer);
   state_ptr_++;
-  if (state_ptr_ < this->cached_buffer_.size() - 1)
+  if (state_ptr_ < static_cast<int>(this->cached_buffer_.size()) - 1)
     redo_toggle(true);
   else
     redo_toggle(false);
@@ -105,8 +114,9 @@ void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
     undo_toggle(true);
   else
     undo_toggle(false);
-  if (this->cached_buffer_.size() > this->size_limit_) {
-    int shift_val = this->cached_buffer_.size() - this->size_limit_;
+  if (static_cast<int>(this->cached_buffer_.size()) > this->size_limit_) {
+    int shift_val = static_cast<int>(this->cached_buffer_.size()) -
+                    this->size_limit_;
     for (int i = 0; i < shift_val; i++) {
       delete this->cached_buffer_[0];
       this->cached_buffer_.erase(this->cached_buffer_.begin());
