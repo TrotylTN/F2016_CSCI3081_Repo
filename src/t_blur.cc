@@ -12,12 +12,12 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
+#include "include/t_blur.h"
 #include <assert.h>
-#include <cstdlib>
 #include <string>
 #include <vector>
+#include <cmath>
 #include <algorithm>
-#include "include/t_blur.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
 
@@ -36,7 +36,7 @@ ColorData TBlur::ApplyBlur(PixelBuffer *buffer, int x, int y, int matrix_size) {
   ColorData temp_color(0, 0, 0, 0);
   for (int i = 0; i < matrix_size; i++) {
     for (int j = 0; j < matrix_size; j++) {
-      int dis = std::abs(i - shift_length) + std::abs(j - shift_length);
+      int dis = fabs(i - shift_length) + fabs(j - shift_length);
       if (dis > shift_length) {
         continue;
       }
