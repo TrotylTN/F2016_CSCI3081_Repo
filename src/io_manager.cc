@@ -153,7 +153,6 @@ PixelBuffer *IOManager::LoadImageToCanvas() {
              has_suffix(file_name_, ".jpeg")) {
     return LoadJPEG();
   }
-  return nullptr;
 }
 
 PixelBuffer *IOManager::LoadImageToStamp(void) {
@@ -193,8 +192,8 @@ void IOManager::SaveCanvasToFile(PixelBuffer *display_buffer) {
       file_name_ << std::endl;
   if (has_suffix(file_name_, ".png") && display_buffer != NULL) {
     SavePNG(display_buffer);
-  } else if ((has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg"))
-             && display_buffer != NULL) {
+  } else if (has_suffix(file_name_, ".jpg") || has_suffix(file_name_, ".jpeg")
+            && display_buffer != NULL) {
     SaveJPEG(display_buffer);
   } else {
     exit(1);
@@ -227,15 +226,16 @@ void IOManager::SavePNG(PixelBuffer *display_buffer) {
     while (x < display_buffer->width()) {
       color = display_buffer->get_pixel(x, display_buffer->height()-y-1);
       buffer[y * 4 * image.width + x * 4 + 0] =
-            static_cast<png_byte>(static_cast<unsigned int>(color.red()*255));
+                    (png_byte) static_cast<unsigned int>(color.red()*255);
       buffer[y * 4 * image.width + x * 4 + 1] =
-            static_cast<png_byte>(static_cast<unsigned int>(color.green()*255));
+                    (png_byte) static_cast<unsigned int>(color.green()*255);
       buffer[y * 4 * image.width + x * 4 + 2] =
-            static_cast<png_byte>(static_cast<unsigned int>(color.blue()*255));
+                    (png_byte) static_cast<unsigned int>(color.blue()*255);
       buffer[y * 4 * image.width + x * 4 + 3] =
-            static_cast<png_byte>(static_cast<unsigned int>(color.alpha()*255));
+                    (png_byte) static_cast<unsigned int>(color.alpha()*255);
       x++;
     }
+    x = 0;
     y++;
   }
 
@@ -297,12 +297,15 @@ void IOManager::SaveJPEG(PixelBuffer *display_buffer) {
     while (x < display_buffer->width()) {
       color = display_buffer->get_pixel(x, display_buffer->height() - y -1);
       buffer[y * 3 * display_buffer->width() + x * 3 + 0] =
-                                      static_cast<JSAMPLE>((color.red()*255));
+                                                  (JSAMPLE) (color.red()*255);
       buffer[y * 3 * display_buffer->width() + x * 3 + 1] =
-                                      static_cast<JSAMPLE>((color.green()*255));
+                                                  (JSAMPLE) (color.green()*255);
       buffer[y * 3 * display_buffer->width() + x * 3 + 2] =
-                                      static_cast<JSAMPLE>((color.blue()*255));
+                                                  (JSAMPLE) (color.blue()*255);
+      x++;
     }
+    x = 0;
+    y++;
   }
   /* writing buffer into jpeg file */
   while (cinfo.next_scanline < cinfo.image_height) {
@@ -339,8 +342,8 @@ PixelBuffer *IOManager::LoadPNG(void) {
       const float BASE_COLOR = 255.0;
 
       if (image.format == PNG_FORMAT_RGBA) {
-        for (int y = 0; y < static_cast<int>(image.height); y++) {
-          for (int x = 0; x < static_cast<int>(image.width); x ++) {
+        for (int y = 0; y < image.height; y++) {
+          for (int x = 0; x < image.width; x ++) {
             float r = static_cast<float>(buffer[(y * image.width + x) * 4]);
             float g = static_cast<float>(buffer[(y * image.width + x) * 4 + 1]);
             float b = static_cast<float>(buffer[(y * image.width + x) * 4 + 2]);

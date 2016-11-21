@@ -54,7 +54,6 @@ PixelBuffer* QuanFilter::ApplyMatrix(PixelBuffer* original_buffer) {
       temp_color.blue(multi_of_gap * detail_gap);
       result_buffer->set_pixel(x, y, temp_color);
     }
-  result_buffer->ValidPixel();
   return result_buffer;
 }
 } /* namespace image_tools */

@@ -44,7 +44,13 @@ namespace image_tools {
 class StateManager {
  public:
   StateManager();
-  ~StateManager();
+  ~StateManager() {
+    for (int i = 0; i < cached_buffer_.size(); i++) {
+      if (cached_buffer_[i])
+        delete cached_buffer_[i];
+    }
+    cached_buffer_.clear();
+  }
 
   void InitGlui(const GLUI *const glui,
                 void (*s_gluicallback)(int));
