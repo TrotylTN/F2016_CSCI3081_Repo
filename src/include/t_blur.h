@@ -49,6 +49,9 @@ class TBlur : public Tool {
   std::string name(void) { return "Blur"; }
 
  private:
+/**
+  * @brief Make the pixel with (tool_x, tool_y) blur.
+  */
   ColorData ApplyBlur(PixelBuffer *buffer, int x,
                                int y, int mask_value);
 
