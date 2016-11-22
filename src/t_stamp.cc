@@ -76,7 +76,7 @@ void TStamp::ApplyToBuffer(
       int mask_x = x - (tool_x - stamp_mask_->width()/2);
       int mask_y = y - (tool_y - stamp_mask_->height()/2);
       ColorData c = stamp_mask_->get_pixel(mask_x, mask_y);
-      if (!(c.alpha() == 0.0))
+      if (c.alpha() > 0.0)
         buffer->set_pixel(x, y, c);
     }
   }
