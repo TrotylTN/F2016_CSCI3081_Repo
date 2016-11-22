@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_TOOL_FACTORY_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_TOOL_FACTORY_H_
+#ifndef SRC_INCLUDE_TOOL_FACTORY_H_
+#define SRC_INCLUDE_TOOL_FACTORY_H_
 
 /*******************************************************************************
  * Includes
@@ -62,4 +62,4 @@ class ToolFactory {
 
 }  /* namespace image_tools */
 
-#endif  /* REPO_GROUP_A01_SRC_INCLUDE_TOOL_FACTORY_H_ */
+#endif  /* SRC_INCLUDE_TOOL_FACTORY_H_ */

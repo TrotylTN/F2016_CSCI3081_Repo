@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_FLASHPHOTO_APP_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_FLASHPHOTO_APP_H_
+#ifndef SRC_INCLUDE_FLASHPHOTO_APP_H_
+#define SRC_INCLUDE_FLASHPHOTO_APP_H_
 
 /*******************************************************************************
  * Includes
@@ -133,4 +133,4 @@ class FlashPhotoApp : public BaseGfxApp {
 
 }  /* namespace image_tools */
 
-#endif  // REPO_GROUP_A01_SRC_INCLUDE_FLASHPHOTO_APP_H_
+#endif  // SRC_INCLUDE_FLASHPHOTO_APP_H_

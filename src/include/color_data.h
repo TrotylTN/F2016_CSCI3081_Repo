@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_COLOR_DATA_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_COLOR_DATA_H_
+#ifndef SRC_INCLUDE_COLOR_DATA_H_
+#define SRC_INCLUDE_COLOR_DATA_H_
 
 /*******************************************************************************
  * Namespaces
@@ -73,4 +73,4 @@ class ColorData {
 
 }  /* namespace image_tools */
 
-#endif  /* REPO_GROUP_A01_SRC_INCLUDE_COLOR_DATA_H_ */
+#endif  /* SRC_INCLUDE_COLOR_DATA_H_ */

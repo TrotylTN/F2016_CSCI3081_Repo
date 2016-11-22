@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_FILTER_MATRIX_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_FILTER_MATRIX_H_
+#ifndef SRC_INCLUDE_FILTER_MATRIX_H_
+#define SRC_INCLUDE_FILTER_MATRIX_H_
 
 /*******************************************************************************
 * Includes
@@ -63,4 +63,4 @@ class FilterMatrix {
 };
 }  // namespace image_tools
 
-#endif  // REPO_GROUP_A01_SRC_INCLUDE_FILTER_MATRIX_H_
+#endif  // SRC_INCLUDE_FILTER_MATRIX_H_
