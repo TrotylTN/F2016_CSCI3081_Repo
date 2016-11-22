@@ -25,8 +25,7 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructors
  ******************************************************************************/
-TStamp::TStamp(void) {
-  stamp_mask(NULL);
+TStamp::TStamp(void) : stamp_mask_(nullptr) {
   drag_status(false);
 }
 
@@ -41,12 +40,19 @@ ColorData TStamp::color_blend_math(
   return ColorData();
 }
 
+void TStamp::stamp_mask(PixelBuffer *stamp) {
+  if (this->stamp_mask_ == nullptr) {
+    delete this->stamp_mask_;
+  }
+  this->stamp_mask_ = stamp;
+}
+
 void TStamp::ApplyToBuffer(
     int tool_x,
     int tool_y,
     ColorData tool_color,
     PixelBuffer* buffer) {
-  if (stamp_mask_ == NULL) {
+  if (stamp_mask_ == nullptr) {
     printf("Stamp not initialized.\n");
     return;
   }

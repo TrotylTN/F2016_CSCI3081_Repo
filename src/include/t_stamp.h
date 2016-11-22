@@ -56,7 +56,7 @@ class TStamp : public Tool {
 
   std::string name(void) { return "Stamp"; }
 
-  void stamp_mask(PixelBuffer *stamp) { stamp_mask_ = stamp; }
+  void stamp_mask(PixelBuffer *stamp);
 
  private:
   PixelBuffer *stamp_mask_;

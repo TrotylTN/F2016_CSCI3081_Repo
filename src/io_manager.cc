@@ -410,7 +410,7 @@ PixelBuffer *IOManager::LoadJPEG(void) {
   row_stride = cinfo.output_width * cinfo.output_components;
   /* allocate buffer memory */
   buffer = (*cinfo.mem->alloc_sarray)
-           ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+           (reinterpret_cast<j_common_ptr>(&cinfo), JPOOL_IMAGE, row_stride, 1);
 
   /* read whole image to temporary pixel buffer */
   while (cinfo.output_scanline < cinfo.output_height) {
