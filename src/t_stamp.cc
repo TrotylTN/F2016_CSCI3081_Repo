@@ -25,9 +25,14 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructors
  ******************************************************************************/
-TStamp::TStamp(void) {
-  stamp_mask(NULL);
+TStamp::TStamp(void) : stamp_mask_(nullptr) {
   drag_status(false);
+}
+
+TStamp::~TStamp(void) {
+  if (this->stamp_mask_ != nullptr) {
+    delete this->stamp_mask_;
+  }
 }
 
 /*******************************************************************************
@@ -41,12 +46,19 @@ ColorData TStamp::color_blend_math(
   return ColorData();
 }
 
+void TStamp::stamp_mask(PixelBuffer *stamp) {
+  if (this->stamp_mask_ != nullptr) {
+    delete this->stamp_mask_;
+  }
+  this->stamp_mask_ = stamp;
+}
+
 void TStamp::ApplyToBuffer(
     int tool_x,
     int tool_y,
     ColorData tool_color,
     PixelBuffer* buffer) {
-  if (stamp_mask_ == NULL) {
+  if (stamp_mask_ == nullptr) {
     printf("Stamp not initialized.\n");
     return;
   }
@@ -63,19 +75,6 @@ void TStamp::ApplyToBuffer(
     for (int x = left_bound; x < right_bound; x++) {
       int mask_x = x - (tool_x - stamp_mask_->width()/2);
       int mask_y = y - (tool_y - stamp_mask_->height()/2);
-/*      float mask_value = mask_->value(mask_x, mask_y);
-      ColorData current = buffer->get_pixel(x, y);
-
-      // Because we interpolate the pixels, colors overlap
-      // and increase intensity quickly. We found that cubing
-      // the mask intensity compensated for this.
-      float slimmed_mask_value = powf(mask_value, 3);
-      ColorData c = color_blend_math(
-          slimmed_mask_value,
-          tool_color,
-          current,
-          buffer->background_color());
-*/
       ColorData c = stamp_mask_->get_pixel(mask_x, mask_y);
       if (!(c.alpha() == 0.0))
         buffer->set_pixel(x, y, c);
