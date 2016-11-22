@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_M_CONSTANT_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_M_CONSTANT_H_
+#ifndef SRC_INCLUDE_M_CONSTANT_H_
+#define SRC_INCLUDE_M_CONSTANT_H_
 
 /*******************************************************************************
  * Includes
@@ -38,4 +38,4 @@ class MConstant : public Mask {
 
 }  /* namespace image_tools */
 
-#endif  /* REPO_GROUP_A01_SRC_INCLUDE_M_CONSTANT_H_ */
+#endif  /* SRC_INCLUDE_M_CONSTANT_H_ */

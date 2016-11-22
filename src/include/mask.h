@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_MASK_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_MASK_H_
+#ifndef SRC_INCLUDE_MASK_H_
+#define SRC_INCLUDE_MASK_H_
 
 /*******************************************************************************
  * Namespaces
@@ -93,4 +93,4 @@ class Mask {
 
 }  /* namespace image_tools */
 
-#endif  /* REPO_GROUP_A01_SRC_INCLUDE_MASK_H_ */
+#endif  /* SRC_INCLUDE_MASK_H_ */

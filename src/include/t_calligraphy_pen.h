@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef REPO_GROUP_A01_SRC_INCLUDE_T_CALLIGRAPHY_PEN_H_
-#define REPO_GROUP_A01_SRC_INCLUDE_T_CALLIGRAPHY_PEN_H_
+#ifndef SRC_INCLUDE_T_CALLIGRAPHY_PEN_H_
+#define SRC_INCLUDE_T_CALLIGRAPHY_PEN_H_
 
 /*******************************************************************************
  * Includes
@@ -45,4 +45,4 @@ class TCalligraphyPen : public Tool {
 
 }  /* namespace image_tools */
 
-#endif  /* REPO_GROUP_A01_SRC_INCLUDE_T_CALLIGRAPHY_PEN_H_ */
+#endif  /* SRC_INCLUDE_T_CALLIGRAPHY_PEN_H_ */
