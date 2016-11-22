@@ -28,7 +28,8 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructor
  ******************************************************************************/
-Tool::Tool(void) : mask_(nullptr) {}
+Tool::Tool(void) : mask_(nullptr),
+                   drag_status_(true) {}
 
 Tool::~Tool(void) {
   delete mask_;
