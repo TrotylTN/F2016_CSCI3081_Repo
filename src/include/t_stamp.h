@@ -35,7 +35,7 @@ namespace image_tools {
 class TStamp : public Tool {
  public:
   TStamp(void);
-
+  ~TStamp(void);
   /**
    * @brief
    *

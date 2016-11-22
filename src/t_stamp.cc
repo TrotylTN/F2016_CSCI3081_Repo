@@ -29,6 +29,12 @@ TStamp::TStamp(void) : stamp_mask_(nullptr) {
   drag_status(false);
 }
 
+TStamp::~TStamp(void) {
+  if (this->stamp_mask_ != nullptr) {
+    delete this->stamp_mask_;
+  }
+}
+
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
@@ -41,7 +47,7 @@ ColorData TStamp::color_blend_math(
 }
 
 void TStamp::stamp_mask(PixelBuffer *stamp) {
-  if (this->stamp_mask_ == nullptr) {
+  if (this->stamp_mask_ != nullptr) {
     delete this->stamp_mask_;
   }
   this->stamp_mask_ = stamp;
