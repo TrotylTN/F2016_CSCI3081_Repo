@@ -40,6 +40,7 @@ export LIBIMGTOOLS_DIR = $(realpath $(SRCROOT)/lib/libimgtools)
 export BINDIR   = $(BUILDROOT)/bin
 export LIBDIR   = $(BUILDROOT)/lib
 CONFIGDIR       = ./config
+BUILDDIR        = ./build
 DOCDIR          = ./doc
 CXXTESTDIR      = $(EXTDIR)/cxxtest-4.4
 TESTDIR         = ./tests
@@ -94,6 +95,7 @@ export CXXLIBDIRS = -L$(LIBDIR) -L$(EXTDIR)/lib -L/usr/local/lib
 # GLUI) that we do not have control over.
 define CXXINCDIRS
 -I$(SRCROOT) \
+-I$(SRCDIR) \
 -isystem/usr/local/include \
 -isystem$(GLUIDIR)/include \
 -isystem$(JPEGDIR) \
@@ -122,10 +124,10 @@ export CXXINCDIRS
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin) # Mac OSX
 #CXXLIBS += -limgtools # FIXME: UNCOMMENT THIS LINE WHEN LIMGTOOLS WORKS
-CXXLIBS += -ljpeg -lpng -lz -framework glut -framework opengl -lglui 
+CXXLIBS += -ljpeg -lpng -lz -framework glut -framework opengl -lglui
 else # LINUX
 #CXXLIBS += -limgtools # FIXME: UNCOMMENT THIS LINE WHEN LIMGTOOLS WORKS
-CXXLIBS +=  -lpng -ljpeg -lz -lGL -lGLU -lglui -lglut 
+CXXLIBS +=  -lpng -ljpeg -lz -lGL -lGLU -lglui -lglut
 CXXFLAGS += -fopenmp
 endif
 
@@ -157,12 +159,12 @@ export CXXLIBS
 all: libimgtools FlashPhoto MIA
 
 install: all
-	$(MAKE) -C$(LIBIMGTOOLS_DIR)
-	$(MAKE) -Csrc/app/MIA install
+#	$(MAKE) -C$(LIBIMGTOOLS_DIR)
+#	$(MAKE) -Csrc/app/MIA install
 	$(MAKE) -Csrc/app/FlashPhoto install
 
 libimgtools: | $(EXTDIR)/lib/libpng.a $(LIBDIR)
-	$(MAKE) -C$(LIBIMGTOOLS_DIR) install
+#	$(MAKE) -C$(LIBIMGTOOLS_DIR) install
 
 $(EXTDIR)/lib/libglui.a:
 	$(MAKE) -C$(GLUIDIR) install
@@ -171,16 +173,16 @@ $(EXTDIR)/lib/libpng.a:
 $(EXTDIR)/lib/libjpeg.a:
 	$(MAKE) -C$(JPEGDIR) install
 
-FlashPhoto: libimgtools $(EXTDIR)/lib/libglui.a| $(BINDIR)
+FlashPhoto: libimgtools $(EXTDIR)/lib/libglui.a | $(BUILDDIR) $(BINDIR)
 	$(MAKE) -Csrc/app/FlashPhoto
-MIA: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
-	$(MAKE) -Csrc/app/MIA
+MIA: libimgtools $(EXTDIR)/lib/libglui.a | $(BUILDDIR) $(BINDIR)
+#	$(MAKE) -Csrc/app/MIA
 
 # Bootstrap Bill. This creates all of the order-only prerequisites; that is,
 # files/directories that have to be present in order for a given target build
 # to succeed, but that make knows do not need to be remade each time their
 # modification time is updated and they are newer than the target being built.
-$(BINDIR) $(OBJDIR) $(LIBDIR) $(BUILDROOT):
+$(BINDIR) $(OBJDIR) $(LIBDIR) $(BUILDROOT) $(BUILDDIR):
 	mkdir -p $@
 
 # The Cleaner. Clean up the project, by removing ALL files generated during
@@ -193,9 +195,9 @@ clean:
 veryclean: clean
 	@rm -rf $(BUILDROOT)
 	@rm -rf $(EXTDIR)/lib
-	@$(MAKE) -C$(GLUIDIR) clean
-	@$(MAKE) -C$(PNGDIR) clean
-	@$(MAKE) -C$(JPEGDIR) clean
+	@$(MAKE) -C$(GLUIDIR) clean uninstall
+	@$(MAKE) -C$(PNGDIR) clean uninstall
+	@$(MAKE) -C$(JPEGDIR) clean uninstall
 
 # The Documenter. Generate documentation for the project.
 documentation:
