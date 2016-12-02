@@ -12,15 +12,15 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include <assert.h>
+#include "include/flashphoto_app.h"
 #include <cmath>
 #include <iostream>
-#include "include/flashphoto_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
 #include "include/tool_factory.h"
-#include "include/io_manager.h"
+#include "include/image_handler.h"
+#include "include/t_stamp.h"
 
 /*******************************************************************************
  * Namespaces
@@ -37,20 +37,12 @@ FlashPhotoApp::FlashPhotoApp(int width, int height) : BaseGfxApp(width, height),
                                                       glui_ctrl_hooks_(),
                                                       display_buffer_(nullptr),
                                                       cur_tool_(0),
-                                                      tools_(),
+                                                      tools_(nullptr),
                                                       mouse_last_x_(0),
                                                       mouse_last_y_(0),
                                                       cur_color_red_(0.0),
                                                       cur_color_green_(0.0),
                                                       cur_color_blue_(0.0) {}
-
-FlashPhotoApp::~FlashPhotoApp(void) {
-  if (display_buffer_)
-    delete display_buffer_;
-  for (int i = 0; i < ToolFactory::num_tools(); i++)
-    if (tools_[i])
-      delete tools_[i];
-}
 
 /*******************************************************************************
  * Member Functions
@@ -75,11 +67,11 @@ void FlashPhotoApp::Init(
   InitializeBuffers(background_color, width(), height());
 
   // Create array of tools and populate
+  tools_ = new Tool* [ToolFactory::num_tools()];
   for (int i = 0; i < ToolFactory::num_tools(); i++) {
-    Tool* t = ToolFactory::CreateTool(i);
-    assert(t);
-    tools_.push_back(t);
+    tools_[i] = ToolFactory::CreateTool(i);
   }
+
   InitGlui();
   InitGraphics();
 }
@@ -88,15 +80,40 @@ void FlashPhotoApp::Display(void) {
   DrawPixels(0, 0, width(), height(), display_buffer_->data());
 }
 
+FlashPhotoApp::~FlashPhotoApp(void) {
+  if (display_buffer_) {
+    delete display_buffer_;
+  }
+
+  // Delete each of the tools before deleting the list of tool pointers.
+  if (tools_) {
+    Tool ** toolsEnd =  tools_ + ToolFactory::num_tools();
+    for (Tool ** tool_i = tools_; tool_i < toolsEnd; tool_i++) {
+      Tool* tool = *tool_i;
+      if (tool) {
+        delete tool;
+      }
+    }
+
+    delete [] tools_;
+  }
+}
+
+
+void FlashPhotoApp::MouseMoved(int x, int y) {}
+
 void FlashPhotoApp::MouseDragged(int x, int y) {
-  // We implimented a smoothing feature by interpolating between
-  // mouse events. This is at the expense of processing, though,
-  // because we just "stamp" the tool many times between the two
-  // even locations. you can reduce max_steps until it runs
-  // smoothly on your machine.
-  // Get the differences between the events
-  // in each direction
-  if (tools_[cur_tool_]->drag_status()) {
+  if (tools_[cur_tool_]->should_smear()) {
+    int max_steps = tools_[cur_tool_]->max_smear();
+
+    // We implimented a smoothing feature by interpolating between
+    // mouse events. This is at the expense of processing, though,
+    // because we just "stamp" the tool many times between the two
+    // even locations. you can reduce max_steps until it runs
+    // smoothly on your machine.
+
+    // Get the differences between the events
+    // in each direction
     int delta_x = x-mouse_last_x_;
     int delta_y = y-mouse_last_y_;
 
@@ -104,6 +121,12 @@ void FlashPhotoApp::MouseDragged(int x, int y) {
     // completely between the two event locations.
     float pixels_between = fmax(abs(delta_x), abs(delta_y));
     int step_size = 1;
+
+    // Optimize by maxing out at the max_steps,
+    // and fill evenly between
+    if (pixels_between > max_steps) {
+      step_size = pixels_between/max_steps;
+    }
 
     // Iterate between the event locations
     for (int i = 0; i < pixels_between; i+=step_size) {
@@ -116,35 +139,32 @@ void FlashPhotoApp::MouseDragged(int x, int y) {
                                                  cur_color_blue_),
                                        display_buffer_);
     }
-
-    // let the previous point catch up with the current.
-    mouse_last_x_ = x;
-    mouse_last_y_ = y;
   }
+
+  // let the previous point catch up with the current.
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
 }
 
-void FlashPhotoApp::MouseMoved(int x, int y) {}
-
 void FlashPhotoApp::LeftMouseDown(int x, int y) {
-  std::cout << "mousePressed " << x << " " << y << std::endl;
-  display_buffer_ = new PixelBuffer(*display_buffer_);
-  tools_[cur_tool_]->ApplyToBuffer(x, height()-y,
-                                   ColorData(cur_color_red_,
-                                             cur_color_green_,
-                                             cur_color_blue_),
+  display_buffer_ = state_manager_.CommitState(display_buffer_);
+
+  tools_[cur_tool_]->ApplyToBuffer(x, height()-y, ColorData(cur_color_red_,
+                                                            cur_color_green_,
+                                                            cur_color_blue_),
                                    display_buffer_);
+
   mouse_last_x_ = x;
   mouse_last_y_ = y;
 }
 
 void FlashPhotoApp::LeftMouseUp(int x, int y) {
   std::cout << "mouseReleased " << x << " " << y << std::endl;
-  state_manager_.InsertNewBuffer(display_buffer_);
 }
 
 void FlashPhotoApp::InitializeBuffers(ColorData background_color,
                                       int width, int height) {
-  display_buffer_ = new PixelBuffer(width, height, background_color);\
+  display_buffer_ = new PixelBuffer(width, height, background_color);
 }
 
 void FlashPhotoApp::InitGlui(void) {
@@ -156,15 +176,9 @@ void FlashPhotoApp::InitGlui(void) {
     GLUI_RadioGroup *radio = new GLUI_RadioGroup(toolPanel, &cur_tool_,
                                                  UICtrl::UI_TOOLTYPE,
                                                  s_gluicallback);
-    // Create interface buttons for different tools:
-    new GLUI_RadioButton(radio, "Pen");
-    new GLUI_RadioButton(radio, "Eraser");
-    new GLUI_RadioButton(radio, "Spray Can");
-    new GLUI_RadioButton(radio, "Caligraphy Pen");
-    new GLUI_RadioButton(radio, "Highlighter");
-    new GLUI_RadioButton(radio, "Stamp");
-    new GLUI_RadioButton(radio, "Blur");
-    new GLUI_RadioButton(radio, "Chalk");
+    for (int i = 0; i < ToolFactory::num_tools(); i++) {
+      new GLUI_RadioButton(radio, tools_[i]->name().c_str());
+    }
   }
 
   GLUI_Panel *color_panel = new GLUI_Panel(glui(), "Tool Color");
@@ -211,16 +225,11 @@ void FlashPhotoApp::InitGlui(void) {
   /* Initialize state management (undo, redo, quit) */
   state_manager_.InitGlui(glui(), s_gluicallback);
 
-  new GLUI_Button(const_cast<GLUI*>(glui()),
-                "Quit", UICtrl::UI_QUIT,
-                static_cast<GLUI_Update_CB>(exit));
-
   /* Initialize Filtering */
   filter_manager_.InitGlui(glui(), s_gluicallback);
 
   /* Initialize image I/O */
   io_manager_.InitGlui(glui(), s_gluicallback);
-  state_manager_.InsertNewBuffer(display_buffer_);
   return;
 }
 
@@ -275,65 +284,61 @@ void FlashPhotoApp::GluiControl(int control_id) {
       update_colors();
       break;
     case UICtrl::UI_APPLY_BLUR:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyBlur(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SHARP:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplySharpen(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_MOTION_BLUR:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyMotionBlur(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyEdgeDetect(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyThreshold(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
-      break;
-    case UICtrl::UI_APPLY_DITHER:
-      filter_manager_.ApplyThreshold(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplySaturate(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyChannel(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyQuantize(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
       break;
     case UICtrl::UI_APPLY_SPECIAL_FILTER:
-      filter_manager_.ApplyEmboss(&display_buffer_);
-      state_manager_.InsertNewBuffer(display_buffer_);
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplySpecial(&display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
       break;
     case UICtrl::UI_LOAD_CANVAS_BUTTON:
-      PixelBuffer* temp_buffer;
-      if ((temp_buffer = io_manager_.LoadImageToCanvas()) != NULL) {
-        display_buffer_ = temp_buffer;
-        SetWindowDimensions(display_buffer_->width(),
-                            display_buffer_->height());
-        state_manager_.InsertNewBuffer(display_buffer_);
-      }
+      io_manager_.LoadImageToCanvas(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
+
       break;
     case UICtrl::UI_LOAD_STAMP_BUTTON:
-      tools_[ToolFactory::TOOL_STAMP]->
-        stamp_mask(io_manager_.LoadImageToStamp());
+      PixelBuffer * loadedStamp;
+      io_manager_.LoadImageToStamp(&loadedStamp);
+      static_cast<TStamp*>(
+          tools_[ToolFactory::TOOL_STAMP])->set_stamp_buffer(loadedStamp);
+
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
-      io_manager_.SaveCanvasToFile(this->display_buffer_);
       // Reload the current directory:
       io_manager_.file_browser()->fbreaddir(".");
+      io_manager_.SaveCanvasToFile(*display_buffer_);
       break;
     case UICtrl::UI_FILE_NAME:
       io_manager_.set_image_file(io_manager_.file_name());
@@ -342,11 +347,14 @@ void FlashPhotoApp::GluiControl(int control_id) {
       state_manager_.UndoOperation(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                           display_buffer_->height());
+
       break;
     case UICtrl::UI_REDO:
       state_manager_.RedoOperation(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                           display_buffer_->height());
+      Display();
+
       break;
     default:
       break;
@@ -366,7 +374,7 @@ void FlashPhotoApp::update_colors(void) {
 }
 
 void FlashPhotoApp::InitGraphics(void) {
-  // Initialize OpenGL for 2D graphics as used in the BrushWork app
+  // Initialize OpenGL for 2D graphics as used in the FlashPhoto app
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Name            : filter_factory.h
- * Project         : image_tools
- * Module          : filter_manager
- * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Description     : Header file for FilterFactory
- * Creation Data   : 11/19/16
- * Original Author : Group-A01
+ * Project         : FlashPhoto
+ * Module          : filter
+ * Description     : Header file for Filter factor class.
+ * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
+ * Creation Date   : 4/3/15
+ * Original Author : Seth Johnson
  *
  ******************************************************************************/
 
@@ -15,11 +15,12 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include <vector>
-#include "include/filter_matrix.h"
+#include "include/filter.h"
+#include "include/pixel_buffer.h"
+#include "include/filter_factory.h"
 
 /*******************************************************************************
- * Namespace Definitions
+ * Namespaces
  ******************************************************************************/
 namespace image_tools {
 
@@ -27,40 +28,58 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
 /**
- * @brief Implementation of factory pattern to handle filters creation
- * This enables easy extension/addition of new filters.
+ * @brief Implementation of the factor design pattern for filters
+ *
+ * @note This is a static class
  */
 class FilterFactory {
  public:
   /**
-   * @brief The list of filters that can be created by the factory and used by
-   * the application
+   * @brief The list of filters that this factor knows how to construct
+   *
    */
-  enum FILTERS {
-    F_BLUR = 0,
-    F_MOTION = 1,
-    F_SHARPEN = 2,
-    F_EDGE = 3,
-    F_THRESHOLD = 4,
-    F_SATURATION = 5,
-    F_CHANNEL = 6,
-    F_QUANTIZE = 7,
-    F_EMBOSS = 8,
-    NUMFILTERS = 9
+  enum {
+    FILTER_BLUR,
+    FILTER_MOTION_BLUR,
+    FILTER_SHARPEN,
+    FILTER_EDGE_DETECT,
+    FILTER_SATURATION,
+    FILTER_QUANTIZE,
+    FILTER_THRESHOLD,
+    FILTER_CHANNELS,
+    FILTER_SPECIAL,
+    NUMFILTERS
   };
 
   /**
-   * @brief Return the total # of tools in the application
+   * @brief Get the # of filters for the factor
+   *
+   * @return # of filters
    */
   static int num_filters(void) { return NUMFILTERS; }
 
   /**
-   * @brief Create a filter from the list of defined filters
-   * @return The initialized filter, or nullptr if an invalid index was passed
+   * @brief Create a new filter
+   *
+   * @param[in] filter_id ID of filter (from enum)
+   * @param[in] param_count (how many parameters the filter takes)
+   *
+   * @return The constructed filter
    */
-  static FilterMatrix* CreateFilter(int filter_id);
+  static Filter* CreateFilter(int filter_id, int param_count, ...);
+
+  /**
+   * @brief Apply a filter to a buffer
+   *
+   * Buffer is updated to point to a NEW PixelBuffer (i.e. in place modification
+   * is not done)
+   *
+   * @param f The filter
+   * @param buffer The buffer to apply to
+   */
+  static void ApplyFilter(const Filter& f, PixelBuffer **buffer);
 };
 
-}  /* namespace image_tools */
+} /* namespace image_tools */
 
 #endif  /* SRC_INCLUDE_FILTER_FACTORY_H_ */

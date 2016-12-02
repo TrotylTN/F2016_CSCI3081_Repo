@@ -2,7 +2,7 @@
  * Name            : io_manager.h
  * Project         : FlashPhoto
  * Module          : io_manager
- * Description     : Header for IOManager class
+ * Description     : Header for IoManager class
  * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
  * Creation Date   : Wed Sep 21 20:40:20 2016
  * Original Author : jharwell
@@ -19,6 +19,7 @@
 #include "GL/glui.h"
 #include "include/ui_ctrl.h"
 #include "include/pixel_buffer.h"
+
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -69,57 +70,24 @@ class IOManager {
    */
   GLUI_FileBrowser* file_browser(void) { return file_browser_;}
 
+
   /**
    * @brief Load the selected image file to the canvas
    *
    */
-  PixelBuffer *LoadImageToCanvas();
+  void LoadImageToCanvas(PixelBuffer **buffer);
 
   /**
    * @brief Load the selected image file to the stamp
    *
    */
-  PixelBuffer *LoadImageToStamp(void);
+  void LoadImageToStamp(PixelBuffer **buffer);
 
   /**
    * @brief Save the current state of the canvas to a file
    *
    */
-  void SaveCanvasToFile(PixelBuffer *display_buffer);
-
-  /**
-   * @brief Save received image to a jpeg file
-   *
-   */
-  void SaveJPEG(PixelBuffer *display_buffer);
-
-  /**
-   * @brief Save received image to a png file
-   *
-   */
-  void SavePNG(PixelBuffer *display_buffer);
-
-  /**
-   * @brief Read out the pixels value of selected png file
-   *
-   * @return PixelBuffer* if selected png file is valid, NULL otherwise.
-   */
-  PixelBuffer *LoadPNG(void);
-
-  /**
-   * @brief Read out the pixels value of selected jpeg file
-   *
-   * @return PixelBuffer* if selected jpeg file is valid, NULL otherwise.
-   */
-  PixelBuffer *LoadJPEG(void);
-
-  /**
-   * @brief Resize the size of the image to stamp's size
-   *
-   * @return modified PixelBuffer*.
-   */
-  PixelBuffer *Resample(PixelBuffer *display_buffer,
-                        int new_height, int new_width);
+  void SaveCanvasToFile(const PixelBuffer& buffer);
 
  private:
   /* Copy/move assignment/construction disallowed */
@@ -137,6 +105,7 @@ class IOManager {
   void load_canvas_toggle(bool enabled) {
     UICtrl::button_toggle(load_canvas_btn_, enabled);
   }
+
   /**
    * @brief Determine if a file name contains a give suffix
    *

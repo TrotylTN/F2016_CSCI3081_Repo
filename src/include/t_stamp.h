@@ -2,10 +2,10 @@
  * Name            : t_stamp.h
  * Project         : image_tools
  * Module          : Tool
- * Description     : Header file for Stamp class
- * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Creation Date   : 11/09/16
- * Original Author : Group-A01
+ * Description     : Header file for Stamp tool class
+ * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
+ * Creation Date   : 4/4/15
+ * Original Author : Seth Johnson
  *
  ******************************************************************************/
 
@@ -13,14 +13,14 @@
 #define SRC_INCLUDE_T_STAMP_H_
 
 /*******************************************************************************
- * Include Definitions
+ * Includes
  ******************************************************************************/
+#include <stdio.h>
 #include <string>
 #include "include/tool.h"
-#include "include/pixel_buffer.h"
 
 /*******************************************************************************
- * Namespace Definitions
+ * Namespaces
  ******************************************************************************/
 namespace image_tools {
 
@@ -28,40 +28,40 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
 /**
- * @brief This tool simulates the usage of a Stamp.
- * It has no mask but it has a pixel buffer. It overwrites the ApplyToBuffer to
- * set the canvas pixel to its pixel. It is unable to drag.
+ * @brief A stamp tool that is meant to be applied in a "click" rather than a
+ * "click and drag" motion like all the other canvas tools. It can stamp images
+ * of any size onto the canvas. The stamp image must be explicitly set after
+ * initializing the stamp tool.
+ *
  */
-class TStamp : public Tool {
+class TStamp: public Tool {
  public:
-  TStamp(void);
-  ~TStamp(void);
-  /**
-   * @brief
-   *
-   * @return The new ColorData for the pixel
-   */
-  // not implemented yet
-  ColorData color_blend_math(
-      float mask_pixel_amount,
-      const ColorData& tool_color,
-      const ColorData& current_color,
-      const ColorData& background_color);
+  TStamp();
+  virtual ~TStamp();
 
-  virtual void ApplyToBuffer(
-      int tool_x,
-      int tool_y,
-      ColorData tool_color,
-      PixelBuffer* buffer);
+  std::string name() { return "Stamp"; }
 
-  std::string name(void) { return "Stamp"; }
+  /* getters and setters that depend on the stamp_buffer_ not being null */
+  int width() { return stamp_buffer_? stamp_buffer_->width()-1 : 0; }
+  int height() { return stamp_buffer_? stamp_buffer_->height()-1 : 0; }
 
-  void stamp_mask(PixelBuffer *stamp);
+  void set_stamp_buffer(PixelBuffer *buffer) {
+    if (stamp_buffer_) {
+      delete stamp_buffer_;
+    }
+    stamp_buffer_ = buffer;
+  }
 
  private:
-  PixelBuffer *stamp_mask_;
+  PixelBuffer *stamp_buffer_;
+  virtual ColorData process_pixel(int mask_x, int mask_y, ColorData tool_color,
+                                 PixelBuffer* buffer, int buffer_x,
+                                 int buffer_y);
+  /* Copy assignment/construction is disallowed */
+  TStamp(const TStamp &rhs) = delete;
+  TStamp& operator=(const TStamp &rhs) = delete;
 };
 
-}  // namespace image_tools
+}  /* namespace image_tools */
 
-#endif  // SRC_INCLUDE_T_STAMP_H_
+#endif  /* SRC_INCLUDE_T_STAMP_H_ */

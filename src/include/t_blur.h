@@ -1,11 +1,11 @@
 /*******************************************************************************
  * Name            : t_blur.h
- * Project         : image_tools
- * Module          : Tool
- * Description     : Header file for Blur class
- * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Creation Date   : 11/15/16
- * Original Author : Yu Xian Ang
+ * Project         : FlashPhoto
+ * Module          : tool
+ * Description     : Header file for blurring tool class
+ * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
+ * Creation Date   : 4/4/15
+ * Original Author : Seth Johnson
  *
  ******************************************************************************/
 
@@ -13,15 +13,15 @@
 #define SRC_INCLUDE_T_BLUR_H_
 
 /*******************************************************************************
- * Include Definitions
+ * Includes
  ******************************************************************************/
+#include <stdio.h>
 #include <string>
 #include "include/tool.h"
-#include "include/m_linear.h"
-#include "include/pixel_buffer.h"
+#include "include/filter.h"
 
 /*******************************************************************************
- * Namespace Definitions
+ * Namespaces
  ******************************************************************************/
 namespace image_tools {
 
@@ -29,33 +29,27 @@ namespace image_tools {
  * Class Definitions
  ******************************************************************************/
 /**
- * @brief This tool simulates the usage of blur filter.
- * It has an linear mask with a radius of 50.0 (diameter of 61), an opacity of
- * 1 (opaque). It is able to drag.
+ * @brief This tool serves as a mobile version of the blur filter, functions
+ * much like the spray can, except with blurring neighboring pixels rather than
+ * coloring them (linear falloff).
+ *
  */
+
 class TBlur : public Tool {
  public:
-  TBlur(void) : max_blur_size_(2) {
-    mask(new MLinear(30, 1.0));
-    drag_status(true);
-  }
-
-  virtual void ApplyToBuffer(
-      int tool_x,
-      int tool_y,
-      ColorData tool_color,
-      PixelBuffer* buffer);
-
-  std::string name(void) { return "Blur"; }
+  TBlur();
+  ~TBlur();
+  std::string name() { return "Blur"; }
 
  private:
-/**
-  * @brief Make the pixel with (tool_x, tool_y) blur.
-  */
-  ColorData ApplyBlur(PixelBuffer *buffer, int x,
-                               int y, int mask_value);
+    /* Copy assignment/construction is disallowed */
+  TBlur(const TBlur &rhs) = delete;
+  TBlur& operator=(const TBlur &rhs) = delete;
 
-  int max_blur_size_;
+  Filter* filter_;
+  int size_;
+  ColorData process_pixel(int mask_x, int mask_y, ColorData tool_color,
+                         PixelBuffer* buffer, int buffer_x, int buffer_y);
 };
 
 }  /* namespace image_tools */

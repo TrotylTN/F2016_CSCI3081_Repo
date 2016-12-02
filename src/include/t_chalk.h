@@ -30,7 +30,7 @@ namespace image_tools {
  * @brief This tool simulates the usage of Chalk.
  * It has an linear mask with a radius of 5.0 (diameter of 11), an opacity of
  * 1.0 (completely opaque).  color_blend_math() is overriden to randomly change
- * the tool's intensity at a pixel. It is able to drag.
+ * the tool's intensity at a pixel.
  */
 class TChalk : public Tool {
  public:
@@ -38,9 +38,9 @@ class TChalk : public Tool {
 
   ColorData color_blend_math(
       float mask_pixel_amount,
-      const ColorData& tool_color,
-      const ColorData& current_color,
-      const ColorData& background_color);
+      ColorData tool_color,
+      ColorData current_color,
+      ColorData background_color);
 
   std::string name(void) { return "Chalk"; }
 

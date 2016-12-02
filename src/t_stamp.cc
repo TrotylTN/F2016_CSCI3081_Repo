@@ -2,10 +2,10 @@
  * Name            : t_stamp.cc
  * Project         : image_tools
  * Module          : Tool
- * Description     : Header file for Stamp class
- * Copyright       : 2016 CSCI3081W Group A01. All rights reserved.
- * Creation Date   : 11/09/16
- * Original Author : Group-A01
+ * Description     : Implementation of Stamp tool class
+ * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
+ * Creation Date   : 4/4/15
+ * Original Author : Seth Johnson
  *
  ******************************************************************************/
 
@@ -13,9 +13,8 @@
  * Includes
  ******************************************************************************/
 #include "include/t_stamp.h"
-#include <string>
-#include "include/color_data.h"
 #include "include/pixel_buffer.h"
+#include "include/color_data.h"
 
 /*******************************************************************************
  * Namespaces
@@ -23,63 +22,36 @@
 namespace image_tools {
 
 /*******************************************************************************
- * Constructors/Destructors
+ * Constructors/Destructor
  ******************************************************************************/
-TStamp::TStamp(void) : stamp_mask_(nullptr) {
-  drag_status(false);
+TStamp::TStamp() : stamp_buffer_(NULL) {
+  set_smear(0);
 }
 
-TStamp::~TStamp(void) {
-  if (this->stamp_mask_ != nullptr) {
-    delete this->stamp_mask_;
-  }
+TStamp::~TStamp() {
+    delete stamp_buffer_;
 }
 
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-ColorData TStamp::color_blend_math(
-    float mask_pixel_amount,
-    const ColorData& tool_color,
-    const ColorData& current_color,
-    const ColorData& background_color) {
-  return ColorData();
+ColorData TStamp::process_pixel(int maskx, int masky, ColorData toolcolor,
+                               PixelBuffer* buffer, int bufferx, int buffery) {
+  ColorData canvascolor = buffer->get_pixel(bufferx, buffery);
+  ColorData stampcolor = stamp_buffer_->get_pixel(maskx, masky);
+  float alpha = stampcolor.alpha();
+
+  stampcolor.red(toolcolor.red() * stampcolor.red());
+  stampcolor.green(toolcolor.green() * stampcolor.green());
+  stampcolor.blue(toolcolor.blue() * stampcolor.blue());
+
+  // Use the alpha to blend the colors
+  ColorData C = stampcolor*alpha + buffer->get_pixel(bufferx,
+                                                     buffery)*(1-alpha);
+
+  // Adjust the alpha
+  C.alpha(canvascolor.alpha() + alpha*(1-canvascolor.alpha()) );
+  return C;
 }
 
-void TStamp::stamp_mask(PixelBuffer *stamp) {
-  if (this->stamp_mask_ != nullptr) {
-    delete this->stamp_mask_;
-  }
-  this->stamp_mask_ = stamp;
-}
-
-void TStamp::ApplyToBuffer(
-    int tool_x,
-    int tool_y,
-    ColorData tool_color,
-    PixelBuffer* buffer) {
-  if (stamp_mask_ == nullptr) {
-    printf("Stamp not initialized.\n");
-    return;
-  }
-
-  int left_bound = std::max(tool_x-stamp_mask_->width()/2, 0);
-  int right_bound = std::min(tool_x+stamp_mask_->width()/2,
-                             buffer->width()-1);
-  int lower_bound = std::max(tool_y-stamp_mask_->height()/2, 0);
-  int upper_bound = std::min(tool_y+stamp_mask_->height()/2,
-                             buffer->height()-1);
-
-  #pragma omp for
-  for (int y = lower_bound; y < upper_bound; y++) {
-    for (int x = left_bound; x < right_bound; x++) {
-      int mask_x = x - (tool_x - stamp_mask_->width()/2);
-      int mask_y = y - (tool_y - stamp_mask_->height()/2);
-      ColorData c = stamp_mask_->get_pixel(mask_x, mask_y);
-      if (c.alpha() > 0.0)
-        buffer->set_pixel(x, y, c);
-    }
-  }
-}
-
-}  /* namespace image_tools */
+} /* namespace image_tools */

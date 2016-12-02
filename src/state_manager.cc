@@ -25,21 +25,12 @@ namespace image_tools {
  * Constructors/Destructor
  ******************************************************************************/
 StateManager::StateManager(void) :
-    cached_buffer_({}),
-    size_limit_(100),
-    state_ptr_(-1),
     undo_btn_(nullptr),
-    redo_btn_(nullptr) {
-  cached_buffer_.clear();
-}
+    redo_btn_(nullptr),
+    max_undos_(50),
+    history_states_(),
+    redo_states_() {}
 
-StateManager::~StateManager(void) {
-  for (int i = 0; i < static_cast<int>(cached_buffer_.size()); i++) {
-    if (cached_buffer_[i])
-      delete cached_buffer_[i];
-  }
-  cached_buffer_.clear();
-}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
@@ -52,79 +43,50 @@ void StateManager::InitGlui(const GLUI *const glui,
   redo_btn_  = new GLUI_Button(const_cast<GLUI*>(glui), "Redo", UICtrl::UI_REDO,
                                s_gluicallback);
   redo_toggle(false);
+
+  new GLUI_Button(const_cast<GLUI*>(glui),
+                  "Quit", UICtrl::UI_QUIT,
+                  static_cast<GLUI_Update_CB>(exit));
 }
 
-/* implimented UndoOperation */
-void StateManager::UndoOperation(PixelBuffer** display_buffer) {
-  // switch the current buffer with the previous
-  // buffer which has been saved in that vector
-
-  state_ptr_--;
-  std::cout << "Undoing... state_ptr: " << state_ptr_ << std::endl;
-  *display_buffer = this->cached_buffer_[state_ptr_];
-
-  // doing the error check
-  // sure when the function
-  // be called and have correct
-  // buffer return
-
-  if (state_ptr_ < static_cast<int>(this->cached_buffer_.size()) - 1)
-    redo_toggle(true);
-  else
-    redo_toggle(false);
-  if (state_ptr_ > 0)
-    undo_toggle(true);
-  else
-    undo_toggle(false);
-}
-
-/* implimented RedoOperation */
-void StateManager::RedoOperation(PixelBuffer** display_buffer) {
-  // return back to the last
-  // position where you have
-  // undoOperation
-
-  state_ptr_++;
-  std::cout << "Redoing... state_ptr: " << state_ptr_ << std::endl;
-  *display_buffer = this->cached_buffer_[state_ptr_];
-  if (state_ptr_ < static_cast<int>(this->cached_buffer_.size()) - 1)
-    redo_toggle(true);
-  else
-    redo_toggle(false);
-  if (state_ptr_ > 0)
-    undo_toggle(true);
-  else
-    undo_toggle(false);
-}
-
-void StateManager::InsertNewBuffer(PixelBuffer* new_buffer) {
-  for (int i = static_cast<int>(this->cached_buffer_.size()) - 1;
-       i > state_ptr_;
-       i--) {
-    delete this->cached_buffer_[i];
-    this->cached_buffer_.erase(this->cached_buffer_.begin() + i);
-  }
-  this->cached_buffer_.push_back(new_buffer);
-  state_ptr_++;
-  if (state_ptr_ < static_cast<int>(this->cached_buffer_.size()) - 1)
-    redo_toggle(true);
-  else
-    redo_toggle(false);
-  if (state_ptr_ > 0)
-    undo_toggle(true);
-  else
-    undo_toggle(false);
-  if (static_cast<int>(this->cached_buffer_.size()) > this->size_limit_) {
-    int shift_val = static_cast<int>(this->cached_buffer_.size()) -
-                    this->size_limit_;
-    for (int i = 0; i < shift_val; i++) {
-      delete this->cached_buffer_[0];
-      this->cached_buffer_.erase(this->cached_buffer_.begin());
-      std::cout << "poped the first ptr due to oversize\n" << std::endl;
-      state_ptr_--;
+void StateManager::UndoOperation(PixelBuffer **display_buffer) {
+  if (!history_states_.empty()) {
+    if (history_states_.size() >= max_undos_) {
+      delete history_states_.front();
+      history_states_.pop_front();
     }
+    redo_states_.push(*display_buffer);
+    *display_buffer = history_states_.back();
+    history_states_.pop_back();
   }
-  std::cout << "Current state_ptr: " << state_ptr_ << std::endl;
+  redo_toggle(!redo_states_.empty());
+  undo_toggle(!history_states_.empty());
+}
+
+void StateManager::RedoOperation(PixelBuffer **display_buffer) {
+  history_states_.push_back(*display_buffer);
+  *display_buffer = redo_states_.top();
+  redo_states_.pop();
+
+  redo_toggle(!redo_states_.empty());
+  undo_toggle(!history_states_.empty());
+}
+
+PixelBuffer* StateManager::CommitState(PixelBuffer *display_buffer) {
+  PixelBuffer *new_state = new PixelBuffer(display_buffer->width(),
+                                          display_buffer->height(),
+                                          display_buffer->background_color());
+  *new_state = *display_buffer;
+  history_states_.push_back(display_buffer);
+
+  while (!redo_states_.empty()) {
+    delete redo_states_.top();
+    redo_states_.pop();
+  }
+
+  redo_toggle(!redo_states_.empty());
+  undo_toggle(!history_states_.empty());
+  return new_state;
 }
 
 }  /* namespace image_tools */

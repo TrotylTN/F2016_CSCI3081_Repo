@@ -7,7 +7,7 @@
  * Creation Date   : 2/15/15
  * Original Author : Seth Johnson
  *
- ******************************************************************************/
+******************************************************************************/
 
 #ifndef SRC_INCLUDE_COLOR_DATA_H_
 #define SRC_INCLUDE_COLOR_DATA_H_
@@ -22,6 +22,7 @@ namespace image_tools {
  ******************************************************************************/
 /**
  * @brief This color data class stores color in floating point format.
+ *
  * The Red, Green, Blue, and Alpha channels range from 0.0 to 1.0.
  */
 class ColorData {
@@ -48,18 +49,18 @@ class ColorData {
 
   /**
    * @brief Return a clamped version of a ColorData instance
+   *
    * All colors and the alpha value are restricted to [0.0,1.0]
    */
   ColorData clamped_color(void) const;
 
-  /**
+  /*
    * Arithmetic operators (friends so that non-member functions can access
    * private variables)
    */
   friend ColorData operator* (const ColorData& a, float f);
   friend ColorData operator+ (const ColorData& a, const ColorData& b);
   friend ColorData operator- (const ColorData& a, const ColorData& b);
-  friend bool operator== (const ColorData& a, const ColorData& b);
 
  private:
   static inline float clamp_value(float input, float a, float b)

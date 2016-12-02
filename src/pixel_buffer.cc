@@ -65,13 +65,6 @@ void PixelBuffer::set_pixel(int x, int y, const ColorData& new_pixel) {
     pixels_[index] = new_pixel;
   }
 }
-
-void PixelBuffer::ValidPixel() {
-  /* check the validity of all pixels */
-  for (int i = 0; i < this->width_ * this->height_; i++) {
-    this->pixels_[i] = this->pixels_[i].clamped_color();
-  }
-}
 /*******************************************************************************
  * Operators
  ******************************************************************************/

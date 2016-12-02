@@ -25,10 +25,7 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructor
  ******************************************************************************/
-TEraser::TEraser(void) {
-  mask(new MConstant(10.0, 1.0));
-  drag_status(true);
-}
+TEraser::TEraser(void) { mask(new MConstant(10.0, 1.0)); }
 
 /*******************************************************************************
  * Member Functions
@@ -37,11 +34,11 @@ TEraser::TEraser(void) {
 // superclass's colorBlendMath to set the canvasColor to the backgroundColor.
 ColorData TEraser::color_blend_math(
     float mask_pixel_amount,
-    const ColorData& tool_color,
-    const ColorData& current_color,
-    const ColorData& background_color) {
+    ColorData tool_color,
+    ColorData current_color,
+    ColorData background_color) {
   return background_color*mask_pixel_amount +
       current_color*(1-mask_pixel_amount);
 }
 
-}  /* namespace image_tools */
+}  // namespace image_tools

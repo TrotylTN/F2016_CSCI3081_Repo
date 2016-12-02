@@ -21,6 +21,11 @@
  * Namespaces
  ******************************************************************************/
 namespace image_tools {
+
+/**
+ * @brief A simple class wrapping some UI elements under a common roof
+ *
+ */
 class UICtrl {
  public:
   static void button_toggle(GLUI_Button *button, bool enabled) {

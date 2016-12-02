@@ -12,6 +12,8 @@
 #ifndef SRC_INCLUDE_MASK_H_
 #define SRC_INCLUDE_MASK_H_
 
+#include "include/float_matrix.h"
+
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -26,43 +28,13 @@ namespace image_tools {
  * tool. It does not have a shape; shapes are defined implicitly with
  * get_intensity().
  */
-class Mask {
+class Mask : public FloatMatrix {
  public:
   Mask(float radius, float opacity);
   Mask(void);
   virtual ~Mask(void);
 
-  /**
-   * @brief Get a handle on the underlying array of float values representing
-   * the shape of the tool
-   * @return The float array
-   */
-  float const *float_array(void) const { return mask_array_; }
-
-  /**
-   * @brief Get the width of the tool shape (radius)
-   * @return The width
-   */
-  int width(void) const { return width_;}
-
-  /**
-   * @brief Get the height of the tool shape (radius)
-   * @return The height
-   */
-  int height(void) const {return height_;}
-
-  /**
-   * @brief Get the value of the mask at (x,y) with the radius of the tool shape
-   * @return The value
-   */
-  float value(int x, int y) const;
-
  protected:
-  /**
-   * @brief Set the value of the mask at (x,y) with the radius of the tool shape
-   */
-  void value(int x, int y, float v);
-
   /**
    * @brief Generate the intensity value array that defines the shape and effect
    * of the tool.
@@ -86,9 +58,6 @@ class Mask {
 
   float radius_; /**< max distance in pixels the mask reaches from center  */
   float opacity_;
-  int height_; /**< number of pixel rows available in the mask  */
-  int width_; /**< number pixel columns available in the mask  */
-  float *mask_array_;
 };
 
 }  /* namespace image_tools */

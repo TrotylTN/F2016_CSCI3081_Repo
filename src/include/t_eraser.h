@@ -30,7 +30,7 @@ namespace image_tools {
  * @brief This tool simulates the usage of an Eraser.
  * It has a constant mask with a radius of 10.0 (diameter of 21) and an
  * opacity of 1.0 Eraser overrides the color_blend_math() function to provide its
- * special eraser functionality. It is able to drag.
+ * special eraser functionality.
  */
 class TEraser : public Tool {
  public:
@@ -38,9 +38,9 @@ class TEraser : public Tool {
 
   ColorData color_blend_math(
       float mask_pixel_amount,
-      const ColorData& tool_color,
-      const ColorData& current_color,
-      const ColorData& background_color);
+      ColorData tool_color,
+      ColorData current_color,
+      ColorData background_color);
 
   std::string name(void) { return "Eraser"; }
 };

@@ -38,5 +38,4 @@ float MConstant::get_intensity(int x, int y, float radius) {
     return 1.0;
   }
 }
-
-}  /* namespace image_tools */
+}  // namespace image_tools

@@ -63,12 +63,6 @@ class PixelBuffer {
    */
   ColorData get_pixel(int x, int y) const;
 
-  /**
-   * @brief Set invalid pixel color to valid pixel color
-   *
-   */
-  void ValidPixel();
-
  private:
   const int width_; /**< X dimension--cannot be changed  */
   const int height_; /**< Y dimension--cannot be changed  */

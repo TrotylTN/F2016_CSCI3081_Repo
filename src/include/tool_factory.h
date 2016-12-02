@@ -3,8 +3,8 @@
  * Project         : image_tools
  * Module          : Tool
  * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
- * Description     : Header file for ToolFactoryppp
-  * Creation Data   : 2/15/15
+ * Description     : Header file for ToolFactory
+ * Creation Data   : 2/15/15
  * Original Author : Seth Johnson
  *
  ******************************************************************************/

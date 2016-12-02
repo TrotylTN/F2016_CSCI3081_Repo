@@ -59,14 +59,10 @@ class Tool {
    * @return
    */
   virtual std::string name(void) = 0;
-
-  virtual void stamp_mask(PixelBuffer *stamp) {}
-
-  /**
-   * @brief Get the drag status associated with the tool
-   * @return The drag status
-   */
-  bool drag_status(void) { return drag_status_; }
+  virtual int width() { return mask_? mask_->width() : 0;}
+  virtual int height() { return mask_? mask_->height() : 0;}
+  int max_smear() { return max_smear_;}
+  bool should_smear() { return max_smear_ != 0;}
 
  protected:
   /**
@@ -80,9 +76,9 @@ class Tool {
    */
   virtual ColorData color_blend_math(
       float mask_pixel_amount,
-      const ColorData& tool_color,
-      const ColorData& current_color,
-      const ColorData& background_color);
+      ColorData tool_color,
+      ColorData current_color,
+      ColorData background_color);
 
   /**
    * @brief Get the mask associated with the tool
@@ -95,10 +91,12 @@ class Tool {
    */
   void mask(Mask* mask) { mask_ = mask; }
 
-  /**
-   * Set the drag status associated with the tool
-   */
-  void drag_status(bool status) { drag_status_ = status; }
+  void set_constant(void) { keep_buffer_constant_ = true;}
+  void set_smear(int s) {max_smear_ = s;}
+
+  virtual ColorData process_pixel(int maskX, int maskY, ColorData toolColor,
+                                  PixelBuffer* buffer, int bufferX,
+                                  int bufferY);
 
  private:
   /* Usage of copy/move construction or assignment is disallowed */
@@ -106,7 +104,8 @@ class Tool {
   Tool& operator=(const Tool& rhs) = delete;
 
   Mask *mask_;
-  bool drag_status_;
+  bool keep_buffer_constant_;
+  int max_smear_;
 };
 
 }  /* namespace image_tools */

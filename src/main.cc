@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Name            : main.cc
- * Project         : BrushWork
- * Module          : ??
+ * Project         : FlashPhoto
+ * Module          : App
  * Description     : Do ALL THE THINGS!
  * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
  * Creation Date   : 2/15/15

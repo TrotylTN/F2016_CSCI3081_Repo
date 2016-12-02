@@ -15,12 +15,9 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include <vector>
 #include "GL/glui.h"
 #include "include/pixel_buffer.h"
 #include "include/ui_ctrl.h"
-#include "include/filter_matrix.h"
-#include "include/filter_factory.h"
 
 /*******************************************************************************
  * Namespaces
@@ -38,14 +35,14 @@ namespace image_tools {
 class FilterManager {
  public:
   FilterManager();
-  ~FilterManager();
+  ~FilterManager() {}
 
   /**
    * @brief Apply a blur filter to the buffer, blurring sharply defined edges
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyBlur(PixelBuffer** display_buffer);
+  void ApplyBlur(PixelBuffer **buffer);
 
   /**
    * @brief Apply a sharpening filter to the buffer, sharpening blurry/undefined
@@ -53,42 +50,42 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySharpen(PixelBuffer** display_buffer);
+  void ApplySharpen(PixelBuffer **buffer);
 
   /**
    * @brief Apply a motion blurring filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyMotionBlur(PixelBuffer** display_buffer);
+  void ApplyMotionBlur(PixelBuffer **buffer);
 
   /**
    * @brief Apply an edge detection filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyEdgeDetect(PixelBuffer** display_buffer);
+  void ApplyEdgeDetect(PixelBuffer **buffer);
 
   /**
    * @brief Apply a threshold detection filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyThreshold(PixelBuffer** display_buffer);
+  void ApplyThreshold(PixelBuffer **buffer);
 
   /**
    * @brief Apply a channel filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyChannel(PixelBuffer** display_buffer);
+  void ApplyChannel(PixelBuffer **buffer);
 
   /**
    * @brief Apply a channel filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplySaturate(PixelBuffer** display_buffer);
+  void ApplySaturate(PixelBuffer **buffer);
 
 
   /**
@@ -96,14 +93,14 @@ class FilterManager {
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyQuantize(PixelBuffer** display_buffer);
+  void ApplyQuantize(PixelBuffer **buffer);
 
   /**
-   * @brief Apply a emboss filter to the buffer
+   * @brief Apply a special filter to the buffer
    *
    * @param buffer The buffer. Updated to point to a new filtered buffer.
    */
-  void ApplyEmboss(PixelBuffer** display_buffer);
+  void ApplySpecial(PixelBuffer **buffer);
 
   /**
    * @brief Initialize the elements of the GLUI interface required by the
@@ -126,9 +123,6 @@ class FilterManager {
   float motion_blur_amount_;
   enum UICtrl::MotionBlurDirection motion_blur_direction_;
   int quantize_bins_;
-
-  /** Pointer to pixel data for the temp cache */
-  std::vector<FilterMatrix*> filters_;
 };
 
 }  /* namespace image_tools */

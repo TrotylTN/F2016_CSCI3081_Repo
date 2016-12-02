@@ -12,7 +12,6 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include <cmath>
 #include "include/color_data.h"
 
 /*******************************************************************************
@@ -34,9 +33,9 @@ ColorData::ColorData(float r, float g, float b, float a)
  * Member Functions
  ******************************************************************************/
 float ColorData::luminance(void) const {
-    return static_cast<float>(0.2126)*red_ +
-        static_cast<float>(0.7152)*green_ +
-        static_cast<float>(0.0722)*blue_;
+  return static_cast<float>(0.2126)*red_ +
+      static_cast<float>(0.7152)*green_ +
+      static_cast<float>(0.0722)*blue_;
 }
 
 ColorData ColorData::clamped_color(void) const {
@@ -62,13 +61,6 @@ ColorData operator+ (const ColorData& a, const ColorData& b) {
 ColorData operator- (const ColorData& a, const ColorData& b) {
         return ColorData(a.red_ - b.red_, a.green_ - b.green_,
                          a.blue_ - b.blue_, a.alpha_ - b.alpha_);
-}
-
-bool operator== (const ColorData& a, const ColorData& b) {
-        return (std::fabs(a.red_ - b.red_) < 1e-6 ) &&
-               (std::fabs(a.green_ - b.green_) < 1e-6) &&
-               (std::fabs(a.blue_ - b.blue_) < 1e-6) &&
-               (std::fabs(a.alpha_ - b.alpha_) < 1e-6);
 }
 
 }  /* namespace image_tools */

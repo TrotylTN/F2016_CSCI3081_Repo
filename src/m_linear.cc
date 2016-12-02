@@ -40,4 +40,4 @@ float MLinear::get_intensity(int x, int y, float radius) {
   }
 }
 
-}  /* namespace image_tools */
+}  // namespace image_tools

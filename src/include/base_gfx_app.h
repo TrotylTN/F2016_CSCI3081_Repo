@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Name            : BaseGfxApp.h
+ * Name            : base_gfx_app.h
  * Project         : BrushWork
  * Module          : App
  * Description     : Base class for  graphics applications built on top of
@@ -30,6 +30,7 @@ namespace image_tools {
 /**
  * @brief This is a base class for graphics applications built on top of the
  * GLUT and GLUI toolkits.
+ *
  * GLUT and GLUI are C libraries, so one function of this class is to wrap the
  * funcationality they provide in a class structure that lends  itself to C++.
  * To receive callbaks from GLUT and GLUI that allow you to render graphics and
@@ -45,6 +46,7 @@ class BaseGfxApp {
 
   /**
    * @brief Initialize the the application.
+   *
    * This is separate from construction, which is only intended to put the
    * object in a valid state. If you override this, be sure to still call the
    * super class version.
@@ -99,6 +101,7 @@ class BaseGfxApp {
 
   /**
    * @brief Callback for mouse moving interface event in the GLUT window
+   *
    * Note that (0,0) is in the lower right corner of the image, (this is what is
    * returned from GLUT), which is NOT the same as the coordinate system
    * definition for the PixelBuffer class. Your implementation will need to
@@ -175,6 +178,7 @@ class BaseGfxApp {
 
   /**
    * @brief resize the graphics window on the screen.
+   *
    * GLUT calls this when the user resizes the graphics window by dragging on it
    * with the mouse. The default implementation in BaseGfxApp is to ignore this
    * interaction and force the window to remain the same size. But, if desired,
@@ -185,6 +189,7 @@ class BaseGfxApp {
 
   /**
    * @brief Clear the screen and call display().
+   *
    * Subclasses would only need to override this method if they need direct
    * control over clearing the the screen, which is usually not the case.
    */

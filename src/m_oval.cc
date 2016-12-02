@@ -44,4 +44,4 @@ float MOval::get_intensity(int x, int y, float radius) {
     return 0.0;
 }
 
-}  /* namespace image_tools */
+}  // namespace image_tools

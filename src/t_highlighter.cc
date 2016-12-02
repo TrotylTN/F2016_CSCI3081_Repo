@@ -27,17 +27,18 @@ namespace image_tools {
  ******************************************************************************/
 THighlighter::THighlighter(void) {
     mask(new MOval(7.0, 0.4, 90, 0.3));
-    drag_status(true);
 }
 
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
+// Overrides the super's function to include the luminance of the canvasColor
+// in the calculation of the tool's intensity
 ColorData THighlighter::color_blend_math(
     float mask_pixel_amount,
-    const ColorData& tool_color,
-    const ColorData& current_color,
-    const ColorData& background_color) {
+    ColorData tool_color,
+    ColorData current_color,
+    ColorData background_color) {
   float L = current_color.luminance();
   float intensity = mask_pixel_amount*L;
   return tool_color*intensity + current_color*(1.0-intensity);

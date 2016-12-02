@@ -12,10 +12,10 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include <assert.h>
-#include <iostream>
 #include "include/filter_manager.h"
+#include <iostream>
 #include "include/ui_ctrl.h"
+#include "include/filter_factory.h"
 
 /*******************************************************************************
  * Namespaces
@@ -34,92 +34,80 @@ FilterManager::FilterManager(void) :
     blur_amount_(0.0),
     sharpen_amount_(0.0),
     motion_blur_amount_(0.0),
-    motion_blur_direction_(UICtrl::UI_DIR_E_W),
-    quantize_bins_(0),
-    filters_({}) {}
+    motion_blur_direction_(UICtrl::MotionBlurDirection::UI_DIR_N_S),
+    quantize_bins_(0) {}
 
-FilterManager::~FilterManager() {
-  for (int i = 0; i < FilterFactory::num_filters(); i++) {
-    if (this->filters_[i])
-      delete filters_[i];
-  }
-}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-
-void FilterManager::ApplyBlur(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Blur with amount = "
-            << blur_amount_ << std::endl;
-  filters_[0]->Resize(blur_amount_, -1);
-  *display_buffer = filters_[0]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplyThreshold(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_THRESHOLD,
+                                           1, threshold_amount_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplyMotionBlur(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for MotionBlur with amount = "
-            << motion_blur_amount_
-            << " and direction " << motion_blur_direction_ << std::endl;
-  filters_[1]->Resize(motion_blur_amount_, motion_blur_direction_);
-  *display_buffer = filters_[1]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplyChannel(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_CHANNELS, 3,
+                                           channel_color_red_,
+                                           channel_color_green_,
+                                           channel_color_blue_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplySharpen(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Sharpen with amount = "
-            << sharpen_amount_ << std::endl;
-  filters_[2]->Resize(3, sharpen_amount_);
-  *display_buffer = filters_[2]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplySaturate(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_SATURATION, 1,
+                                           saturation_amount_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplyEdgeDetect(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Edge Detect" << std::endl;
-  *display_buffer = filters_[3]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplyBlur(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_BLUR, 1,
+                                           blur_amount_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplyThreshold(PixelBuffer** display_buffer) {
-  std::cout << "Apply Threshold has been clicked with amount ="
-            << threshold_amount_ << std::endl;
-  filters_[4]->Resize(1, threshold_amount_);
-  *display_buffer = filters_[4]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplySharpen(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_SHARPEN, 1,
+                                           sharpen_amount_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplySaturate(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Saturate with amount = "
-            << saturation_amount_ << std::endl;
-  filters_[5]->Resize(1, saturation_amount_);
-  *display_buffer = filters_[5]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplyMotionBlur(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_MOTION_BLUR,
+                                           2,
+                                           motion_blur_amount_,
+                                           motion_blur_direction_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplyChannel(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Channels with red = "
-            << channel_color_red_
-            << ", green = " << channel_color_green_
-            << ", blue = " << channel_color_blue_ << std::endl;
-  filters_[6]->Resize(1,
-                      channel_color_red_,
-                      channel_color_green_,
-                      channel_color_blue_);
-  *display_buffer = filters_[6]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplyEdgeDetect(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_EDGE_DETECT,
+                                           0);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplyQuantize(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Quantize with bins = "
-            << quantize_bins_ << std::endl;
-  filters_[7]->Resize(1, quantize_bins_);
-  *display_buffer = filters_[7]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplyQuantize(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_QUANTIZE, 1,
+                                           quantize_bins_);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
-void FilterManager::ApplyEmboss(PixelBuffer** display_buffer) {
-  std::cout << "Apply has been clicked for Emboss" << std::endl;
-  *display_buffer = filters_[8]->ApplyMatrix(*display_buffer);
+void FilterManager::ApplySpecial(PixelBuffer **buffer) {
+  Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_SPECIAL, 0);
+  FilterFactory::ApplyFilter(*f, buffer);
+  delete f;
 }
 
 void FilterManager::InitGlui(const GLUI *const glui,
                              void (*s_gluicallback)(int)) {
-  for (int i = 0; i < FilterFactory::num_filters(); i++) {
-    FilterMatrix* f = FilterFactory::CreateFilter(i);
-    assert(f);
-    filters_.push_back(f);
-  }
   new GLUI_Column(const_cast<GLUI*>(glui), true);
   GLUI_Panel *filter_panel = new GLUI_Panel(const_cast<GLUI*>(glui), "Filters");
   {
@@ -142,7 +130,7 @@ void FilterManager::InitGlui(const GLUI *const glui,
       motion_blur_amount->set_int_limits(0, 100);
       motion_blur_amount->set_int_val(5);
 
-      motion_blur_direction_ = UICtrl::UI_DIR_E_W;
+      motion_blur_direction_ = UICtrl::MotionBlurDirection::UI_DIR_N_S;
       GLUI_RadioGroup *dir_blur = new GLUI_RadioGroup(
           motion_blur_panel,
           reinterpret_cast<int*>(&motion_blur_direction_));
@@ -235,10 +223,10 @@ void FilterManager::InitGlui(const GLUI *const glui,
     }
 
     // YOUR SPECIAL FILTER PANEL
-    GLUI_Panel *specialFilterPanel = new GLUI_Panel(filter_panel,
-                                                    "Emboss");
+    GLUI_Panel *special_filter_panel = new GLUI_Panel(filter_panel,
+                                                    "Special Filter");
     {
-      new GLUI_Button(specialFilterPanel,
+      new GLUI_Button(special_filter_panel,
                       "Apply",
                       UICtrl::UI_APPLY_SPECIAL_FILTER,
                       s_gluicallback);
