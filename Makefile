@@ -232,9 +232,10 @@ clean:
 
 # The Super Cleaner. Clean the project, but also clean all external libraries.
 veryclean: clean
-	-@$(MAKE) -C$(GLUIDIR) clean
-	-@$(MAKE) -C$(JPEGDIR) clean
-	-@$(MAKE) -C$(PNGDIR) clean
+	-@$(MAKE) -C$(GLUIDIR) clean uninstall
+	-@$(MAKE) -C$(JPEGDIR) clean uninstall
+	-@$(MAKE) -C$(PNGDIR) clean uninstall
+	@rm -rf $(EXTDIR)/lib
 	@rm -rf $(BUILDDIR) $(CONFIGDIR)/autom4te.cache $(CONFIGDIR)/config.log $(CONFIGDIR)/config.guess $(CONFIGDIR)/config.status share
 
 # The Documenter. Generate documentation for the project.
