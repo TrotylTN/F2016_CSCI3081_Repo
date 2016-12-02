@@ -24,6 +24,8 @@
 ###############################################################################
 # Directory Definitions
 ###############################################################################
+# mkdir build first
+$(shell mkdir -p ./build)
 # src/      - Root of the source tree for the project
 # build/    - Root directory for project build process
 # doc/      - Directory where all documentation lives
@@ -40,14 +42,9 @@ export LIBIMGTOOLS_DIR = $(realpath $(SRCROOT)/lib/libimgtools)
 export BINDIR   = $(BUILDROOT)/bin
 export LIBDIR   = $(BUILDROOT)/lib
 CONFIGDIR       = ./config
-BUILDDIR        = ./build
 DOCDIR          = ./doc
 CXXTESTDIR      = $(EXTDIR)/cxxtest-4.4
 TESTDIR         = ./tests
-
-###############################################################################
-# Definitions
-###############################################################################
 
 # Tell make we want to execute all commands using bash (otherwise it uses
 # sh). make generally works best with bash, and as SHELL is inherited from the
@@ -173,16 +170,19 @@ $(EXTDIR)/lib/libpng.a:
 $(EXTDIR)/lib/libjpeg.a:
 	$(MAKE) -C$(JPEGDIR) install
 
-FlashPhoto: libimgtools $(EXTDIR)/lib/libglui.a | $(BUILDDIR) $(BINDIR)
+FlashPhoto: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
 	$(MAKE) -Csrc/app/FlashPhoto
-MIA: libimgtools $(EXTDIR)/lib/libglui.a | $(BUILDDIR) $(BINDIR)
+	cp $(BUILDROOT)/FlashPhoto/bin/FlashPhoto $(BINDIR)/
+
+MIA: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
 #	$(MAKE) -Csrc/app/MIA
+#	cp $(BUILDDIR)/MIA/bin/MIA $(BINDIR)/
 
 # Bootstrap Bill. This creates all of the order-only prerequisites; that is,
 # files/directories that have to be present in order for a given target build
 # to succeed, but that make knows do not need to be remade each time their
 # modification time is updated and they are newer than the target being built.
-$(BINDIR) $(OBJDIR) $(LIBDIR) $(BUILDROOT) $(BUILDDIR):
+$(BINDIR) $(OBJDIR) $(LIBDIR) $(BUILDROOT):
 	mkdir -p $@
 
 # The Cleaner. Clean up the project, by removing ALL files generated during
