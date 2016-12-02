@@ -34,6 +34,7 @@ obj/*
 
 # External libraries
 ext/
+lib/
 
 # Logs
 *.log
