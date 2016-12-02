@@ -160,7 +160,7 @@ install: all
 #	$(MAKE) -Csrc/app/MIA install
 	$(MAKE) -Csrc/app/FlashPhoto install
 
-libimgtools: | $(EXTDIR)/lib/libpng.a $(LIBDIR)
+libimgtools: | $(EXTDIR)/lib/libpng.a $(EXTDIR)/lib/libjpeg.a $(LIBDIR)
 #	$(MAKE) -C$(LIBIMGTOOLS_DIR) install
 
 $(EXTDIR)/lib/libglui.a:
