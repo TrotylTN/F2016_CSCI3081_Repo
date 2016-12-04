@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Name            : mia_io_manager.h
- * Project         : MIO
+ * Project         : MIA
  * Module          : io_manager
  * Description     : Header for MIA IOManager class
  * Copyright       : 2016 CSCI3081W TAs. All rights reserved.

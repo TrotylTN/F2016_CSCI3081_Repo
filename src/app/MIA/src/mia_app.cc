@@ -100,11 +100,7 @@ void MIAApp::InitGlui(void) {
 
   /* Initialize state management (undo, redo, quit) */
   state_manager_.InitGlui(glui(), s_gluicallback);
-/*
-  new GLUI_Button(const_cast<GLUI*>(glui()),
-                  "Quit", UICtrl::UI_QUIT,
-                  static_cast<GLUI_Update_CB>(exit));
-*/
+
   /* Initialize Filtering */
   filter_manager_.InitGlui(glui(), s_gluicallback);
 
@@ -146,14 +142,6 @@ void MIAApp::GluiControl(int control_id) {
       io_manager_.LoadImageToCanvas(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                         display_buffer_->height());
-      break;
-    case UICtrl::UI_LOAD_STAMP_BUTTON:
-    /*
-      PixelBuffer * loadedStamp;
-      io_manager_.LoadImageToStamp(&loadedStamp);
-      static_cast<TStamp*>(
-          tools_[ToolFactory::TOOL_STAMP])->set_stamp_buffer(loadedStamp);
-    */
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       // Reload the current directory:
