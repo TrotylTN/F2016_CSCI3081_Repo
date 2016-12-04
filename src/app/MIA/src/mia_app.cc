@@ -63,8 +63,8 @@ void MIAApp::Init(
   // since we only have two tools in this application then
   // we only need to make 2 length long array of tools
   tools_ = new Tool* [2];
-  tools_[0] = ToolFactory::CreateTool(0);
-  tools_[1] = ToolFactory::CreateTool(5);
+  tools_[0] = ToolFactory::CreateTool(ToolFactory::TOOL_PEN);
+  tools_[1] = ToolFactory::CreateTool(ToolFactory::TOOL_STAMP);
 
   InitGlui();
   InitGraphics();
@@ -223,14 +223,6 @@ void MIAApp::GluiControl(int control_id) {
       io_manager_.LoadImageToCanvas(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                         display_buffer_->height());
-      break;
-    case UICtrl::UI_LOAD_STAMP_BUTTON:
-    /*
-      PixelBuffer * loadedStamp;
-      io_manager_.LoadImageToStamp(&loadedStamp);
-      static_cast<TStamp*>(
-          tools_[ToolFactory::TOOL_STAMP])->set_stamp_buffer(loadedStamp);
-    */
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       // Reload the current directory:
