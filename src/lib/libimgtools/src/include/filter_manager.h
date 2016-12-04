@@ -110,7 +110,9 @@ class FilterManager {
    * @param s_gluicallback Callback to install
    */
   virtual GLUI_Panel* InitGlui(const GLUI *const glui,
-                               void (*s_gluicallback)(int));
+                               void (*s_gluicallback)(int)) {
+                                 return NULL;
+                               }
 
  protected:
   void AddBlurToGLUI(GLUI_Panel *filter_panel, void (*s_gluicallback)(int));
