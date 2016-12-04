@@ -12,8 +12,7 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "src/app/MIA/src/mia_filter_manager.h"
-/* FIXME: ADDITIONAL INCLUDES AS NECESSARY HERE :-) */
+#include "include/mia_filter_manager.h"
 
 /*******************************************************************************
  * Namespaces

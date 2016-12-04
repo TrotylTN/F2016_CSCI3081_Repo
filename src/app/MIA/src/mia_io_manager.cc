@@ -12,13 +12,10 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "src/app/MIA/src/mia_io_manager.h"
-
+#include "include/mia_io_manager.h"
 #include <assert.h>
 #include <iostream>
 #include <sstream>
-
-/* FIXME: ADDITIONAL INCLUDES AS NECESSARY HERE :-) */
 
 /*******************************************************************************
  * Namespaces
@@ -61,15 +58,15 @@ GLUI_Panel* MIAIOManager::InitGlui(const GLUI *const glui,
 
 void MIAIOManager::LoadNextImage(void) {
   set_image_file(next_file_name_);
-  LoadImageToCanvas();
+  next_prev_image_toggle();
 }
 
 void MIAIOManager::LoadPreviousImage(void) {
   set_image_file(prev_file_name_);
-  LoadImageToCanvas();
+  next_prev_image_toggle();
 }
 
-void MIAIOManager::LoadImageToCanvas(void) {
+void MIAIOManager::next_prev_image_toggle(void) {
   // Determining whether there are next or previous images
   next_file_name_ = image_name_plus_seq_offset(file_name(), 1);
   prev_file_name_ = image_name_plus_seq_offset(file_name(), -1);

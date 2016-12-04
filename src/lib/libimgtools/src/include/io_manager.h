@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_IO_MANAGER_H_
-#define SRC_INCLUDE_IO_MANAGER_H_
+ #ifndef SRC_INCLUDE_IO_MANAGER_H_
+ #define SRC_INCLUDE_IO_MANAGER_H_
 
 /*******************************************************************************
  * Includes
@@ -38,23 +38,24 @@ namespace image_tools {
 class IOManager {
  public:
   IOManager();
-  ~IOManager() {}
+  virtual ~IOManager() {}
 
   /**
    * @brief Initialize GLUI control elements for IO management
    *
    * @param glui GLUI handle
    * @param s_gluicallback Callback to install
+   * @return The initialized IO panel handle
    */
-  void InitGlui(const GLUI *const glui,
-                void (*s_gluicallback)(int));
+  virtual GLUI_Panel* InitGlui(const GLUI *const glui,
+                               void (*s_gluicallback)(int)) { return NULL; }
 
   /**
    * @brief Set the image file. If the file is valid, enable loading/saving
    *
    * @param filepath Pathname of the file
    */
-  void set_image_file(const std::string & filepath);
+  virtual void set_image_file(const std::string& filepath);
 
   /**
    * @brief Get the current image file name
@@ -68,8 +69,7 @@ class IOManager {
    *
    * @return The handle
    */
-  GLUI_FileBrowser* file_browser(void) { return file_browser_;}
-
+  GLUI_FileBrowser* file_browser(void) { return file_browser_; }
 
   /**
    * @brief Load the selected image file to the canvas
@@ -89,11 +89,13 @@ class IOManager {
    */
   void SaveCanvasToFile(const PixelBuffer& buffer);
 
- private:
-  /* Copy/move assignment/construction disallowed */
-  IOManager(const IOManager &rhs) = delete;
-  IOManager& operator=(const IOManager &rhs) = delete;
-
+ protected:
+  void AddSaveCanvasToGLUI(GLUI_Panel* image_panel,
+                           void (*s_gluicallback)(int));
+  void AddLoadStampToGLUI(GLUI_Panel* image_panel,
+                          void (*s_gluicallback)(int));
+  void AddFileBrowserToGLUI(GLUI_Panel* image_panel,
+                            void (*s_gluicallback)(int));
   void save_canvas_toggle(bool enabled) {
     UICtrl::button_toggle(save_canvas_btn_, enabled);
   }
@@ -132,12 +134,19 @@ class IOManager {
    * @brief Determine if the image corresponding to a given file
    *
    * The file must exist, have a proper suffix, and be openable
-   *(i.e. the user
-   * has permission to open it).
+   * (i.e. the user has permission to open it).
    *
    * @return TRUE if yes, FALSE otherwise
    */
   bool is_valid_image_file(const std::string &name);
+  GLUI_StaticText* save_file_label(void) { return save_file_label_; }
+  GLUI_StaticText* current_file_label(void) { return current_file_label_; }
+  GLUI_EditText* file_name_box(void) { return file_name_box_; }
+
+ private:
+  /* Copy/move assignment/construction disallowed */
+  IOManager(const IOManager &rhs) = delete;
+  IOManager& operator=(const IOManager &rhs) = delete;
 
   /* data members */
   GLUI_FileBrowser *file_browser_;
@@ -152,4 +161,4 @@ class IOManager {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_IO_MANAGER_H_ */
+#endif  /* COMMON_FILES_PUT_THESE_SOMEWHERE_INCLUDE_IO_MANAGER_H_ */

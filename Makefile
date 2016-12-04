@@ -158,7 +158,7 @@ all: libimgtools FlashPhoto MIA
 
 install: all
 	$(MAKE) -C$(LIBIMGTOOLS_DIR)
-#	$(MAKE) -Csrc/app/MIA install
+	$(MAKE) -Csrc/app/MIA install
 	$(MAKE) -Csrc/app/FlashPhoto install
 
 libimgtools: | $(EXTDIR)/lib/libpng.a $(EXTDIR)/lib/libjpeg.a $(LIBDIR)
@@ -176,8 +176,8 @@ FlashPhoto: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
 	cp $(BUILDROOT)/FlashPhoto/bin/FlashPhoto $(BINDIR)/
 
 MIA: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
-#	$(MAKE) -Csrc/app/MIA
-#	cp $(BUILDDIR)/MIA/bin/MIA $(BINDIR)/
+	$(MAKE) -Csrc/app/MIA
+	cp $(BUILDROOT)/MIA/bin/MIA $(BINDIR)/
 
 # Bootstrap Bill. This creates all of the order-only prerequisites; that is,
 # files/directories that have to be present in order for a given target build

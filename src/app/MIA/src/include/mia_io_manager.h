@@ -16,7 +16,7 @@
  * Includes
  ******************************************************************************/
 #include <string>
-/* FIXME: ADDITIONAL INCLUDES AS NECESSARY HERE :-) */
+#include "include/io_manager.h"
 
 /*******************************************************************************
  * Namespaces
@@ -48,7 +48,7 @@ class MIAIOManager : public IOManager {
   GLUI_Panel* InitGlui(const GLUI *const glui,
                        void (*s_gluicallback)(int));
 
-  void LoadImageToCanvas(void);
+  void next_prev_image_toggle(void);
   void LoadNextImage(void);
   void LoadPreviousImage(void);
   void set_image_file(const std::string & fname_in);

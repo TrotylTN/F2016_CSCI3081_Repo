@@ -16,8 +16,14 @@
  * Includes
  ******************************************************************************/
 #include <string>
-
-/* FIXME: ADDITIONAL INCLUDES AS NECESSARY HERE :-) */
+#include "include/base_gfx_app.h"
+#include "include/color_data.h"
+#include "include/pixel_buffer.h"
+#include "include/mia_filter_manager.h"
+#include "include/mia_io_manager.h"
+#include "include/ui_ctrl.h"
+#include "include/state_manager.h"
+#include "include/tool.h"
 
 /*******************************************************************************
  * Namespaces
