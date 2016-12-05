@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_FILTER_H_
-#define SRC_INCLUDE_FILTER_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_H_
 
 /*******************************************************************************
  * Includes
@@ -70,4 +70,4 @@ w   * @param[in] y Current Y position in buffer
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_FILTER_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_H_ */

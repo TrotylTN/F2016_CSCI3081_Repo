@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_HELPERS_H_
-#define SRC_INCLUDE_HELPERS_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_HELPERS_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_HELPERS_H_
 
 /*******************************************************************************
  * Includes
@@ -57,4 +57,4 @@ inline float gaussian(float x, float sigma) {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_HELPERS_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_HELPERS_H_ */

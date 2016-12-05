@@ -8,8 +8,8 @@
  * Original Author : Seth Johnson
  *
  ******************************************************************************/
-#ifndef SRC_INCLUDE_KERNEL_H_
-#define SRC_INCLUDE_KERNEL_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_KERNEL_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_KERNEL_H_
 
 /*******************************************************************************
  * Includes
@@ -67,4 +67,4 @@ class Kernel : public FloatMatrix {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_KERNEL_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_KERNEL_H_ */

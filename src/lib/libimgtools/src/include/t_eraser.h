@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_T_ERASER_H_
-#define SRC_INCLUDE_T_ERASER_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_ERASER_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_ERASER_H_
 
 /*******************************************************************************
  * Includes
@@ -47,4 +47,4 @@ class TEraser : public Tool {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_T_ERASER_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_ERASER_H_ */

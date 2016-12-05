@@ -9,8 +9,8 @@
  *
 ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_EDGE_H_
-#define SRC_INCLUDE_F_EDGE_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_EDGE_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_EDGE_H_
 
 /*******************************************************************************
  * Includes
@@ -37,4 +37,4 @@ class FEdge : public FilterConvolve {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_F_EDGE_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_EDGE_H_ */

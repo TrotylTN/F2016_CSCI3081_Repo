@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_THRESHOLD_H_
-#define SRC_INCLUDE_F_THRESHOLD_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_THRESHOLD_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_THRESHOLD_H_
 
 /*******************************************************************************
  * Includes
@@ -45,4 +45,4 @@ class FThreshold : public Filter {
 } /* namespace image_tools */
 
 
-#endif  /* SRC_INCLUDE_F_THRESHOLD_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_THRESHOLD_H_ */

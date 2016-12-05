@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_APP_FLASHPHOTO_SRC_FP_IO_MANAGER_H_
-#define SRC_APP_FLASHPHOTO_SRC_FP_IO_MANAGER_H_
+#ifndef SRC_APP_FLASHPHOTO_SRC_INCLUDE_FP_IO_MANAGER_H_
+#define SRC_APP_FLASHPHOTO_SRC_INCLUDE_FP_IO_MANAGER_H_
 
 /*******************************************************************************
  * Includes
@@ -56,4 +56,4 @@ class FPIOManager : public IOManager {
 
 } /* namespace image_tools */
 
-#endif /* SRC_APP_FLASHPHOTO_SRC_FP_IO_MANAGER_H_ */
+#endif /* SRC_APP_FLASHPHOTO_SRC_INCLUDE_FP_IO_MANAGER_H_ */

@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_FLOAT_MATRIX_H_
-#define SRC_INCLUDE_FLOAT_MATRIX_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FLOAT_MATRIX_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FLOAT_MATRIX_H_
 
 /*******************************************************************************
  * Includes
@@ -86,4 +86,4 @@ class FloatMatrix {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_FLOAT_MATRIX_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FLOAT_MATRIX_H_ */

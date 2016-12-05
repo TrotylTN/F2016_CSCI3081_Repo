@@ -9,8 +9,8 @@
  *
 ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_SATURATE_H_
-#define SRC_INCLUDE_F_SATURATE_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_SATURATE_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_SATURATE_H_
 
 /*******************************************************************************
  * Includes
@@ -41,7 +41,7 @@ class FSaturate : public Filter {
   virtual ColorData GeneratePixel(const PixelBuffer & buffer,
                                    int x, int y) const;
   /**
-   * @brief The percent of the original saturation that should be used when 
+   * @brief The percent of the original saturation that should be used when
    * picking the output color. (0 = grayscale, 1 = original
    * color, 2 = twice the saturation of the original)
    *
@@ -51,4 +51,4 @@ class FSaturate : public Filter {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_F_SATURATE_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_SATURATE_H_ */
