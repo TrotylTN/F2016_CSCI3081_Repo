@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_FILTER_FACTORY_H_
-#define SRC_INCLUDE_FILTER_FACTORY_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_FACTORY_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_FACTORY_H_
 
 /*******************************************************************************
  * Includes
@@ -82,4 +82,4 @@ class FilterFactory {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_FILTER_FACTORY_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_FACTORY_H_ */

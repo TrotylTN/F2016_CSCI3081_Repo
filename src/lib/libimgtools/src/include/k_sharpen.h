@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_K_SHARPEN_H_
-#define SRC_INCLUDE_K_SHARPEN_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_K_SHARPEN_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_K_SHARPEN_H_
 
 /*******************************************************************************
  * Includes
@@ -40,4 +40,4 @@ class KSharpen : public KGaussian {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_K_SHARPEN_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_K_SHARPEN_H_ */

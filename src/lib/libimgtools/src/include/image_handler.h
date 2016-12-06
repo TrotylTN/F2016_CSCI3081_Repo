@@ -8,8 +8,8 @@
  * Original Author : Seth Johnson
  *
  ******************************************************************************/
-#ifndef SRC_INCLUDE_IMAGE_HANDLER_H_
-#define SRC_INCLUDE_IMAGE_HANDLER_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IMAGE_HANDLER_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IMAGE_HANDLER_H_
 
 /*******************************************************************************
  * Includes
@@ -63,4 +63,4 @@ class ImageHandler {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_IMAGE_HANDLER_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IMAGE_HANDLER_H_ */

@@ -1,7 +1,7 @@
 /*******************************************************************************
- * Name            : io_manager.cc
- * Project         : FlashPhoto
- * Module          : io_manager
+ * Name            : mia_io_manager.cc
+ * Project         : MIA
+ * Module          : mia_io_manager
  * Description     : Implementation of MIAIOManager class
  * Copyright       : 2016 CSCI3081W TAs. All rights reserved.
  * Creation Date   : Wed Sep 21 20:47:05 2016

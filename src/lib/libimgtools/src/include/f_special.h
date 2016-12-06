@@ -9,8 +9,8 @@
  *
 ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_SPECIAL_H_
-#define SRC_INCLUDE_F_SPECIAL_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_SPECIAL_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_SPECIAL_H_
 
 /*******************************************************************************
  * Includes
@@ -42,4 +42,4 @@ class FSpecial: public Filter {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_F_SPECIAL_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_SPECIAL_H_ */

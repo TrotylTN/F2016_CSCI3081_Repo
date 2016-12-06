@@ -9,8 +9,8 @@
  *
 ******************************************************************************/
 
-#ifndef SRC_INCLUDE_F_QUANTIZE_H_
-#define SRC_INCLUDE_F_QUANTIZE_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_QUANTIZE_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_QUANTIZE_H_
 
 /*******************************************************************************
  * Includes
@@ -48,4 +48,4 @@ class FQuantize : public Filter {
 
 } /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_F_QUANTIZE_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_QUANTIZE_H_ */

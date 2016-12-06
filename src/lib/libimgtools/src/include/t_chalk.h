@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_T_CHALK_H_
-#define SRC_INCLUDE_T_CHALK_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_CHALK_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_CHALK_H_
 
 /*******************************************************************************
  * Includes
@@ -50,4 +50,4 @@ class TChalk : public Tool {
 
 }  /* namespace image_tools */
 
-#endif  /* SRC_INCLUDE_T_CHALK_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_CHALK_H_ */

@@ -61,7 +61,7 @@ void MIAApp::Init(
   InitializeBuffers(background_color, width(), height());
 
   // since we only have two tools in this application then
-  // we only need to make 2 length long array of tools
+  // we only need to create an array containing two tools
   tools_ = new Tool* [2];
   tools_[0] = ToolFactory::CreateTool(ToolFactory::TOOL_PEN);
   tools_[1] = ToolFactory::CreateTool(ToolFactory::TOOL_STAMP);
@@ -179,11 +179,7 @@ void MIAApp::InitGlui(void) {
 
   /* Initialize state management (undo, redo, quit) */
   state_manager_.InitGlui(glui(), s_gluicallback);
-/*
-  new GLUI_Button(const_cast<GLUI*>(glui()),
-                  "Quit", UICtrl::UI_QUIT,
-                  static_cast<GLUI_Update_CB>(exit));
-*/
+
   /* Initialize Filtering */
   filter_manager_.InitGlui(glui(), s_gluicallback);
 
@@ -195,30 +191,42 @@ void MIAApp::InitGlui(void) {
 void MIAApp::GluiControl(int control_id) {
   switch (control_id) {
     case UICtrl::UI_APPLY_SHARP:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplySharpen(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyEdgeDetect(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyThreshold(&display_buffer_);
       break;
+    case UICtrl::UI_APPLY_SATURATE:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplySaturate(&display_buffer_);
+      break;
     case UICtrl::UI_APPLY_CHANNEL:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyChannel(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyQuantize(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_BLUR:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       filter_manager_.ApplyBlur(&display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
       break;
     case UICtrl::UI_LOAD_CANVAS_BUTTON:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       io_manager_.LoadImageToCanvas(&display_buffer_);
       SetWindowDimensions(display_buffer_->width(),
                         display_buffer_->height());
+      io_manager_.next_prev_image_toggle();
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       // Reload the current directory:
@@ -226,10 +234,18 @@ void MIAApp::GluiControl(int control_id) {
       io_manager_.SaveCanvasToFile(*display_buffer_);
       break;
     case UICtrl::UI_NEXT_IMAGE_BUTTON:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       io_manager_.LoadNextImage();
+      io_manager_.LoadImageToCanvas(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                        display_buffer_->height());
       break;
     case UICtrl::UI_PREV_IMAGE_BUTTON:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       io_manager_.LoadPreviousImage();
+      io_manager_.LoadImageToCanvas(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                        display_buffer_->height());
       break;
     case UICtrl::UI_FILE_NAME:
       io_manager_.set_image_file(io_manager_.file_name());

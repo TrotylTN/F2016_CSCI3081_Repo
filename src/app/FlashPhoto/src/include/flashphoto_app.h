@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_INCLUDE_FLASHPHOTO_APP_H_
-#define SRC_INCLUDE_FLASHPHOTO_APP_H_
+#ifndef SRC_APP_FLASHPHOTO_SRC_INCLUDE_FLASHPHOTO_APP_H_
+#define SRC_APP_FLASHPHOTO_SRC_INCLUDE_FLASHPHOTO_APP_H_
 
 /*******************************************************************************
  * Includes
@@ -19,8 +19,8 @@
 #include "include/base_gfx_app.h"
 #include "include/color_data.h"
 #include "include/pixel_buffer.h"
-#include "include/filter_manager.h"
-#include "include/io_manager.h"
+#include "include/fp_filter_manager.h"
+#include "include/fp_io_manager.h"
 #include "include/ui_ctrl.h"
 #include "include/state_manager.h"
 #include "include/tool.h"
@@ -85,12 +85,12 @@ class FlashPhotoApp : public BaseGfxApp {
   /**
    * @brief Manager for all filter operations
    */
-  FilterManager filter_manager_;
+  FPFilterManager filter_manager_;
 
   /**
    * @brief Manager for all I/O operations
    */
-  IOManager io_manager_;
+  FPIOManager io_manager_;
 
   /**
    * @brief Manager for redo/undo stack
@@ -124,4 +124,4 @@ class FlashPhotoApp : public BaseGfxApp {
 
 }  /* namespace image_tools */
 
-#endif  // SRC_INCLUDE_FLASHPHOTO_APP_H_
+#endif  // SRC_APP_FLASHPHOTO_SRC_INCLUDE_FLASHPHOTO_APP_H_

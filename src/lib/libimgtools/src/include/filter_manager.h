@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
- #ifndef SRC_INCLUDE_FILTER_MANAGER_H_
- #define SRC_INCLUDE_FILTER_MANAGER_H_
+ #ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_MANAGER_H_
+ #define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_MANAGER_H_
 
 /*******************************************************************************
  * Includes
@@ -110,7 +110,9 @@ class FilterManager {
    * @param s_gluicallback Callback to install
    */
   virtual GLUI_Panel* InitGlui(const GLUI *const glui,
-                               void (*s_gluicallback)(int));
+                               void (*s_gluicallback)(int)) {
+                                 return NULL;
+                               }
 
  protected:
   void AddBlurToGLUI(GLUI_Panel *filter_panel, void (*s_gluicallback)(int));
@@ -144,4 +146,4 @@ class FilterManager {
 
 }  /* namespace image_tools */
 
-#endif  /* COMMON_FILES_PUT_THESE_SOMEWHERE_INCLUDE_FILTER_MANAGER_H_ */
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_FILTER_MANAGER_H_ */
