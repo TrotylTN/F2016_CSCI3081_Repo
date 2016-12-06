@@ -38,10 +38,10 @@ class MIAApp : public BaseGfxApp {
   MIAApp(int width, int height, const std::string& marker_fname);
   virtual ~MIAApp(void);
 
-  void MouseDragged(int x, int y) {}
-  void MouseMoved(int x, int y) {}
+  void MouseDragged(int x, int y);
+  void MouseMoved(int x, int y) ;
   void LeftMouseDown(int x, int y);
-  void LeftMouseUp(int x, int y) {}
+  void LeftMouseUp(int x, int y);
   void Display(void);
   void GluiControl(int control_id);
 
@@ -101,6 +101,12 @@ class MIAApp : public BaseGfxApp {
   std::string marker_fname_;
 
   int cur_tool_;
+
+  Tool **tools_;
+  const float cur_color_red_ = 1.0;
+  const float cur_color_green_ = 0.0;
+  const float cur_color_blue_ = 0.0;
+  int mouse_last_x_, mouse_last_y_;
 };
 
 }  /* namespace image_tools */

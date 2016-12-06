@@ -18,7 +18,7 @@
 #include <iostream>
 #include "include/image_handler.h"
 #include "include/t_stamp.h"
-
+#include "include/tool_factory.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -34,8 +34,10 @@ MIAApp::MIAApp(int width, int height,
                                                   state_manager_(),
                                                   display_buffer_(nullptr),
                                                   marker_fname_(marker_fname),
-                                                  cur_tool_(0) {}
-
+                                                  cur_tool_(0),
+                                                  tools_(nullptr),
+                                                  mouse_last_x_(0),
+                                                  mouse_last_y_(0){}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
@@ -58,6 +60,14 @@ void MIAApp::Init(
   // Initialize Interface
   InitializeBuffers(background_color, width(), height());
 
+  // since we only have two tools in this application then
+  // we only need to create an array containing two tools
+  tools_ = new Tool* [2];
+  tools_[0] = ToolFactory::CreateTool(ToolFactory::TOOL_PEN);
+  tools_[1] = ToolFactory::CreateTool(ToolFactory::TOOL_STAMP);
+  static_cast<TStamp*>(tools_[1])
+                      ->set_stamp_buffer(
+                        ImageHandler::LoadImage("resources/marker.png"));
   InitGlui();
   InitGraphics();
 }
@@ -70,13 +80,82 @@ MIAApp::~MIAApp(void) {
   if (display_buffer_) {
     delete display_buffer_;
   }
+  // Delete each of the tools befoe deleting the list of tools pointers
+  if (tools_) {
+    delete tools_[0];
+    delete tools_[1];
+  }
+
+  delete [] tools_;
+
 }
 
+void MIAApp::MouseMoved(int x, int y) {}
+
+void MIAApp::MouseDragged(int x, int y) {
+
+  if (tools_[cur_tool_]->should_smear()) {
+    int max_steps = tools_[cur_tool_]->max_smear();
+
+    // We implimented a smoothing feature by interpolating between
+    // mouse events. This is at the expense of processing, though,
+    // because we just "stamp" the tool many times between the two
+    // even locations. you can reduce max_steps until it runs
+    // smoothly on your machine.
+
+    // Get the differences between the events
+    // in each direction
+    int delta_x = x-mouse_last_x_;
+    int delta_y = y-mouse_last_y_;
+
+    // Calculate the min number of steps necesary to fill
+    // completely between the two event locations.
+    float pixels_between = fmax(abs(delta_x), abs(delta_y));
+    int step_size = 1;
+
+    // Optimize by maxing out at the max_steps,
+    // and fill evenly between
+    if (pixels_between > max_steps) {
+      step_size = pixels_between/max_steps;
+    }
+
+    // Iterate between the event locations
+    for (int i = 0; i < pixels_between; i+=step_size) {
+      int curr_x = mouse_last_x_+(i*delta_x/pixels_between);
+      int curr_y = mouse_last_y_+(i*delta_y/pixels_between);
+
+      tools_[cur_tool_]->ApplyToBuffer(curr_x, height()-curr_y,
+                                       ColorData(cur_color_red_,
+                                                 cur_color_green_,
+                                                 cur_color_blue_),
+                                       display_buffer_);
+    }
+  }
+
+  // let the previous point catch up with the current.
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
+
+}
 
 void MIAApp::LeftMouseDown(int x, int y) {
   std::cout << "mousePressed " << x << " " << y << std::endl;
+
+  display_buffer_ = state_manager_.CommitState(display_buffer_);
+
+  tools_[cur_tool_]->ApplyToBuffer(x, height()-y, ColorData(cur_color_red_,
+                                                            cur_color_green_,
+                                                            cur_color_blue_),
+                                   display_buffer_);
+
+  mouse_last_x_ = x;
+  mouse_last_y_ = y;
+
 }
 
+void MIAApp::LeftMouseUp(int x, int y) {
+  std::cout << "mouseReleased " << x << " " << y << std::endl;
+}
 
 void MIAApp::InitializeBuffers(ColorData background_color,
                                int width, int height) {
