@@ -12,11 +12,12 @@
 /*******************************************************************************
  * Includes
  ******************************************************************************/
-#include "src/app/MIA/src/mia_app.h"
+#include "include/mia_app.h"
+#include <cmath>
 #include <string>
 #include <iostream>
-
-/* FIXME: ADDITIONAL INCLUDES AS NECESSARY HERE :-) */
+#include "include/image_handler.h"
+#include "include/t_stamp.h"
 
 /*******************************************************************************
  * Namespaces
@@ -100,10 +101,6 @@ void MIAApp::InitGlui(void) {
   /* Initialize state management (undo, redo, quit) */
   state_manager_.InitGlui(glui(), s_gluicallback);
 
-  new GLUI_Button(const_cast<GLUI*>(glui()),
-                  "Quit", UICtrl::UI_QUIT,
-                  static_cast<GLUI_Update_CB>(exit));
-
   /* Initialize Filtering */
   filter_manager_.InitGlui(glui(), s_gluicallback);
 
@@ -115,57 +112,75 @@ void MIAApp::InitGlui(void) {
 void MIAApp::GluiControl(int control_id) {
   switch (control_id) {
     case UICtrl::UI_APPLY_SHARP:
-      filter_manager_.ApplySharpen();
-      break;
-    case UICtrl::UI_APPLY_MOTION_BLUR:
-      filter_manager_.ApplyMotionBlur();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplySharpen(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_EDGE:
-      filter_manager_.ApplyEdgeDetect();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplyEdgeDetect(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
-      filter_manager_.ApplyThreshold();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplyThreshold(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_SATURATE:
-      filter_manager_.ApplySaturate();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplySaturate(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
-      filter_manager_.ApplyChannel();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplyChannel(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_QUANTIZE:
-      filter_manager_.ApplyQuantize();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplyQuantize(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_BLUR:
-      filter_manager_.ApplyBlur();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      filter_manager_.ApplyBlur(&display_buffer_);
       break;
     case UICtrl::UI_FILE_BROWSER:
       io_manager_.set_image_file(io_manager_.file_browser()->get_file());
       break;
     case UICtrl::UI_LOAD_CANVAS_BUTTON:
-      io_manager_.LoadImageToCanvas();
-      break;
-    case UICtrl::UI_LOAD_STAMP_BUTTON:
-      io_manager_.LoadImageToStamp();
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
+      io_manager_.LoadImageToCanvas(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                        display_buffer_->height());
+      io_manager_.next_prev_image_toggle();
       break;
     case UICtrl::UI_SAVE_CANVAS_BUTTON:
       // Reload the current directory:
       io_manager_.file_browser()->fbreaddir(".");
-      io_manager_.SaveCanvasToFile();
+      io_manager_.SaveCanvasToFile(*display_buffer_);
       break;
     case UICtrl::UI_NEXT_IMAGE_BUTTON:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       io_manager_.LoadNextImage();
+      io_manager_.LoadImageToCanvas(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                        display_buffer_->height());
       break;
     case UICtrl::UI_PREV_IMAGE_BUTTON:
+      display_buffer_ = state_manager_.CommitState(display_buffer_);
       io_manager_.LoadPreviousImage();
+      io_manager_.LoadImageToCanvas(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                        display_buffer_->height());
       break;
     case UICtrl::UI_FILE_NAME:
       io_manager_.set_image_file(io_manager_.file_name());
       break;
     case UICtrl::UI_UNDO:
-      state_manager_.UndoOperation();
+      state_manager_.UndoOperation(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
       break;
     case UICtrl::UI_REDO:
-      state_manager_.RedoOperation();
+      state_manager_.RedoOperation(&display_buffer_);
+      SetWindowDimensions(display_buffer_->width(),
+                          display_buffer_->height());
+      Display();
       break;
     default:
       break;
@@ -174,6 +189,7 @@ void MIAApp::GluiControl(int control_id) {
   // Forces canvas to update changes made in this function
   glui()->post_update_main_gfx();
 }
+
 void MIAApp::InitGraphics(void) {
   // Initialize OpenGL for 2D graphics as used in the BrushWork app
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

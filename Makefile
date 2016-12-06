@@ -79,7 +79,7 @@ export CXXFLAGS
 # This is the list of directories to search during the linking step for
 # external libraries (such as GLUI) that are NOT in one of the pre-defined
 # locations on linux, such as /usr/lib, /lib, etc.
-export CXXLIBDIRS = -L$(LIBDIR) -L$(EXTDIR)/lib -L/usr/local/lib
+export CXXLIBDIRS = -L$(LIBDIR) -L$(EXTDIR)/lib -L/usr/local/lib -L$(LIBIMGTOOLS_DIR)
 
 
 # Define the list of include directories during compilation. Lines MUST end
@@ -96,7 +96,8 @@ define CXXINCDIRS
 -isystem/usr/local/include \
 -isystem$(GLUIDIR)/include \
 -isystem$(JPEGDIR) \
--isystem$(PNGDIR)
+-isystem$(PNGDIR) \
+-isystem$(LIBIMGTOOLS_DIR)/src
 endef
 export CXXINCDIRS
 
@@ -120,10 +121,10 @@ export CXXINCDIRS
 # This is specified differently depending on whether we are on linux or OSX.
 UNAME = $(shell uname)
 ifeq ($(UNAME), Darwin) # Mac OSX
-#CXXLIBS += -limgtools # FIXME: UNCOMMENT THIS LINE WHEN LIMGTOOLS WORKS
+CXXLIBS += -limgtools # FIXME: UNCOMMENT THIS LINE WHEN LIMGTOOLS WORKS
 CXXLIBS += -ljpeg -lpng -lz -framework glut -framework opengl -lglui
 else # LINUX
-#CXXLIBS += -limgtools # FIXME: UNCOMMENT THIS LINE WHEN LIMGTOOLS WORKS
+CXXLIBS += -limgtools # FIXME: UNCOMMENT THIS LINE WHEN LIMGTOOLS WORKS
 CXXLIBS +=  -lpng -ljpeg -lz -lGL -lGLU -lglui -lglut
 CXXFLAGS += -fopenmp
 endif
@@ -156,12 +157,12 @@ export CXXLIBS
 all: libimgtools FlashPhoto MIA
 
 install: all
-#	$(MAKE) -C$(LIBIMGTOOLS_DIR)
-#	$(MAKE) -Csrc/app/MIA install
+	$(MAKE) -C$(LIBIMGTOOLS_DIR)
+	$(MAKE) -Csrc/app/MIA install
 	$(MAKE) -Csrc/app/FlashPhoto install
 
 libimgtools: | $(EXTDIR)/lib/libpng.a $(EXTDIR)/lib/libjpeg.a $(LIBDIR)
-#	$(MAKE) -C$(LIBIMGTOOLS_DIR) install
+	$(MAKE) -C$(LIBIMGTOOLS_DIR) install
 
 $(EXTDIR)/lib/libglui.a:
 	$(MAKE) -C$(GLUIDIR) install
@@ -175,8 +176,8 @@ FlashPhoto: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
 	cp $(BUILDROOT)/FlashPhoto/bin/FlashPhoto $(BINDIR)/
 
 MIA: libimgtools $(EXTDIR)/lib/libglui.a | $(BINDIR)
-#	$(MAKE) -Csrc/app/MIA
-#	cp $(BUILDDIR)/MIA/bin/MIA $(BINDIR)/
+	$(MAKE) -Csrc/app/MIA
+	cp $(BUILDROOT)/MIA/bin/MIA $(BINDIR)/
 
 # Bootstrap Bill. This creates all of the order-only prerequisites; that is,
 # files/directories that have to be present in order for a given target build
