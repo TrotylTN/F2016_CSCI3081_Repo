@@ -37,7 +37,10 @@ MIAApp::MIAApp(int width, int height,
                                                   cur_tool_(0),
                                                   tools_(nullptr),
                                                   mouse_last_x_(0),
-                                                  mouse_last_y_(0){}
+                                                  mouse_last_y_(0),
+                                                  cur_color_red_(1.0),
+                                                  cur_color_green_(0.0),
+                                                  cur_color_blue_(0.0) {}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
@@ -65,6 +68,7 @@ void MIAApp::Init(
   tools_ = new Tool* [2];
   tools_[0] = ToolFactory::CreateTool(ToolFactory::TOOL_PEN);
   tools_[1] = ToolFactory::CreateTool(ToolFactory::TOOL_STAMP);
+  // Load marker image (assumed the current directory is set to root directory)
   static_cast<TStamp*>(tools_[1])
                       ->set_stamp_buffer(
                         ImageHandler::LoadImage("resources/marker.png"));
@@ -87,7 +91,6 @@ MIAApp::~MIAApp(void) {
   }
 
   delete [] tools_;
-
 }
 
 void MIAApp::MouseMoved(int x, int y) {}
@@ -135,7 +138,6 @@ void MIAApp::MouseDragged(int x, int y) {
   // let the previous point catch up with the current.
   mouse_last_x_ = x;
   mouse_last_y_ = y;
-
 }
 
 void MIAApp::LeftMouseDown(int x, int y) {
@@ -150,7 +152,6 @@ void MIAApp::LeftMouseDown(int x, int y) {
 
   mouse_last_x_ = x;
   mouse_last_y_ = y;
-
 }
 
 void MIAApp::LeftMouseUp(int x, int y) {
