@@ -103,9 +103,9 @@ class MIAApp : public BaseGfxApp {
   int cur_tool_;
 
   Tool **tools_;
-  const float cur_color_red_ = 1.0;
-  const float cur_color_green_ = 0.0;
-  const float cur_color_blue_ = 0.0;
+  const float cur_color_red_;
+  const float cur_color_green_;
+  const float cur_color_blue_;
   int mouse_last_x_, mouse_last_y_;
 };
 
