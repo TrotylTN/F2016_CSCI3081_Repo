@@ -65,7 +65,9 @@ void MIAApp::Init(
   tools_ = new Tool* [2];
   tools_[0] = ToolFactory::CreateTool(ToolFactory::TOOL_PEN);
   tools_[1] = ToolFactory::CreateTool(ToolFactory::TOOL_STAMP);
-
+  static_cast<TStamp*>(tools_[1])
+                      ->set_stamp_buffer(
+                        ImageHandler::LoadImage("resources/marker.png"));
   InitGlui();
   InitGraphics();
 }
@@ -195,17 +197,11 @@ void MIAApp::GluiControl(int control_id) {
     case UICtrl::UI_APPLY_SHARP:
       filter_manager_.ApplySharpen(&display_buffer_);
       break;
-    case UICtrl::UI_APPLY_MOTION_BLUR:
-      filter_manager_.ApplyMotionBlur(&display_buffer_);
-      break;
     case UICtrl::UI_APPLY_EDGE:
       filter_manager_.ApplyEdgeDetect(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_THRESHOLD:
       filter_manager_.ApplyThreshold(&display_buffer_);
-      break;
-    case UICtrl::UI_APPLY_SATURATE:
-      filter_manager_.ApplySaturate(&display_buffer_);
       break;
     case UICtrl::UI_APPLY_CHANNEL:
       filter_manager_.ApplyChannel(&display_buffer_);

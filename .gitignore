@@ -3,6 +3,7 @@
 *GPATH
 *GRTAGS
 *GTAGS
+*tags
 *.clang_complete
 
 # Compiled Object files
