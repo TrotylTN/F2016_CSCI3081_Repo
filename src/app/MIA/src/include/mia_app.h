@@ -1,5 +1,5 @@
 /*******************************************************************************
-> * Name            : mia_app.h
+ * Name            : mia_app.h
  * Project         : MIA
  * Module          : App
  * Description     : Header file for MIA class
