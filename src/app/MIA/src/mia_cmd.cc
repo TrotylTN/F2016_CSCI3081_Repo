@@ -14,6 +14,9 @@
  ******************************************************************************/
 #include "include/mia_cmd.h"
 #include <stdexcept>
+#include <iostream>
+#include <algorithm>
+#include <stack>
 
 /*******************************************************************************
  * Namespaces
@@ -61,7 +64,7 @@ MIACmd::MIACmd(int argc, char *argv[]) {
     if (argstr[i] == "-compare") {
       if (argstr.size() == 3 && i == 1) {
         this->parseresult_ = COMPARE_IMG;
-        filename_.push_back(make_pair(argstr[0], argstr[2]));
+        this->filename_.push_back(make_pair(argstr[0], argstr[2]));
         return;
       } else {
         this->parseresult_ = CMD_ERROR;
@@ -69,13 +72,25 @@ MIACmd::MIACmd(int argc, char *argv[]) {
       }
     }
   }
+  std::size_t numofinsign, numofoutsign;
+  numofinsign = std::count(argstr[0].begin(), argstr[0].end(), '#');
+  numofoutsign = std::count(argstr[argstr.size() - 1].begin(),
+                            argstr[argstr.size() - 1].end(),
+                            '#');
+  if (numofinsign != numofoutsign) {
+    this->parseresult_ = FILE_ERROR;
+    return;
+  }
+
+  GenFileNamePair(argstr[0], argstr[argstr.size() - 1], numofinsign);
+
   for (unsigned long i = 1; i < argstr.size() - 1; i++) {
 
     try {
       // bitset constructor throws an invalid_argument if initialized
     }
     catch (const std::invalid_argument& ia) {
-  }
+    }
 
   }
 }
@@ -83,5 +98,13 @@ MIACmd::MIACmd(int argc, char *argv[]) {
  * Member Functions
  ******************************************************************************/
 
+void MIACmd::GenFileNamePair(std::string infilename,
+                        std::string outfilename,
+                        int rest_sign) {
+  if (rest_sign == 0) {
+    this->filename_.push_back(make_pair(infilename, outfilename));
+    return;
+  }
+}
 
 }  /* namespace image_tools */

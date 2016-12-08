@@ -45,6 +45,10 @@ class MIACmd {
     FileName(void) { return filename_; }
 
   int ParseResult(void) { return parseresult_;}
+
+  void GenFileNamePair(std::string infilename,
+                       std::string outfilename,
+                       int rest_sign);
  private:
   std::vector <std::pair<std::string, std::string> > filename_;
   int parseresult_;
