@@ -22,8 +22,9 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructor
  ******************************************************************************/
-MIACmd::MIACmd(void) {
-  
+MIACmd::MIACmd(void) : filename_({}),
+                       parseresult_(0) {
+
 }
 
 MIACmd::MIACmd(int argc, char *argv[]) {

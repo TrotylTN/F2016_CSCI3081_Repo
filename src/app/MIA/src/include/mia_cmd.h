@@ -16,6 +16,8 @@
  * Includes
  ******************************************************************************/
 #include <string>
+#include <vector>
+#include <utility>
 
 /*******************************************************************************
  * Namespaces
@@ -29,14 +31,45 @@ class MIACmd {
  public:
   MIACmd(void);
   MIACmd(int argc, char *argv[]);
-  enum {
-    HELP_MESSAGE,
-    ERROR_INPUT,
-    SUCCESSFUL_PARSE,
-    NO_CMD_LINES
+  enum RETURNCODE{
+    NO_CMD_LINES = 0,
+    SUCCESSFUL_PARSE = 1,
+    HELP_MESSAGE = 2,
+    COMPARE_IMG = 3,
+    ERROR_INPUT = 4
   };
+
+  std::vector <std::pair<std::string, std::string> >
+    FileName(void) { return filename_; }
+
+  int ParseResult(void) { return parseresult_;}
  private:
-}
+  std::vector <std::pair<std::string, std::string> > filename_;
+  int parseresult_;
+
+  bool sharpen_;
+  float sharpen_amount_;
+
+  bool edge_;
+
+  bool threshold_;
+  float threshold_amount_;
+
+  bool quantize_;
+  int quantize_bin_;
+
+  bool blur_;
+  float blur_amount_;
+
+  bool saturate_;
+  float saturate_amount_;
+
+  bool channel_;
+  float channel_red_;
+  float channel_green_;
+  float channel_blue_;
+
+};
 
 }  /* namespace image_tools */
 
