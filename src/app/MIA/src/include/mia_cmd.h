@@ -34,9 +34,11 @@ class MIACmd {
   enum RETURNCODE{
     NO_CMD_LINES = 0,
     SUCCESSFUL_PARSE = 1,
-    HELP_MESSAGE = 2,
-    COMPARE_IMG = 3,
-    ERROR_INPUT = 4
+    COMPARE_IMG = 2,
+    HELP_MESSAGE = 3,
+    FILE_ERROR = 4,
+    CMD_ERROR = 5,
+    ARGUMENTS_ERROR = 6
   };
 
   std::vector <std::pair<std::string, std::string> >

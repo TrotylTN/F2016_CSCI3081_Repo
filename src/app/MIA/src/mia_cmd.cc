@@ -45,10 +45,37 @@ MIACmd::MIACmd(void) : filename_({}),
 
 MIACmd::MIACmd(int argc, char *argv[]) {
   MIACmd::MIACmd();
-  try {
-    // bitset constructor throws an invalid_argument if initialized
+  std::vector <std::string> argstr;
+  argstr.clear();
+  if (argc == 1) {
+    this->parseresult_ = NO_CMD_LINES;
+    return;
   }
-  catch (const std::invalid_argument& ia) {
+  for (int i = 1; i < argc; i++)
+    argstr.push_back(std::string(argv[i]));
+  for (unsigned long i = 0; i < argstr.size(); i++) {
+    if (argstr[i] == "-h") {
+      this->parseresult_ = HELP_MESSAGE;
+      return;
+    }
+    if (argstr[i] == "-compare") {
+      if (argstr.size() == 3 && i == 1) {
+        this->parseresult_ = COMPARE_IMG;
+        filename_.push_back(make_pair(argstr[0], argstr[2]));
+        return;
+      } else {
+        this->parseresult_ = CMD_ERROR;
+        return;
+      }
+    }
+  }
+  for (unsigned long i = 1; i < argstr.size() - 1; i++) {
+
+    try {
+      // bitset constructor throws an invalid_argument if initialized
+    }
+    catch (const std::invalid_argument& ia) {
+  }
 
   }
 }
