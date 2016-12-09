@@ -49,6 +49,29 @@ class MIACmd {
   void GenFileNamePair(std::string infilename,
                        std::string outfilename,
                        int rest_sign);
+
+  bool Sharpen(void) { return sharpen_; }
+  float SharpenAmount(void) { return sharpen_amount_; }
+
+  bool Edge(void) { return edge_; }
+
+  bool Threshold(void) { return threshold_; }
+  float ThresholdAmount(void) { return threshold_amount_; }
+
+  bool Quantize(void) { return quantize_; }
+  int QuantizeBin(void) { return quantize_bin_; }
+
+  bool Blur(void) { return blur_; }
+  float BlurAmount(void) { return blur_amount_; }
+
+  bool Saturate(void) { return saturate_; }
+  float SaturateAmount(void) { return saturate_amount_; }
+
+  bool Channel(void) { return channel_; }
+  float ChannelRed(void) { return channel_red_; }
+  float ChannelBlue(void) { return channel_blue_; }
+  float ChannelGreen(void) { return channel_green_; }
+  
  private:
   std::vector <std::pair<std::string, std::string> > filename_;
   int parseresult_;
