@@ -108,31 +108,125 @@ MIACmd::MIACmd(int argc, char *argv[]) : filename_({}),
       if (i >= argstr.size()) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
-      }
-      try {
-        sharpen_amount_ = stof(argstr[i]);
-      }
-      catch (const std::invalid_argument& ia) {
-        this->parseresult_ = ARGUMENTS_ERROR;
-        return;
+      } else {
+        try {
+          sharpen_amount_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
       }
     } else if (argstr[i] == "-edge") {
-
+      edge_ = true;
     } else if (argstr[i] == "-threshold") {
-
+      threshold_ = true;
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          threshold_amount_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
     } else if (argstr[i] == "-quantize") {
-
+      quantize_ = true;
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          quantize_bin_ = stoi(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
     } else if (argstr[i] == "-blur") {
-
+      blur_ = true;
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          blur_amount_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
     } else if (argstr[i] == "-saturate") {
-
+      saturate_ = true;
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          saturate_amount_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
     } else if (argstr[i] == "-channel") {
-
+      channel_ = true;
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          channel_red_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          channel_green_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      } else {
+        try {
+          channel_blue_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+      }
     } else {
       this->parseresult_ = INVALID_FILTER;
       return;
     }
   }
+  this->parseresult_ = SUCCESSFUL_PARSE;
+  return;
 }
 /*******************************************************************************
  * Member Functions
