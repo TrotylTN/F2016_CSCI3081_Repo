@@ -71,7 +71,7 @@ void MIAApp::Init(
   // Load marker image (assumed the current directory is set to root directory)
   static_cast<TStamp*>(tools_[1])
                       ->set_stamp_buffer(
-                        ImageHandler::LoadImage("resources/marker.png"));
+                        ImageHandler::LoadImage(marker_fname_));
   InitGlui();
   InitGraphics();
 }
