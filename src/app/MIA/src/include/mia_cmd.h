@@ -30,16 +30,15 @@ namespace image_tools {
 class MIACmd {
  public:
   MIACmd(void);
-  MIACmd(int argc, char *argv[]);
+  MIACmd(int argc, char** argv);
   enum RETURNCODE{
-    NO_CMD_LINES = 0,
-    SUCCESSFUL_PARSE = 1,
-    COMPARE_IMG = 2,
-    HELP_MESSAGE = 3,
-    FILE_ERROR = 4,
-    CMD_ERROR = 5,
-    INVALID_FILTER = 6,
-    ARGUMENTS_ERROR = 7
+    SUCCESSFUL_PARSE = 0,
+    COMPARE_IMG = 1,
+    HELP_MESSAGE = 2,
+    FILE_ERROR = 3,
+    CMD_ERROR = 4,
+    INVALID_FILTER = 5,
+    ARGUMENTS_ERROR = 6
   };
 
   std::vector <std::pair<std::string, std::string> >

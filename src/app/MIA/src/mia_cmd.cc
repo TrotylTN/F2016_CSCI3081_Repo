@@ -46,29 +46,25 @@ MIACmd::MIACmd(void) : filename_({}),
 
 }
 
-MIACmd::MIACmd(int argc, char *argv[]) : filename_({}),
-                                         parseresult_(0),
-                                         sharpen_(false),
-                                         sharpen_amount_(0),
-                                         edge_(false),
-                                         threshold_(false),
-                                         threshold_amount_(0),
-                                         quantize_(false),
-                                         quantize_bin_(2),
-                                         blur_(false),
-                                         blur_amount_(0),
-                                         saturate_(false),
-                                         saturate_amount_(0),
-                                         channel_(false),
-                                         channel_red_(0),
-                                         channel_green_(0),
-                                         channel_blue_(0) {
+MIACmd::MIACmd(int argc, char** argv) : filename_({}),
+                                        parseresult_(0),
+                                        sharpen_(false),
+                                        sharpen_amount_(0),
+                                        edge_(false),
+                                        threshold_(false),
+                                        threshold_amount_(0),
+                                        quantize_(false),
+                                        quantize_bin_(2),
+                                        blur_(false),
+                                        blur_amount_(0),
+                                        saturate_(false),
+                                        saturate_amount_(0),
+                                        channel_(false),
+                                        channel_red_(0),
+                                        channel_green_(0),
+                                        channel_blue_(0) {
   std::vector <std::string> argstr;
   argstr.clear();
-  if (argc == 1) {
-    this->parseresult_ = NO_CMD_LINES;
-    return;
-  }
   for (int i = 1; i < argc; i++)
     argstr.push_back(std::string(argv[i]));
   for (unsigned long i = 0; i < argstr.size(); i++) {
@@ -80,6 +76,7 @@ MIACmd::MIACmd(int argc, char *argv[]) : filename_({}),
 
   if (argstr.size() < 2) {
     this->parseresult_ = CMD_ERROR;
+    return;
   }
   std::size_t numofinsign, numofoutsign;
   numofinsign = std::count(argstr[0].begin(), argstr[0].end(), '#');
