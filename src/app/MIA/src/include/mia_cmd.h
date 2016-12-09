@@ -38,7 +38,8 @@ class MIACmd {
     HELP_MESSAGE = 3,
     FILE_ERROR = 4,
     CMD_ERROR = 5,
-    ARGUMENTS_ERROR = 6
+    INVALID_FILTER = 6,
+    ARGUMENTS_ERROR = 7
   };
 
   std::vector <std::pair<std::string, std::string> >
@@ -71,7 +72,7 @@ class MIACmd {
   float ChannelRed(void) { return channel_red_; }
   float ChannelBlue(void) { return channel_blue_; }
   float ChannelGreen(void) { return channel_green_; }
-  
+
  private:
   std::vector <std::pair<std::string, std::string> > filename_;
   int parseresult_;

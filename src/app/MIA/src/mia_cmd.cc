@@ -96,19 +96,42 @@ MIACmd::MIACmd(int argc, char *argv[]) : filename_({}),
     return;
   }
 
-  if (argstr.size() == 3 && argstr[1] == '-compare') {
+  if (argstr.size() == 3 && argstr[1] == "-compare") {
     this->parseresult_ = COMPARE_IMG;
     return;
   }
 
   for (unsigned long i = 1; i < argstr.size() - 1; i++) {
+    if (argstr[i] == "-sharpen") {
+        sharpen_ = true;
+        i++;
+        if (i >= argstr.size()) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+        try {
+          sharpen_amount_ = stof(argstr[i]);
+        }
+        catch (const std::invalid_argument& ia) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
+    } else if (argstr[i] == "-edge") {
 
-    try {
-      // bitset constructor throws an invalid_argument if initialized
-    }
-    catch (const std::invalid_argument& ia) {
-    }
+    } else if (argstr[i] == "-threshold") {
 
+    } else if (argstr[i] == "-quantize") {
+
+    } else if (argstr[i] == "-blur") {
+
+    } else if (argstr[i] == "-saturate") {
+
+    } else if (argstr[i] == "-channel") {
+
+    } else {
+      this->parseresult_ = INVALID_FILTER;
+      return;
+    }
   }
 }
 /*******************************************************************************
