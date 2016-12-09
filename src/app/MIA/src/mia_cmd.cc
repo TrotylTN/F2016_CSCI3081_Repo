@@ -103,19 +103,19 @@ MIACmd::MIACmd(int argc, char *argv[]) : filename_({}),
 
   for (unsigned long i = 1; i < argstr.size() - 1; i++) {
     if (argstr[i] == "-sharpen") {
-        sharpen_ = true;
-        i++;
-        if (i >= argstr.size()) {
-          this->parseresult_ = ARGUMENTS_ERROR;
-          return;
-        }
-        try {
-          sharpen_amount_ = stof(argstr[i]);
-        }
-        catch (const std::invalid_argument& ia) {
-          this->parseresult_ = ARGUMENTS_ERROR;
-          return;
-        }
+      sharpen_ = true;
+      i++;
+      if (i >= argstr.size()) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
+      try {
+        sharpen_amount_ = stof(argstr[i]);
+      }
+      catch (const std::invalid_argument& ia) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
     } else if (argstr[i] == "-edge") {
 
     } else if (argstr[i] == "-threshold") {
