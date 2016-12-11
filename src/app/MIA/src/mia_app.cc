@@ -19,6 +19,7 @@
 #include "include/image_handler.h"
 #include "include/t_stamp.h"
 #include "include/tool_factory.h"
+#include "include/filter_factory.h"
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -36,14 +37,104 @@ MIAApp::MIAApp(int width, int height,
                                                   marker_fname_(marker_fname),
                                                   cur_tool_(0),
                                                   tools_(nullptr),
-                                                  mouse_last_x_(0),
-                                                  mouse_last_y_(0),
                                                   cur_color_red_(1.0),
                                                   cur_color_green_(0.0),
-                                                  cur_color_blue_(0.0) {}
+                                                  cur_color_blue_(0.0),
+                                                  mouse_last_x_(0),
+                                                  mouse_last_y_(0) {}
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
+void MIAApp::CommandLineMode(MIACmd *parsed_res) {
+  for (unsigned long i = 0; i < parsed_res->FileName().size(); i++) {
+    std::string filename_in, filename_out;
+    filename_in = parsed_res->FileName()[i].first;
+    filename_out = parsed_res->FileName()[i].second;
+    if (parsed_res->ParseResult() == MIACmd::COMPARE_IMG) {
+      PixelBuffer *infile, *outfile;
+      infile = ImageHandler::LoadImage(filename_in);
+      outfile = ImageHandler::LoadImage(filename_out);
+      if (*infile == *outfile)
+        std::cout << "1" << '\n';
+      else
+        std::cout << "0" << '\n';
+      if (infile)
+        delete infile;
+      if (outfile)
+        delete outfile;
+    }
+    else {
+      PixelBuffer *cmd_pixelbuffer;
+      cmd_pixelbuffer = ImageHandler::LoadImage(filename_in);
+
+      if (parsed_res->Sharpen()) {
+        Filter * f_sharpen = FilterFactory::CreateFilter(
+                               FilterFactory::FILTER_SHARPEN,
+                               1, parsed_res->SharpenAmount());
+        FilterFactory::ApplyFilter(*f_sharpen, &cmd_pixelbuffer);
+        delete f_sharpen;
+      }
+      if (parsed_res->Edge()) {
+        Filter * f_edge = FilterFactory::CreateFilter(
+                            FilterFactory::FILTER_EDGE_DETECT,
+                            0);
+        FilterFactory::ApplyFilter(*f_edge, &cmd_pixelbuffer);
+        delete f_edge;
+      }
+      if (parsed_res->Threshold()) {
+        Filter * f_threshold = FilterFactory::CreateFilter(
+                                 FilterFactory::FILTER_THRESHOLD,
+                                 1, parsed_res->ThresholdAmount());
+        FilterFactory::ApplyFilter(*f_threshold, &cmd_pixelbuffer);
+        delete f_threshold;
+      }
+      if (parsed_res->Quantize()) {
+        Filter * f_quantize = FilterFactory::CreateFilter(
+                                FilterFactory::FILTER_QUANTIZE,
+                                1, parsed_res->QuantizeBin());
+        FilterFactory::ApplyFilter(*f_quantize, &cmd_pixelbuffer);
+        delete f_quantize;
+      }
+      if (parsed_res->Blur()) {
+        Filter * f_blur = FilterFactory::CreateFilter(
+                            FilterFactory::FILTER_BLUR,
+                            1, parsed_res->BlurAmount());
+        FilterFactory::ApplyFilter(*f_blur, &cmd_pixelbuffer);
+        delete f_blur;
+      }
+      if (parsed_res->Saturate()) {
+        Filter * f_saturate = FilterFactory::CreateFilter(
+                                FilterFactory::FILTER_SATURATION,
+                                1, parsed_res->SaturateAmount());
+        FilterFactory::ApplyFilter(*f_saturate, &cmd_pixelbuffer);
+        delete f_saturate;
+      }
+      if (parsed_res->Channel()) {
+        Filter * f_channel = FilterFactory::CreateFilter(
+                               FilterFactory::FILTER_CHANNELS,
+                               3,
+                               parsed_res->ChannelRed(),
+                               parsed_res->ChannelGreen(),
+                               parsed_res->ChannelBlue());
+        FilterFactory::ApplyFilter(*f_channel, &cmd_pixelbuffer);
+        delete f_channel;
+      }
+
+      bool save_res = ImageHandler::SaveImage(filename_out, cmd_pixelbuffer);
+      if (save_res) {
+        std::cout << '\"' << filename_out << '\"'
+                  << " successfully saved." << '\n';
+      } else {
+        std::cout << '\"' << filename_out << '\"'
+                  << " failed to save, please enter a valid image filename."
+                  << '\n';
+      }
+      if (cmd_pixelbuffer)
+        delete cmd_pixelbuffer;
+    }
+  }
+}
+
 void MIAApp::Init(
     int argc,
     char* argv[],

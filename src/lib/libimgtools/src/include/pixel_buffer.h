@@ -63,6 +63,12 @@ class PixelBuffer {
    */
   ColorData get_pixel(int x, int y) const;
 
+  /**
+   * Arithmetic operators (friends so that non-member functions can access
+   * private variables)
+   */
+    friend bool operator== (const PixelBuffer& a, const PixelBuffer& b);
+
  private:
   const int width_; /**< X dimension--cannot be changed  */
   const int height_; /**< Y dimension--cannot be changed  */

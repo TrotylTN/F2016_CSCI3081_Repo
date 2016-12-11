@@ -57,7 +57,6 @@ class ImageHandler {
   static bool SaveImage(const std::string &file_name,
                         const PixelBuffer* buffer);
 
- private:
   static IMAGE_TYPE image_type(const std::string & file_name);
 };
 
