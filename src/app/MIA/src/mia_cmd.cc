@@ -78,6 +78,10 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     this->parseresult_ = CMD_ERROR;
     return;
   }
+  if (argstr[0][0] == '-' || argstr[argstr.size() - 1][0] == '-') {
+    this->parseresult_ = CMD_ERROR;
+    return;
+  }
   std::size_t numofinsign, numofoutsign;
   numofinsign = std::count(argstr[0].begin(), argstr[0].end(), '#');
   numofoutsign = std::count(argstr[argstr.size() - 1].begin(),
@@ -93,9 +97,14 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     return;
   }
 
-  if (argstr.size() == 3 && argstr[1] == "-compare") {
-    this->parseresult_ = COMPARE_IMG;
-    return;
+  if (argstr[1] == "-compare") {
+    if (argstr.size() == 3) {
+      this->parseresult_ = COMPARE_IMG;
+      return;
+    } else {
+      this->parseresult_ = CMD_ERROR;
+      return;
+    }
   }
 
   for (unsigned long i = 1; i < argstr.size() - 1; i++) {
