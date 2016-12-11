@@ -52,6 +52,10 @@ int main(int argc, char** argv) {
     full_help = "Overview: MIA application\n\n";
     full_help += "Usage: MIA source_file -compare destination_file\n";
     full_help += "       MIA source_file [options] filename_to_be_save\n\n";
+    full_help += "Notes:\n";
+    full_help += "  source_file should be a valid image file\n";
+    full_help += "  filename_to_be_save should be a filename ";
+    full_help += "which extension is .png, .jpg or .jpeg\n\n";
     full_help += "Options:\n";
     full_help += "  -sharpen sharpen_amount\n";
     full_help += "      sharpen_amount should be a float and ";
