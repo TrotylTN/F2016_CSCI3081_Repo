@@ -63,4 +63,11 @@ ColorData operator- (const ColorData& a, const ColorData& b) {
                          a.blue_ - b.blue_, a.alpha_ - b.alpha_);
 }
 
+bool operator== (const ColorData& a, const ColorData& b) {
+  return (a.red_ == b.red_ &&
+          a.green_ == b.green_ &&
+          a.blue_ == b.blue_ &&
+          a.alpha_ == b.alpha_);
+}
+
 }  /* namespace image_tools */

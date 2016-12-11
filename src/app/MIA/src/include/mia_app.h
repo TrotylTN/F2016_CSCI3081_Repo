@@ -24,6 +24,7 @@
 #include "include/ui_ctrl.h"
 #include "include/state_manager.h"
 #include "include/tool.h"
+#include "include/image_handler.h"
 #include "include/mia_cmd.h"
 
 /*******************************************************************************

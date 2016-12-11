@@ -16,6 +16,7 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "include/image_handler.h"
 #include "include/t_stamp.h"
 #include "include/tool_factory.h"
@@ -45,7 +46,30 @@ MIAApp::MIAApp(int width, int height,
  * Member Functions
  ******************************************************************************/
 void MIAApp::CommandLineMode(MIACmd *parsed_res) {
+  for (unsigned long i = 0; i < parsed_res->FileName().size(); i++) {
+    std::string filename_in, filename_out;
+    filename_in = parsed_res->FileName()[i].first;
+    filename_out = parsed_res->FileName()[i].second;
+    if (parsed_res->ParseResult() == MIACmd::COMPARE_IMG) {
+      std::ifstream infile_test(filename_in.c_str());
+      std::ifstream outfile_test(filename_out.c_str());
+      if (infile_test.good() && outfile_test.good()) {
+        PixelBuffer *infile, *outfile;
+        infile = ImageHandler::LoadImage(filename_in);
+        outfile = ImageHandler::LoadImage(filename_out);
+        if (1)
+        // if (*infile == *outfile)
+          std::cout << "1" << '\n';
+        else
+          std::cout << "0" << '\n';
+      } else {
+        std::cout << "0" << '\n';
+      }
+    }
+    else {
 
+    }
+  }
 }
 
 void MIAApp::Init(
