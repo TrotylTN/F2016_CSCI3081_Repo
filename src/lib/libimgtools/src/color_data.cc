@@ -13,6 +13,7 @@
  * Includes
  ******************************************************************************/
 #include "include/color_data.h"
+#include <cmath>
 
 /*******************************************************************************
  * Namespaces
@@ -64,10 +65,10 @@ ColorData operator- (const ColorData& a, const ColorData& b) {
 }
 
 bool operator== (const ColorData& a, const ColorData& b) {
-  return (a.red_ == b.red_ &&
-          a.green_ == b.green_ &&
-          a.blue_ == b.blue_ &&
-          a.alpha_ == b.alpha_);
+  return (std::fabs(a.red_ - b.red_) < 1e-6 &&
+          std::fabs(a.green_ - b.green_) < 1e-6 &&
+          std::fabs(a.blue_ - b.blue_) < 1e-6 &&
+          std::fabs(a.alpha_ - b.alpha_) < 1e-6);
 }
 
 }  /* namespace image_tools */
