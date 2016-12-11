@@ -58,6 +58,10 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
         std::cout << "1" << '\n';
       else
         std::cout << "0" << '\n';
+      if (infile)
+        delete infile;
+      if (outfile)
+        delete outfile;
     }
     else {
       PixelBuffer *cmd_pixelbuffer;
@@ -125,6 +129,8 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
                   << " failed to save, please enter a valid image filename."
                   << '\n';
       }
+      if (cmd_pixelbuffer)
+        delete cmd_pixelbuffer;
     }
   }
 }
