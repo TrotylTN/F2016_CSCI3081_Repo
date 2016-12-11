@@ -44,6 +44,10 @@ MIAApp::MIAApp(int width, int height,
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
+void MIAApp::CommandLineMode(MIACmd *parsed_res) {
+
+}
+
 void MIAApp::Init(
     int argc,
     char* argv[],

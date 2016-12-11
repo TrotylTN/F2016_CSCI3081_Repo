@@ -24,6 +24,7 @@
 #include "include/ui_ctrl.h"
 #include "include/state_manager.h"
 #include "include/tool.h"
+#include "include/mia_cmd.h"
 
 /*******************************************************************************
  * Namespaces
@@ -60,6 +61,13 @@ class MIAApp : public BaseGfxApp {
       int x,
       int y,
       ColorData background_color);
+
+  /**
+   * @brief Initialize MIA Command Line Mode
+   *
+   * @param[in] parsed_res the parsed result
+   */
+  void CommandLineMode(MIACmd *parsed_res);
 
  private:
   /**

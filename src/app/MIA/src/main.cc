@@ -106,11 +106,7 @@ int main(int argc, char** argv) {
         400,
         400,
         "resources/marker.png");
-
-    // if (cmd_parsing)
-    // std::cout<<cmd_parsing->FileName().size() << std::endl;
-    // for (int i = 0 ; i < cmd_parsing->FileName().size(); i++) {
-    //   std::cout<< cmd_parsing->FileName()[i].first << ", " << cmd_parsing->FileName()[i].second << std::endl;
+    app->CommandLineMode(cmd_parsing);
   }
   return 0;
 } /* main() */
