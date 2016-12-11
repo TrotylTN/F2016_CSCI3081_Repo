@@ -84,6 +84,37 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
         FilterFactory::ApplyFilter(*f_threshold, &cmd_pixelbuffer);
         delete f_threshold;
       }
+      if (parsed_res->Quantize()) {
+        Filter * f_quantize = FilterFactory::CreateFilter(
+                                FilterFactory::FILTER_QUANTIZE,
+                                1, parsed_res->QuantizeBin());
+        FilterFactory::ApplyFilter(*f_quantize, &cmd_pixelbuffer);
+        delete f_quantize;
+      }
+      if (parsed_res->Blur()) {
+        Filter * f_blur = FilterFactory::CreateFilter(
+                            FilterFactory::FILTER_BLUR,
+                            1, parsed_res->BlurAmount());
+        FilterFactory::ApplyFilter(*f_blur, &cmd_pixelbuffer);
+        delete f_blur;
+      }
+      if (parsed_res->Saturate()) {
+        Filter * f_saturate = FilterFactory::CreateFilter(
+                                FilterFactory::FILTER_SATURATION,
+                                1, parsed_res->SaturateAmount());
+        FilterFactory::ApplyFilter(*f_saturate, &cmd_pixelbuffer);
+        delete f_saturate;
+      }
+      if (parsed_res->Channel()) {
+        Filter * f_channel = FilterFactory::CreateFilter(
+                               FilterFactory::FILTER_CHANNELS,
+                               3,
+                               parsed_res->ChannelRed(),
+                               parsed_res->ChannelGreen(),
+                               parsed_res->ChannelBlue());
+        FilterFactory::ApplyFilter(*f_channel, &cmd_pixelbuffer);
+        delete f_channel;
+      }
 
       bool save_res = ImageHandler::SaveImage(filename_out, cmd_pixelbuffer);
       if (save_res) {
