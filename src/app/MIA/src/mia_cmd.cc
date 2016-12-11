@@ -114,6 +114,10 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           return;
         }
       }
+      if (sharpen_amount_ < 1.0 || sharpen_amount_ > 100.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
     } else if (argstr[i] == "-edge") {
       edge_ = true;
     } else if (argstr[i] == "-threshold") {
@@ -131,6 +135,10 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           return;
         }
       }
+      if (threshold_amount_ < 0.0 || threshold_amount_ > 1.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
     } else if (argstr[i] == "-quantize") {
       quantize_ = true;
       i++;
@@ -145,6 +153,10 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           this->parseresult_ = ARGUMENTS_ERROR;
           return;
         }
+      }
+      if (quantize_bin_ < 2 || threshold_amount_ > 256) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
       }
     } else if (argstr[i] == "-blur") {
       blur_ = true;
@@ -161,6 +173,10 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           return;
         }
       }
+      if (blur_amount_ < 0.0 || blur_amount_ > 20.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
     } else if (argstr[i] == "-saturate") {
       saturate_ = true;
       i++;
@@ -175,6 +191,10 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           this->parseresult_ = ARGUMENTS_ERROR;
           return;
         }
+      }
+      if (saturate_amount_ < -10.0 || saturate_amount_ > 10.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
       }
     } else if (argstr[i] == "-channel") {
       channel_ = true;
@@ -216,6 +236,18 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           this->parseresult_ = ARGUMENTS_ERROR;
           return;
         }
+      }
+      if (channel_red_ < 0.0 || channel_red_ > 10.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
+      if (channel_green_ < 0.0 || channel_green_ > 10.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
+      if (channel_blue_ < 0.0 || channel_blue_ > 10.0) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
       }
     } else {
       this->parseresult_ = INVALID_FILTER;
