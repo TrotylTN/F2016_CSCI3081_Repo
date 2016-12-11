@@ -34,18 +34,19 @@ int main(int argc, char** argv) {
     image_tools::MIACmd *cmd_parsing;
     cmd_parsing = new image_tools::MIACmd(argc, argv);
     int parsing_state = cmd_parsing->ParseResult();
-    std::string brief_help, full_help;
+    std::string brief_help, full_help, s_space;
+    s_space = "                       ";
     brief_help = "usage: MIA source_file -compare destination_file\n";
     brief_help += "       MIA source_file ";
     brief_help += "[-sharpen sharpen_amount(1.0~100.0)]\n";
-    brief_help += "                       [-edge]\n";
-    brief_help += "                       [-threshold threshold_amount(0.0~1.0)]\n";
-    brief_help += "                       [-quantize quantize_bin_number(2~256 integer)]\n";
-    brief_help += "                       [-blur blur_amount(0.0~20.0)]\n";
-    brief_help += "                       [-saturate saturate_amount(-10.0~10.0)]\n";
-    brief_help += "                       [-channel red_amount(0.0~10.0)";
+    brief_help += s_space + "[-edge]\n";
+    brief_help += s_space + "[-threshold threshold_amount(0.0~1.0)]\n";
+    brief_help += s_space + "[-quantize quantize_bin_number(2~256 integer)]\n";
+    brief_help += s_space + "[-blur blur_amount(0.0~20.0)]\n";
+    brief_help += s_space + "[-saturate saturate_amount(-10.0~10.0)]\n";
+    brief_help += s_space + "[-channel red_amount(0.0~10.0)";
     brief_help += " green_amount(0.0~10.0) blue_amount(0.0~10.0)]\n";
-    brief_help += "                       filename_to_be_save\n";
+    brief_help += s_space + "filename_to_be_save\n";
     brief_help += "please enter \"MIA -h\" for more information.\n";
 
     full_help = "Overview: MIA application\n\n";
@@ -101,6 +102,10 @@ int main(int argc, char** argv) {
       return 0;
     }
 
+    image_tools::MIAApp *app = new image_tools::MIAApp(
+        400,
+        400,
+        "resources/marker.png");
 
     // if (cmd_parsing)
     // std::cout<<cmd_parsing->FileName().size() << std::endl;
