@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
 #include "include/image_handler.h"
 #include "include/t_stamp.h"
 #include "include/tool_factory.h"
@@ -54,13 +55,20 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
       std::ifstream infile_test(filename_in.c_str());
       std::ifstream outfile_test(filename_out.c_str());
       if (infile_test.good() && outfile_test.good()) {
-        PixelBuffer *infile, *outfile;
-        infile = ImageHandler::LoadImage(filename_in);
-        outfile = ImageHandler::LoadImage(filename_out);
-        if (*infile == *outfile)
-          std::cout << "1" << '\n';
-        else
+        struct stat stat_infile, stat_outfile;
+        stat(filename_in.c_str(), &stat_infile);
+        stat(filename_out.c_str(), &stat_outfile);
+        if (S_ISREG(stat_infile.st_mode) && S_ISREG(stat_outfile.st_mode)) {
+          PixelBuffer *infile, *outfile;
+          infile = ImageHandler::LoadImage(filename_in);
+          outfile = ImageHandler::LoadImage(filename_out);
+          if (*infile == *outfile)
+            std::cout << "1" << '\n';
+          else
+            std::cout << "0" << '\n';
+        } else {
           std::cout << "0" << '\n';
+        }
       } else {
         std::cout << "0" << '\n';
       }
