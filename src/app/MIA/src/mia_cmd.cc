@@ -16,7 +16,8 @@
 #include <stdexcept>
 #include <fstream>
 #include <algorithm>
-#include <stack>
+#include <sys/stat.h>
+#include "include/image_handler.h"
 
 /*******************************************************************************
  * Namespaces
@@ -100,6 +101,29 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
   if (argstr[1] == "-compare") {
     if (argstr.size() == 3) {
       this->parseresult_ = COMPARE_IMG;
+      for (unsigned long i = 0; i < this->filename_.size();) {
+        std::ifstream filetest(this->filename_[i].second.c_str());
+        if (filetest.good()) {
+          struct stat stat_outfile;
+          stat(this->filename_[i].second.c_str(), &stat_outfile);
+          if (S_ISREG(stat_outfile.st_mode)) {
+            if (ImageHandler::image_type(this->filename_[i].second) !=
+                ImageHandler::UNKNOWN_IMAGE) {
+              i++;
+            }
+            else {
+              this->filename_.erase(this->filename_.begin() + i);
+            }
+          } else {
+            this->filename_.erase(this->filename_.begin() + i);
+          }
+        } else {
+          this->filename_.erase(this->filename_.begin() + i);
+        }
+      }
+      if (this->filename_.size() == 0) {
+        this->parseresult_ = FILE_ERROR;
+      }
       return;
     } else {
       this->parseresult_ = CMD_ERROR;
@@ -275,8 +299,16 @@ void MIACmd::GenFileNamePair(std::string infilename,
                              int rest_sign) {
   if (rest_sign == 0) {
     std::ifstream filetest(infilename.c_str());
-    if (filetest.good())
-      this->filename_.push_back(make_pair(infilename, outfilename));
+    if (filetest.good()) {
+      struct stat stat_infile;
+      stat(infilename.c_str(), &stat_infile);
+      if (S_ISREG(stat_infile.st_mode)) {
+        if (ImageHandler::image_type(infilename) !=
+            ImageHandler::UNKNOWN_IMAGE) {
+          this->filename_.push_back(make_pair(infilename, outfilename));
+        }
+      }
+    }
     return;
   }
   std::size_t pos_sig_in = infilename.find('#');
