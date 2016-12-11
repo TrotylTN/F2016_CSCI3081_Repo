@@ -57,8 +57,7 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
         PixelBuffer *infile, *outfile;
         infile = ImageHandler::LoadImage(filename_in);
         outfile = ImageHandler::LoadImage(filename_out);
-        if (1)
-        // if (*infile == *outfile)
+        if (*infile == *outfile)
           std::cout << "1" << '\n';
         else
           std::cout << "0" << '\n';
