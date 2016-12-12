@@ -41,7 +41,7 @@ class MIAApp : public BaseGfxApp {
   virtual ~MIAApp(void);
 
   void MouseDragged(int x, int y);
-  void MouseMoved(int x, int y) ;
+  void MouseMoved(int x, int y);
   void LeftMouseDown(int x, int y);
   void LeftMouseUp(int x, int y);
   void Display(void);
