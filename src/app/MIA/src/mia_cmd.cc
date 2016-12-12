@@ -184,7 +184,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
           return;
         }
       }
-      quantize_bin_ = int(bin_temp);
+      quantize_bin_ = static_cast<int>(bin_temp);
       if (quantize_bin_ != bin_temp) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
