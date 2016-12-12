@@ -1,0 +1,89 @@
+\hypertarget{classimage__tools_1_1Filter}{}\section{image\+\_\+tools\+:\+:Filter Class Reference}
+\label{classimage__tools_1_1Filter}\index{image\+\_\+tools\+::\+Filter@{image\+\_\+tools\+::\+Filter}}
+
+
+The base class for all filters.  
+
+
+
+
+{\ttfamily \#include $<$filter.\+h$>$}
+
+
+
+Inherited by \hyperlink{classimage__tools_1_1FChannel}{image\+\_\+tools\+::\+F\+Channel}, \hyperlink{classimage__tools_1_1FilterConvolve}{image\+\_\+tools\+::\+Filter\+Convolve}, \hyperlink{classimage__tools_1_1FQuantize}{image\+\_\+tools\+::\+F\+Quantize}, \hyperlink{classimage__tools_1_1FSaturate}{image\+\_\+tools\+::\+F\+Saturate}, \hyperlink{classimage__tools_1_1FSpecial}{image\+\_\+tools\+::\+F\+Special}, and \hyperlink{classimage__tools_1_1FThreshold}{image\+\_\+tools\+::\+F\+Threshold}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{classimage__tools_1_1ColorData}{Color\+Data} \hyperlink{classimage__tools_1_1Filter_afd5d1be5736e343077d331896d4130d9}{Generate\+Pixel} (const \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} \&buffer, int x, int y) const 
+\begin{DoxyCompactList}\small\item\em Generate a filtered pixel. \end{DoxyCompactList}\item 
+virtual \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} $\ast$ \hyperlink{classimage__tools_1_1Filter_a1bdb19eb497a94ea13a2a0d7f6c0f0a5}{Generate\+Filtered\+Buffer} (const \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} \&input\+\_\+buffer) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classimage__tools_1_1Filter}{Filter} an entire buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The base class for all filters. 
+
+A \hyperlink{classimage__tools_1_1Filter}{Filter} describes an algorithm for producing a filtered pixel based on a \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} and a set of coordinates in that \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer}. 
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+Filter@{image\+\_\+tools\+::\+Filter}!Generate\+Filtered\+Buffer@{Generate\+Filtered\+Buffer}}
+\index{Generate\+Filtered\+Buffer@{Generate\+Filtered\+Buffer}!image\+\_\+tools\+::\+Filter@{image\+\_\+tools\+::\+Filter}}
+\subsubsection[{\texorpdfstring{Generate\+Filtered\+Buffer(const Pixel\+Buffer \&input\+\_\+buffer) const }{GenerateFilteredBuffer(const PixelBuffer &input_buffer) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pixel\+Buffer} $\ast$ image\+\_\+tools\+::\+Filter\+::\+Generate\+Filtered\+Buffer (
+\begin{DoxyParamCaption}
+\item[{const {\bf Pixel\+Buffer} \&}]{input\+\_\+buffer}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1Filter_a1bdb19eb497a94ea13a2a0d7f6c0f0a5}{}\label{classimage__tools_1_1Filter_a1bdb19eb497a94ea13a2a0d7f6c0f0a5}
+
+
+\hyperlink{classimage__tools_1_1Filter}{Filter} an entire buffer. 
+
+This function just calls \hyperlink{classimage__tools_1_1Filter_afd5d1be5736e343077d331896d4130d9}{Generate\+Pixel()} for each pixel in the buffer, populating a new \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} with the content.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em input\+\_\+buffer} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The new, filtered buffer 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classimage__tools_1_1FSpecial_a31941fa317995cabd039469f2481089f}{image\+\_\+tools\+::\+F\+Special}.
+
+\index{image\+\_\+tools\+::\+Filter@{image\+\_\+tools\+::\+Filter}!Generate\+Pixel@{Generate\+Pixel}}
+\index{Generate\+Pixel@{Generate\+Pixel}!image\+\_\+tools\+::\+Filter@{image\+\_\+tools\+::\+Filter}}
+\subsubsection[{\texorpdfstring{Generate\+Pixel(const Pixel\+Buffer \&buffer, int x, int y) const }{GeneratePixel(const PixelBuffer &buffer, int x, int y) const }}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf Color\+Data} image\+\_\+tools\+::\+Filter\+::\+Generate\+Pixel (
+\begin{DoxyParamCaption}
+\item[{const {\bf Pixel\+Buffer} \&}]{buffer, }
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1Filter_afd5d1be5736e343077d331896d4130d9}{}\label{classimage__tools_1_1Filter_afd5d1be5736e343077d331896d4130d9}
+
+
+Generate a filtered pixel. 
+
+Since this is the base class, this function just returns the same (x,y) pixel.
+
+\begin{DoxyVerb} @param[in] buffer The buffer to filter
+ @param[in] x Current X position in buffer
+\end{DoxyVerb}
+ w $\ast$ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em y} & Current Y position in buffer \begin{DoxyVerb} @return The filtered pixel\end{DoxyVerb}
+ \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented in \hyperlink{classimage__tools_1_1FilterConvolve_ad318986a25e6cd6685e61dff5f99adb5}{image\+\_\+tools\+::\+Filter\+Convolve}, \hyperlink{classimage__tools_1_1FSaturate_af576256575784ecbdf39109a0131e819}{image\+\_\+tools\+::\+F\+Saturate}, \hyperlink{classimage__tools_1_1FQuantize_a85066b63bff848dd4320501a3b79c7d6}{image\+\_\+tools\+::\+F\+Quantize}, \hyperlink{classimage__tools_1_1FThreshold_a39d2402969ac038c7ab132f68a754637}{image\+\_\+tools\+::\+F\+Threshold}, and \hyperlink{classimage__tools_1_1FChannel_a749ce0d7e3b50b69a73c97917eeb7d0b}{image\+\_\+tools\+::\+F\+Channel}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/filter.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/filter.\+cc\end{DoxyCompactItemize}

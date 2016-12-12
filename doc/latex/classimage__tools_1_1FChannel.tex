@@ -1,0 +1,84 @@
+\hypertarget{classimage__tools_1_1FChannel}{}\section{image\+\_\+tools\+:\+:F\+Channel Class Reference}
+\label{classimage__tools_1_1FChannel}\index{image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}}
+
+
+\hyperlink{classimage__tools_1_1Filter}{Filter} one or more of the R\+GB channels, scaling each by the specified amount.  
+
+
+
+
+{\ttfamily \#include $<$f\+\_\+channel.\+h$>$}
+
+
+
+Inherits \hyperlink{classimage__tools_1_1Filter}{image\+\_\+tools\+::\+Filter}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries F\+Channel} (float r, float g, float b)\hypertarget{classimage__tools_1_1FChannel_a25ea559c6411f4dcdcfad511987688b0}{}\label{classimage__tools_1_1FChannel_a25ea559c6411f4dcdcfad511987688b0}
+
+\item 
+virtual \hyperlink{classimage__tools_1_1ColorData}{Color\+Data} \hyperlink{classimage__tools_1_1FChannel_a749ce0d7e3b50b69a73c97917eeb7d0b}{Generate\+Pixel} (const \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} \&buffer, int x, int y) const 
+\begin{DoxyCompactList}\small\item\em Generate a filtered pixel. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classimage__tools_1_1FChannel_a6d2b5a5e5bffb3673df6191cf642f337}{red\+\_\+}
+\item 
+float \hyperlink{classimage__tools_1_1FChannel_a42ef11eef9bfad14df5007959047ccc6}{green\+\_\+}
+\item 
+float \hyperlink{classimage__tools_1_1FChannel_a3eb08bcf47005e1672b4516b0c75d7a9}{blue\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classimage__tools_1_1Filter}{Filter} one or more of the R\+GB channels, scaling each by the specified amount. 
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}!Generate\+Pixel@{Generate\+Pixel}}
+\index{Generate\+Pixel@{Generate\+Pixel}!image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}}
+\subsubsection[{\texorpdfstring{Generate\+Pixel(const Pixel\+Buffer \&buffer, int x, int y) const }{GeneratePixel(const PixelBuffer &buffer, int x, int y) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Color\+Data} image\+\_\+tools\+::\+F\+Channel\+::\+Generate\+Pixel (
+\begin{DoxyParamCaption}
+\item[{const {\bf Pixel\+Buffer} \&}]{buffer, }
+\item[{int}]{x, }
+\item[{int}]{y}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1FChannel_a749ce0d7e3b50b69a73c97917eeb7d0b}{}\label{classimage__tools_1_1FChannel_a749ce0d7e3b50b69a73c97917eeb7d0b}
+
+
+Generate a filtered pixel. 
+
+Since this is the base class, this function just returns the same (x,y) pixel.
+
+\begin{DoxyVerb} @param[in] buffer The buffer to filter
+ @param[in] x Current X position in buffer
+\end{DoxyVerb}
+ w $\ast$ 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em y} & Current Y position in buffer \begin{DoxyVerb} @return The filtered pixel\end{DoxyVerb}
+ \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classimage__tools_1_1Filter_afd5d1be5736e343077d331896d4130d9}{image\+\_\+tools\+::\+Filter}.
+
+
+
+\subsection{Member Data Documentation}
+\index{image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}!blue\+\_\+@{blue\+\_\+}}
+\index{blue\+\_\+@{blue\+\_\+}!image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}}
+\subsubsection[{\texorpdfstring{blue\+\_\+}{blue_}}]{\setlength{\rightskip}{0pt plus 5cm}float image\+\_\+tools\+::\+F\+Channel\+::blue\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classimage__tools_1_1FChannel_a3eb08bcf47005e1672b4516b0c75d7a9}{}\label{classimage__tools_1_1FChannel_a3eb08bcf47005e1672b4516b0c75d7a9}
+Blue scaling factor \index{image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}!green\+\_\+@{green\+\_\+}}
+\index{green\+\_\+@{green\+\_\+}!image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}}
+\subsubsection[{\texorpdfstring{green\+\_\+}{green_}}]{\setlength{\rightskip}{0pt plus 5cm}float image\+\_\+tools\+::\+F\+Channel\+::green\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classimage__tools_1_1FChannel_a42ef11eef9bfad14df5007959047ccc6}{}\label{classimage__tools_1_1FChannel_a42ef11eef9bfad14df5007959047ccc6}
+Green scaling factor \index{image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}!red\+\_\+@{red\+\_\+}}
+\index{red\+\_\+@{red\+\_\+}!image\+\_\+tools\+::\+F\+Channel@{image\+\_\+tools\+::\+F\+Channel}}
+\subsubsection[{\texorpdfstring{red\+\_\+}{red_}}]{\setlength{\rightskip}{0pt plus 5cm}float image\+\_\+tools\+::\+F\+Channel\+::red\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classimage__tools_1_1FChannel_a6d2b5a5e5bffb3673df6191cf642f337}{}\label{classimage__tools_1_1FChannel_a6d2b5a5e5bffb3673df6191cf642f337}
+Red scaling factor 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/f\+\_\+channel.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/f\+\_\+channel.\+cc\end{DoxyCompactItemize}

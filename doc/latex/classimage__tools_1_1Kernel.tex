@@ -1,0 +1,66 @@
+\hypertarget{classimage__tools_1_1Kernel}{}\section{image\+\_\+tools\+:\+:Kernel Class Reference}
+\label{classimage__tools_1_1Kernel}\index{image\+\_\+tools\+::\+Kernel@{image\+\_\+tools\+::\+Kernel}}
+
+
+The base class for all mathematical kernels used for filtering.  
+
+
+
+
+{\ttfamily \#include $<$kernel.\+h$>$}
+
+
+
+Inherits \hyperlink{classimage__tools_1_1FloatMatrix}{image\+\_\+tools\+::\+Float\+Matrix}.
+
+
+
+Inherited by \hyperlink{classimage__tools_1_1KEdge}{image\+\_\+tools\+::\+K\+Edge}, \hyperlink{classimage__tools_1_1KGaussian}{image\+\_\+tools\+::\+K\+Gaussian}, and \hyperlink{classimage__tools_1_1KMotionBlur}{image\+\_\+tools\+::\+K\+Motion\+Blur}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Kernel} (int rad)\hypertarget{classimage__tools_1_1Kernel_ac25b0cb8f8e9398d7d628f3bda16b5c9}{}\label{classimage__tools_1_1Kernel_ac25b0cb8f8e9398d7d628f3bda16b5c9}
+
+\item 
+int \hyperlink{classimage__tools_1_1Kernel_ac834d16a242dd4a15f5f5e4a6dacea01}{radius} (void)\hypertarget{classimage__tools_1_1Kernel_ac834d16a242dd4a15f5f5e4a6dacea01}{}\label{classimage__tools_1_1Kernel_ac834d16a242dd4a15f5f5e4a6dacea01}
+
+\begin{DoxyCompactList}\small\item\em Get the radius of the kernel. \end{DoxyCompactList}\item 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&s)\hypertarget{classimage__tools_1_1Kernel_a46730d0d219b8a1abbbbb849b58a55a9}{}\label{classimage__tools_1_1Kernel_a46730d0d219b8a1abbbbb849b58a55a9}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual float {\bfseries get\+\_\+intensity} (int x, int y, float \hyperlink{classimage__tools_1_1Kernel_ac834d16a242dd4a15f5f5e4a6dacea01}{radius})\hypertarget{classimage__tools_1_1Kernel_a214a76e32ad4bedf68045f8df423689a}{}\label{classimage__tools_1_1Kernel_a214a76e32ad4bedf68045f8df423689a}
+
+\item 
+float \hyperlink{classimage__tools_1_1Kernel_af2c442a9969338d4ede4572526353833}{sum} (void)\hypertarget{classimage__tools_1_1Kernel_af2c442a9969338d4ede4572526353833}{}\label{classimage__tools_1_1Kernel_af2c442a9969338d4ede4572526353833}
+
+\begin{DoxyCompactList}\small\item\em Get the sum total of all elements of the kernel. \end{DoxyCompactList}\item 
+void \hyperlink{classimage__tools_1_1Kernel_aac797e48d4e2880752fe805455e68216}{Normalize\+Kernel} (void)\hypertarget{classimage__tools_1_1Kernel_aac797e48d4e2880752fe805455e68216}{}\label{classimage__tools_1_1Kernel_aac797e48d4e2880752fe805455e68216}
+
+\begin{DoxyCompactList}\small\item\em Normalize the kernel by dividing each element by the sum. \end{DoxyCompactList}\item 
+void \hyperlink{classimage__tools_1_1Kernel_ad8e455573607e492d945eb37432926fd}{Generate\+Kernel} (void)\hypertarget{classimage__tools_1_1Kernel_ad8e455573607e492d945eb37432926fd}{}\label{classimage__tools_1_1Kernel_ad8e455573607e492d945eb37432926fd}
+
+\begin{DoxyCompactList}\small\item\em The default way to generate a kernel, which is just 1\textquotesingle{}s everywhere. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classimage__tools_1_1Kernel_a75493a8e73d0217897d83da1ad30cc82}{radius\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The base class for all mathematical kernels used for filtering. 
+
+\subsection{Member Data Documentation}
+\index{image\+\_\+tools\+::\+Kernel@{image\+\_\+tools\+::\+Kernel}!radius\+\_\+@{radius\+\_\+}}
+\index{radius\+\_\+@{radius\+\_\+}!image\+\_\+tools\+::\+Kernel@{image\+\_\+tools\+::\+Kernel}}
+\subsubsection[{\texorpdfstring{radius\+\_\+}{radius_}}]{\setlength{\rightskip}{0pt plus 5cm}int image\+\_\+tools\+::\+Kernel\+::radius\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classimage__tools_1_1Kernel_a75493a8e73d0217897d83da1ad30cc82}{}\label{classimage__tools_1_1Kernel_a75493a8e73d0217897d83da1ad30cc82}
+The kernel radius 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/kernel.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/kernel.\+cc\end{DoxyCompactItemize}

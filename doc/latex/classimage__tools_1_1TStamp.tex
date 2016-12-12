@@ -1,0 +1,78 @@
+\hypertarget{classimage__tools_1_1TStamp}{}\section{image\+\_\+tools\+:\+:T\+Stamp Class Reference}
+\label{classimage__tools_1_1TStamp}\index{image\+\_\+tools\+::\+T\+Stamp@{image\+\_\+tools\+::\+T\+Stamp}}
+
+
+A stamp tool that is meant to be applied in a \char`\"{}click\char`\"{} rather than a \char`\"{}click and drag\char`\"{} motion like all the other canvas tools. It can stamp images of any size onto the canvas. The stamp image must be explicitly set after initializing the stamp tool.  
+
+
+
+
+{\ttfamily \#include $<$t\+\_\+stamp.\+h$>$}
+
+
+
+Inherits \hyperlink{classimage__tools_1_1Tool}{image\+\_\+tools\+::\+Tool}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{classimage__tools_1_1TStamp_a1a1dec7161830a68bdaefbc0ec567855}{name} ()
+\begin{DoxyCompactList}\small\item\em The name of the tool. \end{DoxyCompactList}\item 
+int {\bfseries width} ()\hypertarget{classimage__tools_1_1TStamp_a8ca8765351ee8e42bd576cb360a51335}{}\label{classimage__tools_1_1TStamp_a8ca8765351ee8e42bd576cb360a51335}
+
+\item 
+int {\bfseries height} ()\hypertarget{classimage__tools_1_1TStamp_a553c39533c9fda20f0a1dcd2d4947ada}{}\label{classimage__tools_1_1TStamp_a553c39533c9fda20f0a1dcd2d4947ada}
+
+\item 
+void {\bfseries set\+\_\+stamp\+\_\+buffer} (\hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} $\ast$buffer)\hypertarget{classimage__tools_1_1TStamp_a8c75d539609e224340895bf7e28a246b}{}\label{classimage__tools_1_1TStamp_a8c75d539609e224340895bf7e28a246b}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{classimage__tools_1_1ColorData}{Color\+Data} {\bfseries process\+\_\+pixel} (int mask\+\_\+x, int mask\+\_\+y, \hyperlink{classimage__tools_1_1ColorData}{Color\+Data} tool\+\_\+color, \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} $\ast$buffer, int buffer\+\_\+x, int buffer\+\_\+y)\hypertarget{classimage__tools_1_1TStamp_a656bb0af6d8f5ad6994caac1cf33d562}{}\label{classimage__tools_1_1TStamp_a656bb0af6d8f5ad6994caac1cf33d562}
+
+\item 
+{\bfseries T\+Stamp} (const \hyperlink{classimage__tools_1_1TStamp}{T\+Stamp} \&rhs)=delete\hypertarget{classimage__tools_1_1TStamp_a86d6a6f4d87448aa40a15dfb739bc7ed}{}\label{classimage__tools_1_1TStamp_a86d6a6f4d87448aa40a15dfb739bc7ed}
+
+\item 
+\hyperlink{classimage__tools_1_1TStamp}{T\+Stamp} \& {\bfseries operator=} (const \hyperlink{classimage__tools_1_1TStamp}{T\+Stamp} \&rhs)=delete\hypertarget{classimage__tools_1_1TStamp_a30811bc3e0797e245cb668980bab288f}{}\label{classimage__tools_1_1TStamp_a30811bc3e0797e245cb668980bab288f}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} $\ast$ {\bfseries stamp\+\_\+buffer\+\_\+}\hypertarget{classimage__tools_1_1TStamp_a4a2d09261b405196933e80b0be51889e}{}\label{classimage__tools_1_1TStamp_a4a2d09261b405196933e80b0be51889e}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+A stamp tool that is meant to be applied in a \char`\"{}click\char`\"{} rather than a \char`\"{}click and drag\char`\"{} motion like all the other canvas tools. It can stamp images of any size onto the canvas. The stamp image must be explicitly set after initializing the stamp tool. 
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+T\+Stamp@{image\+\_\+tools\+::\+T\+Stamp}!name@{name}}
+\index{name@{name}!image\+\_\+tools\+::\+T\+Stamp@{image\+\_\+tools\+::\+T\+Stamp}}
+\subsubsection[{\texorpdfstring{name()}{name()}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string image\+\_\+tools\+::\+T\+Stamp\+::name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1TStamp_a1a1dec7161830a68bdaefbc0ec567855}{}\label{classimage__tools_1_1TStamp_a1a1dec7161830a68bdaefbc0ec567855}
+
+
+The name of the tool. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classimage__tools_1_1Tool_a251c179e3ac9756d08fbcd082750f8a9}{image\+\_\+tools\+::\+Tool}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/t\+\_\+stamp.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/t\+\_\+stamp.\+cc\end{DoxyCompactItemize}

@@ -1,0 +1,63 @@
+\hypertarget{classimage__tools_1_1FSpecial}{}\section{image\+\_\+tools\+:\+:F\+Special Class Reference}
+\label{classimage__tools_1_1FSpecial}\index{image\+\_\+tools\+::\+F\+Special@{image\+\_\+tools\+::\+F\+Special}}
+
+
+Implements a \char`\"{}night-\/vision\char`\"{} filter.  
+
+
+
+
+{\ttfamily \#include $<$f\+\_\+special.\+h$>$}
+
+
+
+Inherits \hyperlink{classimage__tools_1_1Filter}{image\+\_\+tools\+::\+Filter}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} $\ast$ \hyperlink{classimage__tools_1_1FSpecial_a31941fa317995cabd039469f2481089f}{Generate\+Filtered\+Buffer} (const \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} \&input\+\_\+buffer) const 
+\begin{DoxyCompactList}\small\item\em \hyperlink{classimage__tools_1_1Filter}{Filter} an entire buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{classimage__tools_1_1ColorData}{Color\+Data} {\bfseries Generate\+Pixel} (const \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} \&buffer, const \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} \&blurred\+\_\+buffer, int x, int y) const \hypertarget{classimage__tools_1_1FSpecial_a0b429e2d6bc2ecba6e4e10941d0fd63e}{}\label{classimage__tools_1_1FSpecial_a0b429e2d6bc2ecba6e4e10941d0fd63e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implements a \char`\"{}night-\/vision\char`\"{} filter. 
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+F\+Special@{image\+\_\+tools\+::\+F\+Special}!Generate\+Filtered\+Buffer@{Generate\+Filtered\+Buffer}}
+\index{Generate\+Filtered\+Buffer@{Generate\+Filtered\+Buffer}!image\+\_\+tools\+::\+F\+Special@{image\+\_\+tools\+::\+F\+Special}}
+\subsubsection[{\texorpdfstring{Generate\+Filtered\+Buffer(const Pixel\+Buffer \&input\+\_\+buffer) const }{GenerateFilteredBuffer(const PixelBuffer &input_buffer) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Pixel\+Buffer} $\ast$ image\+\_\+tools\+::\+F\+Special\+::\+Generate\+Filtered\+Buffer (
+\begin{DoxyParamCaption}
+\item[{const {\bf Pixel\+Buffer} \&}]{input\+\_\+buffer}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1FSpecial_a31941fa317995cabd039469f2481089f}{}\label{classimage__tools_1_1FSpecial_a31941fa317995cabd039469f2481089f}
+
+
+\hyperlink{classimage__tools_1_1Filter}{Filter} an entire buffer. 
+
+This function just calls Generate\+Pixel() for each pixel in the buffer, populating a new \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} with the content.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em input\+\_\+buffer} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The new, filtered buffer 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classimage__tools_1_1Filter_a1bdb19eb497a94ea13a2a0d7f6c0f0a5}{image\+\_\+tools\+::\+Filter}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/f\+\_\+special.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/f\+\_\+special.\+cc\end{DoxyCompactItemize}

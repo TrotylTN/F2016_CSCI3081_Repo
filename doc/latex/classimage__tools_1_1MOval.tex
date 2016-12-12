@@ -1,0 +1,73 @@
+\hypertarget{classimage__tools_1_1MOval}{}\section{image\+\_\+tools\+:\+:M\+Oval Class Reference}
+\label{classimage__tools_1_1MOval}\index{image\+\_\+tools\+::\+M\+Oval@{image\+\_\+tools\+::\+M\+Oval}}
+
+
+\hyperlink{classimage__tools_1_1MOval}{M\+Oval} is a \hyperlink{classimage__tools_1_1Mask}{Mask} in the shape of an ellipse with an orientation. It takes an angle in degrees, and a ratio between height and width. It is of constant fill.  
+
+
+
+
+{\ttfamily \#include $<$m\+\_\+oval.\+h$>$}
+
+
+
+Inherits \hyperlink{classimage__tools_1_1Mask}{image\+\_\+tools\+::\+Mask}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries M\+Oval} (float radius, float opacity, float angle, float ratio)\hypertarget{classimage__tools_1_1MOval_a07eb3a42c66b79837d5969310b7873ff}{}\label{classimage__tools_1_1MOval_a07eb3a42c66b79837d5969310b7873ff}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classimage__tools_1_1MOval_ae7767ec154487373d5944f2a02a834f0}{get\+\_\+intensity} (int x, int y, float radius)
+\begin{DoxyCompactList}\small\item\em Define the shape of the mask. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float {\bfseries angle\+\_\+}\hypertarget{classimage__tools_1_1MOval_aae754123d96fdc1a7a037020d4b16903}{}\label{classimage__tools_1_1MOval_aae754123d96fdc1a7a037020d4b16903}
+
+\item 
+float {\bfseries ratio\+\_\+}\hypertarget{classimage__tools_1_1MOval_a377bf4e7e6abace99f663163a18fc1be}{}\label{classimage__tools_1_1MOval_a377bf4e7e6abace99f663163a18fc1be}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classimage__tools_1_1MOval}{M\+Oval} is a \hyperlink{classimage__tools_1_1Mask}{Mask} in the shape of an ellipse with an orientation. It takes an angle in degrees, and a ratio between height and width. It is of constant fill. 
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+M\+Oval@{image\+\_\+tools\+::\+M\+Oval}!get\+\_\+intensity@{get\+\_\+intensity}}
+\index{get\+\_\+intensity@{get\+\_\+intensity}!image\+\_\+tools\+::\+M\+Oval@{image\+\_\+tools\+::\+M\+Oval}}
+\subsubsection[{\texorpdfstring{get\+\_\+intensity(int x, int y, float radius)}{get_intensity(int x, int y, float radius)}}]{\setlength{\rightskip}{0pt plus 5cm}float image\+\_\+tools\+::\+M\+Oval\+::get\+\_\+intensity (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{float}]{radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1MOval_ae7767ec154487373d5944f2a02a834f0}{}\label{classimage__tools_1_1MOval_ae7767ec154487373d5944f2a02a834f0}
+
+
+Define the shape of the mask. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The X coordinate of the tool/mouse location \\
+\hline
+{\em y} & The Y coordinate of the tool/mouse location \\
+\hline
+{\em radius} & Distance from (x,y) tool/mouse location to compute intensity at \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classimage__tools_1_1Mask_a72f63a05779159c4f5e2bfea21160c8a}{image\+\_\+tools\+::\+Mask}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/m\+\_\+oval.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/m\+\_\+oval.\+cc\end{DoxyCompactItemize}
