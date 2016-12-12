@@ -13,12 +13,11 @@
  * Includes
  ******************************************************************************/
 #include "include/mia_cmd.h"
-#include <stdexcept>
-#include <fstream>
-#include <algorithm>
 #include <sys/stat.h>
+#include <algorithm>
+#include <fstream>
+#include <stdexcept>
 #include "include/image_handler.h"
-
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
@@ -43,9 +42,7 @@ MIACmd::MIACmd(void) : filename_({}),
                        channel_(false),
                        channel_red_(0),
                        channel_green_(0),
-                       channel_blue_(0) {
-
-}
+                       channel_blue_(0) {}
 
 MIACmd::MIACmd(int argc, char** argv) : filename_({}),
                                         parseresult_(0),
@@ -68,7 +65,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
   argstr.clear();
   for (int i = 1; i < argc; i++)
     argstr.push_back(std::string(argv[i]));
-  for (unsigned long i = 0; i < argstr.size(); i++) {
+  for (std::size_t i = 0; i < argstr.size(); i++) {
     if (argstr[i] == "-h") {
       this->parseresult_ = HELP_MESSAGE;
       return;
@@ -101,7 +98,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
   if (argstr[1] == "-compare") {
     if (argstr.size() == 3) {
       this->parseresult_ = COMPARE_IMG;
-      for (unsigned long i = 0; i < this->filename_.size();) {
+      for (std::size_t i = 0; i < this->filename_.size();) {
         std::ifstream filetest(this->filename_[i].second.c_str());
         if (filetest.good()) {
           struct stat stat_outfile;
@@ -110,8 +107,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
             if (ImageHandler::image_type(this->filename_[i].second) !=
                 ImageHandler::UNKNOWN_IMAGE) {
               i++;
-            }
-            else {
+            } else {
               this->filename_.erase(this->filename_.begin() + i);
             }
           } else {
@@ -131,7 +127,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     }
   }
 
-  for (unsigned long i = 1; i < argstr.size() - 1; i++) {
+  for (std::size_t i = 1; i < argstr.size() - 1; i++) {
     if (argstr[i] == "-sharpen") {
       sharpen_ = true;
       i++;

@@ -46,7 +46,7 @@ MIAApp::MIAApp(int width, int height,
  * Member Functions
  ******************************************************************************/
 void MIAApp::CommandLineMode(MIACmd *parsed_res) {
-  for (unsigned long i = 0; i < parsed_res->FileName().size(); i++) {
+  for (std::size_t i = 0; i < parsed_res->FileName().size(); i++) {
     std::string filename_in, filename_out;
     filename_in = parsed_res->FileName()[i].first;
     filename_out = parsed_res->FileName()[i].second;
@@ -62,8 +62,7 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
         delete infile;
       if (outfile)
         delete outfile;
-    }
-    else {
+    } else {
       PixelBuffer *cmd_pixelbuffer;
       cmd_pixelbuffer = ImageHandler::LoadImage(filename_in);
 
@@ -187,7 +186,6 @@ MIAApp::~MIAApp(void) {
 void MIAApp::MouseMoved(int x, int y) {}
 
 void MIAApp::MouseDragged(int x, int y) {
-
   if (tools_[cur_tool_]->should_smear()) {
     int max_steps = tools_[cur_tool_]->max_smear();
 
