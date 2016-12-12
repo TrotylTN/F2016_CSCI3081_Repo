@@ -83,7 +83,7 @@ PixelBuffer& PixelBuffer::operator=(
 bool operator== (const PixelBuffer& a, const PixelBuffer& b) {
   if (a.width_ == b.width_ && a.height_ == b.height_) {
     if (a.background_color_ == b.background_color_) {
-      for (unsigned long i = 0; i < a.pixels_.size(); i++) {
+      for (std::size_t i = 0; i < a.pixels_.size(); i++) {
         if (!(a.pixels_[i] == b.pixels_[i]))
           return false;
       }

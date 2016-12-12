@@ -35,7 +35,7 @@ namespace image_tools {
  * proceed. It also handles loading an image from a file to the stamp.
  */
 class FPIOManager : public IOManager {
-  public:
+ public:
     FPIOManager();
     ~FPIOManager() {}
 
@@ -48,7 +48,7 @@ class FPIOManager : public IOManager {
     GLUI_Panel* InitGlui(const GLUI *const glui,
                   void (*s_gluicallback)(int));
 
-  private:
+ private:
     /* Copy/move assignment/construction disallowed */
     FPIOManager(const FPIOManager &rhs) = delete;
     FPIOManager& operator=(const FPIOManager &rhs) = delete;

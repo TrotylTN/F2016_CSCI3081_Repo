@@ -20,7 +20,7 @@
 /*******************************************************************************
  * Namespaces
  ******************************************************************************/
- namespace image_tools {
+namespace image_tools {
 
  /*******************************************************************************
   * Class Definitions
@@ -30,11 +30,11 @@
   * initialization of GLUI control elements for filters, filter creation,
   * application, deletion.
   */
- class FPFilterManager : public FilterManager {
-  public:
-   FPFilterManager();
+class FPFilterManager : public FilterManager {
+ public:
+  FPFilterManager();
 
-   GLUI_Panel* InitGlui(const GLUI *const glui,
+  GLUI_Panel* InitGlui(const GLUI *const glui,
                        void (*s_gluicallback)(int));
 };
 

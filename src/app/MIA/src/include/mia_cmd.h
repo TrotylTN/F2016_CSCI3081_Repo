@@ -97,7 +97,6 @@ class MIACmd {
   float channel_red_;
   float channel_green_;
   float channel_blue_;
-
 };
 
 }  /* namespace image_tools */

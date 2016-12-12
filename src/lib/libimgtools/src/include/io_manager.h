@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
- #ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IO_MANAGER_H_
- #define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IO_MANAGER_H_
+#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IO_MANAGER_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_IO_MANAGER_H_
 
 /*******************************************************************************
  * Includes
