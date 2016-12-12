@@ -1,0 +1,25 @@
+Overview: MIA application
+
+Usage: MIA source_file -compare destination_file
+       MIA source_file [options] filename_to_be_save
+
+Notes:
+  source_file should be a valid image file
+  filename_to_be_save should be a filename which extension is .png, .jpg or .jpeg
+
+Options:
+  -sharpen sharpen_amount
+      sharpen_amount should be a float and in the range of [1.0, 100.0]
+  -edge
+      Create a representation of the rate-of-change in the image
+  -threshold threshold_amount
+      threshold_amount should be a float and in the range of [0.0, 1.0]
+  -quantize quantize_bin_number
+      quantize_bin_number should be an integer and in the range of [2, 256]
+  -blur blur_amount
+      blur_amount should be a float and in the range of [0.0, 20.0]
+  -saturate saturate_amount
+      saturate_amount should be a float and in the range of [-10.0, 10.0]
+  -channel red_amount green_amount blue_amount
+      the three color arguments for channel filter should all be floats and in the range of [0.0, 10.0]
+
