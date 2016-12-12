@@ -170,20 +170,26 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
       }
     } else if (argstr[i] == "-quantize") {
       quantize_ = true;
+      double bin_temp;
       i++;
       if (i >= argstr.size()) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
         try {
-          quantize_bin_ = stoi(argstr[i]);
+          bin_temp = stof(argstr[i]);
         }
         catch (const std::invalid_argument& ia) {
           this->parseresult_ = ARGUMENTS_ERROR;
           return;
         }
       }
-      if (quantize_bin_ < 2 || threshold_amount_ > 256) {
+      quantize_bin_ = static_cast<int>(bin_temp);
+      if (quantize_bin_ != bin_temp) {
+        this->parseresult_ = ARGUMENTS_ERROR;
+        return;
+      }
+      if (quantize_bin_ < 2 || quantize_bin_ > 256) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       }
