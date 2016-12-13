@@ -9,8 +9,8 @@
  *
  ******************************************************************************/
 
-#ifndef SRC_APP_MIA_SRC_INCLUDE_MIA_CMD_H_
-#define SRC_APP_MIA_SRC_INCLUDE_MIA_CMD_H_
+#ifndef SRC_APP_MIA_SRC_INCLUDE_COMMAND_PARSING_H_
+#define SRC_APP_MIA_SRC_INCLUDE_COMMAND_PARSING_H_
 
 /*******************************************************************************
  * Includes
@@ -101,4 +101,4 @@ class CommandParsing {
 
 }  /* namespace image_tools */
 
-#endif  // SRC_APP_MIA_SRC_INCLUDE_MIA_CMD_H_
+#endif  // SRC_APP_MIA_SRC_INCLUDE_COMMAND_PARSING_H_

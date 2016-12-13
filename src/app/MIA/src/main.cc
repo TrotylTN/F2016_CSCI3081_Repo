@@ -15,7 +15,7 @@
 #include <iostream>
 #include "include/mia_app.h"
 #include "include/color_data.h"
-#include "include/mia_cmd.h"
+#include "include/command_parsing.h"
 
 /*******************************************************************************
  * Non-Member Functions
