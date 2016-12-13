@@ -131,7 +131,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     if (argstr[i] == "-sharpen") {
       sharpen_ = true;
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -152,7 +152,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     } else if (argstr[i] == "-threshold") {
       threshold_ = true;
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -172,7 +172,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
       quantize_ = true;
       double bin_temp;
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -196,7 +196,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     } else if (argstr[i] == "-blur") {
       blur_ = true;
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -215,7 +215,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     } else if (argstr[i] == "-saturate") {
       saturate_ = true;
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -234,7 +234,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
     } else if (argstr[i] == "-channel") {
       channel_ = true;
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -247,7 +247,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
         }
       }
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -260,7 +260,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
         }
       }
       i++;
-      if (i >= argstr.size()) {
+      if (i >= argstr.size() - 1) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
@@ -307,7 +307,10 @@ void MIACmd::GenFileNamePair(std::string infilename,
       if (S_ISREG(stat_infile.st_mode)) {
         if (ImageHandler::image_type(infilename) !=
             ImageHandler::UNKNOWN_IMAGE) {
-          this->filename_.push_back(make_pair(infilename, outfilename));
+          if (ImageHandler::image_type(outfilename) !=
+              ImageHandler::UNKNOWN_IMAGE) {
+                this->filename_.push_back(make_pair(infilename, outfilename));
+              }
         }
       }
     }

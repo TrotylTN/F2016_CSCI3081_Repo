@@ -68,7 +68,7 @@ class MIAApp : public BaseGfxApp {
    *
    * @param[in] parsed_res the parsed result
    */
-  void CommandLineMode(MIACmd *parsed_res);
+  int CommandLineMode(MIACmd *parsed_res);
 
  private:
   /**

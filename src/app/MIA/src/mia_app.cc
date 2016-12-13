@@ -45,7 +45,7 @@ MIAApp::MIAApp(int width, int height,
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-void MIAApp::CommandLineMode(MIACmd *parsed_res) {
+int MIAApp::CommandLineMode(MIACmd *parsed_res) {
   for (std::size_t i = 0; i < parsed_res->FileName().size(); i++) {
     std::string filename_in, filename_out;
     filename_in = parsed_res->FileName()[i].first;
@@ -125,13 +125,15 @@ void MIAApp::CommandLineMode(MIACmd *parsed_res) {
                   << " successfully saved." << '\n';
       } else {
         std::cout << '\"' << filename_out << '\"'
-                  << " failed to save, please enter a valid image filename."
+                  << " failed to save."
                   << '\n';
+        return 1;
       }
       if (cmd_pixelbuffer)
         delete cmd_pixelbuffer;
     }
   }
+  return 0;
 }
 
 void MIAApp::Init(
