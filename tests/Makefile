@@ -184,11 +184,11 @@ compare.test: $(test-files)
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/2$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png; fi
+	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png; fi
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg; fi
+	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg; fi
 
 help.test: $(GOLDENDIR)/help.txt
 	@./$(TARGET) -h > out.log
@@ -197,10 +197,10 @@ help.test: $(GOLDENDIR)/help.txt
 batch.test: $(ORIGINDIR)/brainstack $(GOLDENDIR)/edge $(GOLDENDIR)/quantize | $(TESTDIR) $(TESTDIR)/edge $(TESTDIR)/quantize
 	@./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/edge/mrbrain-8bit###.png -compare $(GOLDENDIR)/edge/mrbrain-8bit###.png > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; fi
+	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; fi
 	@./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/quantize/mrbrain-8bit###.png -compare $(GOLDENDIR)/quantize/mrbrain-8bit###.png > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; fi
+	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; fi
 
 pass.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< $(TESTDIR)/$(notdir $<) > junk.txt
