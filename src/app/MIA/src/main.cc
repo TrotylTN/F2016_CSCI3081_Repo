@@ -15,7 +15,7 @@
 #include <iostream>
 #include "include/mia_app.h"
 #include "include/color_data.h"
-#include "include/mia_cmd.h"
+#include "include/command_parsing.h"
 
 /*******************************************************************************
  * Non-Member Functions
@@ -31,8 +31,8 @@ int main(int argc, char** argv) {
     app->RunMainLoop();
     delete app;
   } else {
-    image_tools::MIACmd *cmd_parsing;
-    cmd_parsing = new image_tools::MIACmd(argc, argv);
+    image_tools::CommandParsing *cmd_parsing;
+    cmd_parsing = new image_tools::CommandParsing(argc, argv);
     int parsing_state = cmd_parsing->ParseResult();
     std::string brief_help, full_help, s_space;
     s_space = "                       ";
@@ -79,29 +79,29 @@ int main(int argc, char** argv) {
     full_help += "      the three color arguments for channel filter should ";
     full_help += "all be floats and in the range of [0.0, 10.0]\n";
 
-    if (parsing_state == image_tools::MIACmd::FILE_ERROR) {
+    if (parsing_state == image_tools::CommandParsing::FILE_ERROR) {
       std::cout << "Error: invalid filename or file not existent,"
                 << " please check your input" << '\n';
       std::cout << brief_help << std::endl;
       return 1;
     }
-    if (parsing_state == image_tools::MIACmd::CMD_ERROR) {
+    if (parsing_state == image_tools::CommandParsing::CMD_ERROR) {
       std::cout << "Error: input cannot be recognized" << '\n';
       std::cout << brief_help << std::endl;
       return 1;
     }
-    if (parsing_state == image_tools::MIACmd::INVALID_FILTER) {
+    if (parsing_state == image_tools::CommandParsing::INVALID_FILTER) {
       std::cout << "Error: input contained invalid filter" << '\n';
       std::cout << brief_help << std::endl;
       return 1;
     }
-    if (parsing_state == image_tools::MIACmd::ARGUMENTS_ERROR) {
+    if (parsing_state == image_tools::CommandParsing::ARGUMENTS_ERROR) {
       std::cout << "Error: filters contained invalid argument(s) or "
                 << "didn't have appropriate argument(s)" << '\n';
       std::cout << brief_help << std::endl;
       return 1;
     }
-    if (parsing_state == image_tools::MIACmd::HELP_MESSAGE) {
+    if (parsing_state == image_tools::CommandParsing::HELP_MESSAGE) {
       std::cout << full_help << '\n';
       return 0;
     }
@@ -111,6 +111,7 @@ int main(int argc, char** argv) {
         400,
         "resources/marker.png");
     int app_result = app->CommandLineMode(cmd_parsing);
+    delete app;
     if (app_result != 0) {
       std::cout << "Error: invalid filename or output directory"
                 << " not existent, please check your input" << '\n';

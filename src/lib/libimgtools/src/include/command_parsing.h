@@ -2,15 +2,15 @@
  * Name            : mia_cmd.h
  * Project         : MIA
  * Module          : App
- * Description     : Header file for MIACmd class
+ * Description     : Header file for CommandParsing class
  * Copyright       : 2016 CSCI3081W Group A01. all rights reserved.
  * Creation Date   : 12/06/2016
  * Original Author : CSCI3081W Group A01
  *
  ******************************************************************************/
 
-#ifndef SRC_APP_MIA_SRC_INCLUDE_MIA_CMD_H_
-#define SRC_APP_MIA_SRC_INCLUDE_MIA_CMD_H_
+#ifndef SRC_APP_MIA_SRC_INCLUDE_COMMAND_PARSING_H_
+#define SRC_APP_MIA_SRC_INCLUDE_COMMAND_PARSING_H_
 
 /*******************************************************************************
  * Includes
@@ -27,10 +27,10 @@ namespace image_tools {
 /*******************************************************************************
  * Class Definitions
  ******************************************************************************/
-class MIACmd {
+class CommandParsing {
  public:
-  MIACmd(void);
-  MIACmd(int argc, char** argv);
+  CommandParsing(void);
+  CommandParsing(int argc, char** argv);
   enum RETURNCODE{
     SUCCESSFUL_PARSE = 0,
     COMPARE_IMG = 1,
@@ -101,4 +101,4 @@ class MIACmd {
 
 }  /* namespace image_tools */
 
-#endif  // SRC_APP_MIA_SRC_INCLUDE_MIA_CMD_H_
+#endif  // SRC_APP_MIA_SRC_INCLUDE_COMMAND_PARSING_H_

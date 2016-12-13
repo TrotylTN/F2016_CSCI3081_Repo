@@ -24,6 +24,7 @@
 #include "include/ui_ctrl.h"
 #include "include/state_manager.h"
 #include "include/tool.h"
+#include "include/command_parsing.h"
 
 /*******************************************************************************
  * Namespaces
@@ -60,6 +61,13 @@ class FlashPhotoApp : public BaseGfxApp {
       int x,
       int y,
       ColorData background_color);
+
+  /**
+   * @brief Initialize FlashPhoto Command Line Mode
+   *
+   * @param[in] parsed_res the parsed result
+   */
+  int CommandLineMode(CommandParsing *parsed_res);
 
  private:
   /**
