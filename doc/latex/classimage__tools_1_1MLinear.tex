@@ -1,0 +1,64 @@
+\hypertarget{classimage__tools_1_1MLinear}{}\section{image\+\_\+tools\+:\+:M\+Linear Class Reference}
+\label{classimage__tools_1_1MLinear}\index{image\+\_\+tools\+::\+M\+Linear@{image\+\_\+tools\+::\+M\+Linear}}
+
+
+\hyperlink{classimage__tools_1_1MLinear}{M\+Linear} is a \hyperlink{classimage__tools_1_1Mask}{Mask} that is round, with a linear fall-\/off from full intensity at the center to no intensity at the extremity.  
+
+
+
+
+{\ttfamily \#include $<$m\+\_\+linear.\+h$>$}
+
+
+
+Inherits \hyperlink{classimage__tools_1_1Mask}{image\+\_\+tools\+::\+Mask}.
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries M\+Linear} (float radius, float opacity)\hypertarget{classimage__tools_1_1MLinear_af84be097b93aaef6785f0ddb8a5af847}{}\label{classimage__tools_1_1MLinear_af84be097b93aaef6785f0ddb8a5af847}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \hyperlink{classimage__tools_1_1MLinear_aeb72a91e48a0981a1e8f3754a17e174d}{get\+\_\+intensity} (int x, int y, float radius)
+\begin{DoxyCompactList}\small\item\em Define the shape of the mask. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\hyperlink{classimage__tools_1_1MLinear}{M\+Linear} is a \hyperlink{classimage__tools_1_1Mask}{Mask} that is round, with a linear fall-\/off from full intensity at the center to no intensity at the extremity. 
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+M\+Linear@{image\+\_\+tools\+::\+M\+Linear}!get\+\_\+intensity@{get\+\_\+intensity}}
+\index{get\+\_\+intensity@{get\+\_\+intensity}!image\+\_\+tools\+::\+M\+Linear@{image\+\_\+tools\+::\+M\+Linear}}
+\subsubsection[{\texorpdfstring{get\+\_\+intensity(int x, int y, float radius)}{get_intensity(int x, int y, float radius)}}]{\setlength{\rightskip}{0pt plus 5cm}float image\+\_\+tools\+::\+M\+Linear\+::get\+\_\+intensity (
+\begin{DoxyParamCaption}
+\item[{int}]{x, }
+\item[{int}]{y, }
+\item[{float}]{radius}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}\hypertarget{classimage__tools_1_1MLinear_aeb72a91e48a0981a1e8f3754a17e174d}{}\label{classimage__tools_1_1MLinear_aeb72a91e48a0981a1e8f3754a17e174d}
+
+
+Define the shape of the mask. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The X coordinate of the tool/mouse location \\
+\hline
+{\em y} & The Y coordinate of the tool/mouse location \\
+\hline
+{\em radius} & Distance from (x,y) tool/mouse location to compute intensity at \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classimage__tools_1_1Mask_a72f63a05779159c4f5e2bfea21160c8a}{image\+\_\+tools\+::\+Mask}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/m\+\_\+linear.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/m\+\_\+linear.\+cc\end{DoxyCompactItemize}

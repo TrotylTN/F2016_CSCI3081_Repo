@@ -1,0 +1,114 @@
+\hypertarget{classimage__tools_1_1FilterFactory}{}\section{image\+\_\+tools\+:\+:Filter\+Factory Class Reference}
+\label{classimage__tools_1_1FilterFactory}\index{image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}}
+
+
+Implementation of the factor design pattern for filters.  
+
+
+
+
+{\ttfamily \#include $<$filter\+\_\+factory.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \\*
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+B\+L\+UR}, 
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+M\+O\+T\+I\+O\+N\+\_\+\+B\+L\+UR}, 
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+S\+H\+A\+R\+P\+EN}, 
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+E\+D\+G\+E\+\_\+\+D\+E\+T\+E\+CT}, 
+\\*
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+S\+A\+T\+U\+R\+A\+T\+I\+ON}, 
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+Q\+U\+A\+N\+T\+I\+ZE}, 
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+T\+H\+R\+E\+S\+H\+O\+LD}, 
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+C\+H\+A\+N\+N\+E\+LS}, 
+\\*
+{\bfseries F\+I\+L\+T\+E\+R\+\_\+\+S\+P\+E\+C\+I\+AL}, 
+{\bfseries N\+U\+M\+F\+I\+L\+T\+E\+RS}
+ \}\hypertarget{classimage__tools_1_1FilterFactory_a9c6f4b60477b44abe530d05111510fa4}{}\label{classimage__tools_1_1FilterFactory_a9c6f4b60477b44abe530d05111510fa4}
+\begin{DoxyCompactList}\small\item\em The list of filters that this factor knows how to construct. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{classimage__tools_1_1FilterFactory_a6fbb1d1ceba2b8acdcd43f4bfabb068f}{num\+\_\+filters} (void)
+\begin{DoxyCompactList}\small\item\em Get the \# of filters for the factor. \end{DoxyCompactList}\item 
+static \hyperlink{classimage__tools_1_1Filter}{Filter} $\ast$ \hyperlink{classimage__tools_1_1FilterFactory_a3fae75057ee78eff06cf3187d0394eca}{Create\+Filter} (int filter\+\_\+id, int param\+\_\+count,...)
+\begin{DoxyCompactList}\small\item\em Create a new filter. \end{DoxyCompactList}\item 
+static void \hyperlink{classimage__tools_1_1FilterFactory_aac051c708b83acc6c32875308ebf3448}{Apply\+Filter} (const \hyperlink{classimage__tools_1_1Filter}{Filter} \&f, \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} $\ast$$\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Apply a filter to a buffer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation of the factor design pattern for filters. 
+
+\begin{DoxyNote}{Note}
+This is a static class 
+\end{DoxyNote}
+
+
+\subsection{Member Function Documentation}
+\index{image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}!Apply\+Filter@{Apply\+Filter}}
+\index{Apply\+Filter@{Apply\+Filter}!image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}}
+\subsubsection[{\texorpdfstring{Apply\+Filter(const Filter \&f, Pixel\+Buffer $\ast$$\ast$buffer)}{ApplyFilter(const Filter &f, PixelBuffer **buffer)}}]{\setlength{\rightskip}{0pt plus 5cm}void image\+\_\+tools\+::\+Filter\+Factory\+::\+Apply\+Filter (
+\begin{DoxyParamCaption}
+\item[{const {\bf Filter} \&}]{f, }
+\item[{{\bf Pixel\+Buffer} $\ast$$\ast$}]{buffer}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classimage__tools_1_1FilterFactory_aac051c708b83acc6c32875308ebf3448}{}\label{classimage__tools_1_1FilterFactory_aac051c708b83acc6c32875308ebf3448}
+
+
+Apply a filter to a buffer. 
+
+Buffer is updated to point to a N\+EW \hyperlink{classimage__tools_1_1PixelBuffer}{Pixel\+Buffer} (i.\+e. in place modification is not done)
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & The filter \\
+\hline
+{\em buffer} & The buffer to apply to \\
+\hline
+\end{DoxyParams}
+\index{image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}!Create\+Filter@{Create\+Filter}}
+\index{Create\+Filter@{Create\+Filter}!image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}}
+\subsubsection[{\texorpdfstring{Create\+Filter(int filter\+\_\+id, int param\+\_\+count,...)}{CreateFilter(int filter_id, int param_count,...)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Filter} $\ast$ image\+\_\+tools\+::\+Filter\+Factory\+::\+Create\+Filter (
+\begin{DoxyParamCaption}
+\item[{int}]{filter\+\_\+id, }
+\item[{int}]{param\+\_\+count, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classimage__tools_1_1FilterFactory_a3fae75057ee78eff06cf3187d0394eca}{}\label{classimage__tools_1_1FilterFactory_a3fae75057ee78eff06cf3187d0394eca}
+
+
+Create a new filter. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em filter\+\_\+id} & ID of filter (from enum) \\
+\hline
+\mbox{\tt in}  & {\em param\+\_\+count} & (how many parameters the filter takes)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The constructed filter 
+\end{DoxyReturn}
+\index{image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}!num\+\_\+filters@{num\+\_\+filters}}
+\index{num\+\_\+filters@{num\+\_\+filters}!image\+\_\+tools\+::\+Filter\+Factory@{image\+\_\+tools\+::\+Filter\+Factory}}
+\subsubsection[{\texorpdfstring{num\+\_\+filters(void)}{num_filters(void)}}]{\setlength{\rightskip}{0pt plus 5cm}static int image\+\_\+tools\+::\+Filter\+Factory\+::num\+\_\+filters (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}\hypertarget{classimage__tools_1_1FilterFactory_a6fbb1d1ceba2b8acdcd43f4bfabb068f}{}\label{classimage__tools_1_1FilterFactory_a6fbb1d1ceba2b8acdcd43f4bfabb068f}
+
+
+Get the \# of filters for the factor. 
+
+\begin{DoxyReturn}{Returns}
+\# of filters 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/filter\+\_\+factory.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/lib/libimgtools/src/filter\+\_\+factory.\+cc\end{DoxyCompactItemize}
