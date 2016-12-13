@@ -2,7 +2,7 @@
  * Name            : mia_cmd.cc
  * Project         : MIA
  * Module          : App
- * Description     : Implementation of MIACmd
+ * Description     : Implementation of CommandParsing
  * Copyright       : 2016 CSCI3081W Group A01. all rights reserved.
  * Creation Date   : 12/06/2016
  * Original Author : CSCI3081W Group A01
@@ -26,7 +26,7 @@ namespace image_tools {
 /*******************************************************************************
  * Constructors/Destructor
  ******************************************************************************/
-MIACmd::MIACmd(void) : filename_({}),
+CommandParsing::CommandParsing(void) : filename_({}),
                        parseresult_(0),
                        sharpen_(false),
                        sharpen_amount_(0),
@@ -44,7 +44,7 @@ MIACmd::MIACmd(void) : filename_({}),
                        channel_green_(0),
                        channel_blue_(0) {}
 
-MIACmd::MIACmd(int argc, char** argv) : filename_({}),
+CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
                                         parseresult_(0),
                                         sharpen_(false),
                                         sharpen_amount_(0),
@@ -296,7 +296,7 @@ MIACmd::MIACmd(int argc, char** argv) : filename_({}),
  * Member Functions
  ******************************************************************************/
 
-void MIACmd::GenFileNamePair(std::string infilename,
+void CommandParsing::GenFileNamePair(std::string infilename,
                              std::string outfilename,
                              int rest_sign) {
   if (rest_sign == 0) {
