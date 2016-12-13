@@ -1,1 +1,12 @@
-"/home/angxx041/csci3081/repo-group-A01/tests/test/2compare.jpg" successfully saved.
+Error: filters contained invalid argument(s) or didn't have appropriate argument(s)
+usage: MIA source_file -compare destination_file
+       MIA source_file [-sharpen sharpen_amount(1.0~100.0)]
+                       [-edge]
+                       [-threshold threshold_amount(0.0~1.0)]
+                       [-quantize quantize_bin_number(2~256 integer)]
+                       [-blur blur_amount(0.0~20.0)]
+                       [-saturate saturate_amount(-10.0~10.0)]
+                       [-channel red_amount(0.0~10.0) green_amount(0.0~10.0) blue_amount(0.0~10.0)]
+                       filename_to_be_save
+please enter "MIA -h" for more information.
+

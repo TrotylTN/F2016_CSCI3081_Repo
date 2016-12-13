@@ -19,7 +19,7 @@ all-golden := $(addsuffix .golden, pass sharpen threshold quantize blur saturate
 all: test
 
 test: $(all-tests) | $(TESTDIR)
-	@echo Success, all tests passed
+	@echo Done all tests
 
 invalid.test: $(test-files) | $(TESTDIR) $(bad-brainstack)
 	@./$(TARGET) $(TESTDIR)/bad-input-extension.foo $(TESTDIR)/bad-input-extension.jpg > junk.txt $(check-invalid-p1) ./$(TARGET) $(TESTDIR)/bad-input-extension.foo $(TESTDIR)/bad-input-extension.jpg $(check-invalid-p2)
@@ -29,6 +29,7 @@ invalid.test: $(test-files) | $(TESTDIR) $(bad-brainstack)
 	@./$(TARGET) -sharpen 5.0 $(TESTDIR)/missing-input-file.png > junk.txt $(check-invalid-p1) ./$(TARGET) -sharpen 5.0 $(TESTDIR)/missing-input-file.png $(check-invalid-p2)
 	@./$(TARGET) $< -sharpen 5.0 > junk.txt $(check-invalid-p1) ./$(TARGET) $< -sharpen 5.0 $(check-invalid-p2)
 	@./$(TARGET) $< -compare 17 $(TESTDIR)/$(notdir $<) > junk.txt $(check-invalid-p1) ./$(TARGET) $< -compare 17 $(TESTDIR)/$(notdir $<) $(check-invalid-p2)
+	@./$(TARGET) $< -edge -compare $(TESTDIR)/invalid_combination.jpg > junk.txt $(check-invalid-p1) ./$(TARGET) $< -edge -compare $(TESTDIR)/invalid_combination.jpg $(check-invalid-p2)
 	@./$(TARGET) $< -channel 1.0 1.0 $(TESTDIR)/bad-channel-parameters.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -channel 1.0 1.0 $(TESTDIR)/bad-channel-parameters.png $(check-invalid-p2)
 	@./$(TARGET) $< -edge 5.0 $(TESTDIR)/bad-edge-parameters.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -edge 5.0 $(TESTDIR)/bad-edge-parameters.png $(check-invalid-p2)
 	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit##.png $(TESTDIR)/bad-brainstack1/mr-brain8bit##.png > junk.txt $(check-invalid-p1) ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit##.png $(TESTDIR)/bad-brainstack1/mr-brain8bit##.png $(check-invalid-p2)
@@ -197,10 +198,10 @@ help.test: $(GOLDENDIR)/help.txt
 batch.test: $(ORIGINDIR)/brainstack $(GOLDENDIR)/edge $(GOLDENDIR)/quantize | $(TESTDIR) $(TESTDIR)/edge $(TESTDIR)/quantize
 	@./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/edge/mrbrain-8bit###.png -compare $(GOLDENDIR)/edge/mrbrain-8bit###.png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; fi
+	@if cmp -s out.log 99-1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; cat out.log; fi
 	@./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/quantize/mrbrain-8bit###.png -compare $(GOLDENDIR)/quantize/mrbrain-8bit###.png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; fi
+	@if cmp -s out.log 99-1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; cat out.log; fi
 
 pass.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< $(TESTDIR)/$(notdir $<) > junk.txt
@@ -217,7 +218,7 @@ pass.test: $(test-files) | $(TESTDIR)
 golden: $(shell pwd)/origin $(all-golden) | $(GOLDENDIR)
 	echo Golden images production completed.
 
-blur.golden: $(files-used)
+blur.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -$(basename $@) 0.0 $(GOLDENDIR)/0$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 5.0 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 10.246 $(GOLDENDIR)/2$(basename $@).png
@@ -227,7 +228,7 @@ blur.golden: $(files-used)
 	./$(TARGET) $(word 2, $^) -$(basename $@) 10.246 $(GOLDENDIR)/2$(basename $@).jpg
 	./$(TARGET) $(word 2, $^) -$(basename $@) 20.0 $(GOLDENDIR)/3$(basename $@).jpg
 
-threshold.golden: $(files-used)
+threshold.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -$(basename $@) 0.0 $(GOLDENDIR)/0$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 0.1 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 0.82436 $(GOLDENDIR)/2$(basename $@).png
@@ -237,19 +238,19 @@ threshold.golden: $(files-used)
 	./$(TARGET) $(word 2, $^) -$(basename $@) 0.82436 $(GOLDENDIR)/2$(basename $@).jpg
 	./$(TARGET) $(word 2, $^) -$(basename $@) 1.0 $(GOLDENDIR)/3$(basename $@).jpg
 
-quantize.golden: $(files-used)
+quantize.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -$(basename $@) 2 $(GOLDENDIR)/0$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 256 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $(word 2, $^) -$(basename $@) 2 $(GOLDENDIR)/0$(basename $@).jpg
 	./$(TARGET) $(word 2, $^) -$(basename $@) 256 $(GOLDENDIR)/1$(basename $@).jpg
 
-sharpen.golden: $(files-used)
+sharpen.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -$(basename $@) 1 $(GOLDENDIR)/0$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 100.0 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $(word 2, $^) -$(basename $@) 1 $(GOLDENDIR)/0$(basename $@).jpg
 	./$(TARGET) $(word 2, $^) -$(basename $@) 100.0 $(GOLDENDIR)/1$(basename $@).jpg
 
-saturate.golden: $(files-used)
+saturate.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -$(basename $@) -10.0 $(GOLDENDIR)/0$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 0 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $< -$(basename $@) 10.0 $(GOLDENDIR)/2$(basename $@).png
@@ -257,26 +258,26 @@ saturate.golden: $(files-used)
 	./$(TARGET) $(word 2, $^) -$(basename $@) 0 $(GOLDENDIR)/1$(basename $@).jpg
 	./$(TARGET) $(word 2, $^) -$(basename $@) 10.0 $(GOLDENDIR)/2$(basename $@).jpg
 
-edge.golden: $(files-used)
+edge.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -edge $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $(word 2, $^) -edge $(GOLDENDIR)/2$(basename $@).jpg
 
-channel.golden: $(files-used)
+channel.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -channel 0 5.125 10.0 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $(word 2, $^) -channel 0 5.125 10.0 $(GOLDENDIR)/2$(basename $@).jpg
 
-chain.golden: $(files-used)
+chain.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -saturate 0 -threshold 0.8 -quantize 2 $(GOLDENDIR)/1$(basename $@).png
 	./$(TARGET) $(word 2, $^) -saturate 0 -threshold 0.8 -quantize 2 $(GOLDENDIR)/2$(basename $@).jpg
 
-help.golden:
+help.golden: | $(GOLDENDIR)
 	./$(TARGET) -h > $(GOLDENDIR)/help.txt
 
-batch.golden: $(ORIGINDIR)/brainstack
+batch.golden: $(ORIGINDIR)/brainstack | $(GOLDENDIR) $(GOLDENDIR)/edge $(GOLDENDIR)/quantize
 	./$(TARGET) $</mrbrain-8bit###.png -edge $(GOLDENDIR)/edge/mrbrain-8bit###.png
 	./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(GOLDENDIR)/quantize/mrbrain-8bit###.png
 
-pass.golden: $(files-used) | $(GOLDENDIR)/edge $(GOLDENDIR)/quantize
+pass.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< $(GOLDENDIR)/$(notdir $<)
 	./$(TARGET) $(word 2, $^) $(GOLDENDIR)/$(notdir $(word 2, $^))
 	./$(TARGET) $< $(GOLDENDIR)/$(basename $(notdir $<)).png
