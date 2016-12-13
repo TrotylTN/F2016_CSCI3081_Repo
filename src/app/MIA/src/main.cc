@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
         400,
         400,
         "resources/marker.png");
-    app->CommandLineMode(cmd_parsing);
+    return app->CommandLineMode(cmd_parsing);
   }
   return 0;
 } /* main() */
