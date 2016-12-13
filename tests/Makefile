@@ -184,11 +184,11 @@ compare.test: $(test-files)
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/2$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png; fi
+	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png; fi
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg; fi
+	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg; fi
 
 help.test: $(GOLDENDIR)/help.txt
 	@./$(TARGET) -h > out.log
