@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
     full_help += "  -channel red_amount green_amount blue_amount\n";
     full_help += "      the three color arguments for channel filter should ";
     full_help += "all be floats and in the range of [0.0, 10.0]\n";
-        
+
     if (parsing_state == image_tools::CommandParsing::FILE_ERROR) {
       std::cout << "Error: invalid filename or file not existent,"
       << " please check your input" << '\n';
@@ -110,7 +110,8 @@ int main(int argc, char* argv[]) {
     }
 
     image_tools::FlashPhotoApp *app = new image_tools::FlashPhotoApp(800, 800);
-    int app_result;
+    int app_result = app->CommandLineMode(cmd_parsing);
+    delete app;
     if (app_result != 0) {
       std::cout << "Error: invalid filename or output directory"
       << " not existent, please check your input" << '\n';
