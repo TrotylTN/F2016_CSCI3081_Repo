@@ -23,7 +23,7 @@
 		<ol>
 <li><p>To add a new tool, for example, pencil to FlashPhoto, first of all, you have to change the TOOLS enum’s size in ToolFactory.h.</p>
 
-<h4 id="tool_factoryh">tool_factory.h</h4>
+<h4 id="tool_factoryh">src/lib/libimgtools/src/tool_factory.h</h4>
 
 <pre><code class="C++ language-C++">enum TOOLS {
 	TOOL_PEN = 0,
@@ -41,7 +41,7 @@
 
 <li><p>Declare a new instance for TPencil in ToolFactory.</p>
 
-<h4 id="tool_factorycc">tool_factory.cc</h4>
+<h4 id="tool_factorycc">src/lib/libimgtools/src/tool_factory.cc</h4>
 
 <pre><code class="C++ language-C++">...
 Tool* ToolFactory::CreateTool(int toolID) {
@@ -63,7 +63,7 @@ Tool* ToolFactory::CreateTool(int toolID) {
 
 <li><p>Finally, implement pencil.h and pencil.cc as follow. The Pencil class is very similar to the Pen class.</p>
 
-<h4 id="t_pencilh">t_pencil.h</h4>
+<h4 id="t_pencilh">src/lib/libimgtools/src/include/t_pencil.h</h4>
 
 <pre><code class="C++ language-C++">#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_PENCIL_H_
 #define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_PENCIL_H_
@@ -92,7 +92,7 @@ class TPencil : public Tool {
 #endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_PENCIL_H_ */
 </code></pre>
 
-<h4 id="t_pencilcc">t_pencil.cc</h4>
+<h4 id="t_pencilcc">src/lib/libimgtools/src/t_pencil.cc</h4>
 
 <pre><code class="C++ language-C++">#include "include/t_pencil.h"
 
