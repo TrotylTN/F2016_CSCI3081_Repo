@@ -44,7 +44,7 @@ PixelBuffer *FSpecial::GenerateFilteredBuffer(
     const PixelBuffer & input_buffer) const {
 
   PixelBuffer * blurred_buffer = new PixelBuffer(input_buffer);
-  PixelBuffer *tmp = blurred_buffer;
+  // PixelBuffer *tmp = blurred_buffer;
   for (int y = 0; y < blurred_buffer->height(); y++) {
     for (int x = 0; x < blurred_buffer->width(); x++) {
       blurred_buffer->set_pixel(x, y, blurred_buffer->get_pixel(x, y)*1.2);
