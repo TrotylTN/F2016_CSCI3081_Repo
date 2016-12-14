@@ -7,8 +7,10 @@ all-tests := $(addsuffix .test, pass invalid compare threshold quantize blur sat
 files-used := $(ORIGINDIR)/snaily.jpg $(ORIGINDIR)/colorCircles.png
 test-files := $(files-used)
 test-files += $(GOLDENDIR) 1.txt
-check-invalid-p1 := && ([ $$? -eq 0 ] && echo failed:
-check-invalid-p2 := ; cat junk.txt ) || echo PASSED
+check-invalid := && ([ $$? -eq 0 ] && echo -n "FAILED: ") || echo -n "PASSED: "
+compare-check-1 := @if cmp -s out.log 1.txt; then echo -n "PASSED: "; else echo -n "FAILED: "; fi
+compare-check-0 := @if cmp -s out.log 0.txt; then echo -n "PASSED: "; else echo -n "FAILED: "; fi
+compare-check-1-99 := @if cmp -s out.log 99-1.txt; then echo -n "PASSED: "; else echo -n "FAILED: "; fi
 
 bad-brainstack := $(addprefix $(TESTDIR)/bad-brainstack, $(shell seq 1 4))
 
@@ -22,197 +24,272 @@ test: $(all-tests) | $(TESTDIR)
 	@echo Done all tests
 
 invalid.test: $(test-files) | $(TESTDIR) $(bad-brainstack)
-	@./$(TARGET) $(TESTDIR)/bad-input-extension.foo $(TESTDIR)/bad-input-extension.jpg > junk.txt $(check-invalid-p1) ./$(TARGET) $(TESTDIR)/bad-input-extension.foo $(TESTDIR)/bad-input-extension.jpg $(check-invalid-p2)
-	@./$(TARGET) does/not/exist.jpg input-does-not-exist.jpg > junk.txt $(check-invalid-p1) ./$(TARGET) does/not/exist.jpg input-does-not-exist.jpg $(check-invalid-p2)
-	@./$(TARGET) $(word 2, $^) $(TESTDIR)/color-circles.foo > junk.txt $(check-invalid-p1) ./$(TARGET) $(word 2, $^) $(TESTDIR)/color-circles.foo $(check-invalid-p2)
-	@./$(TARGET) $(word 2, $^) does/not/exist.png > junk.txt $(check-invalid-p1) ./$(TARGET) $(word 2, $^) does/not/exist.png $(check-invalid-p2)
-	@./$(TARGET) -sharpen 5.0 $(TESTDIR)/missing-input-file.png > junk.txt $(check-invalid-p1) ./$(TARGET) -sharpen 5.0 $(TESTDIR)/missing-input-file.png $(check-invalid-p2)
-	@./$(TARGET) $< -sharpen 5.0 > junk.txt $(check-invalid-p1) ./$(TARGET) $< -sharpen 5.0 $(check-invalid-p2)
-	@./$(TARGET) $< -compare 17 $(TESTDIR)/$(notdir $<) > junk.txt $(check-invalid-p1) ./$(TARGET) $< -compare 17 $(TESTDIR)/$(notdir $<) $(check-invalid-p2)
-	@./$(TARGET) $< -edge -compare $(TESTDIR)/invalid_combination.jpg > junk.txt $(check-invalid-p1) ./$(TARGET) $< -edge -compare $(TESTDIR)/invalid_combination.jpg $(check-invalid-p2)
-	@./$(TARGET) $< -channel 1.0 1.0 $(TESTDIR)/bad-channel-parameters.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -channel 1.0 1.0 $(TESTDIR)/bad-channel-parameters.png $(check-invalid-p2)
-	@./$(TARGET) $< -edge 5.0 $(TESTDIR)/bad-edge-parameters.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -edge 5.0 $(TESTDIR)/bad-edge-parameters.png $(check-invalid-p2)
-	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit##.png $(TESTDIR)/bad-brainstack1/mr-brain8bit##.png > junk.txt $(check-invalid-p1) ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit##.png $(TESTDIR)/bad-brainstack1/mr-brain8bit##.png $(check-invalid-p2)
-	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack2/mr-brain8bit##.png > junk.txt $(check-invalid-p1) ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack2/mr-brain8bit##.png $(check-invalid-p2)
-	@./$(TARGET) $(ORIGINDIR)/brainstack/ $(TESTDIR)/bad-brainstack3/mr-brain8bit###.png > junk.txt $(check-invalid-p1) ./$(TARGET) $(ORIGINDIR)/brainstack/ $(TESTDIR)/bad-brainstack3/mr-brain8bit###.png $(check-invalid-p2)
-	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack4/ > junk.txt $(check-invalid-p1) ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack4/ $(check-invalid-p2)
-	@./$(TARGET) $< 12.12 $(TESTDIR)/only-numbers-arg.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< 12.12 $(TESTDIR)/only-numbers-arg.png $(check-invalid-p2)
-	@./$(TARGET) $< -blur -0.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -blur -0.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -blur 20.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -blur 20.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -threshold -0.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -threshold -0.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -threshold 1.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -threshold 1.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -quantize 1.999 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -quantize 1.999 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -quantize 256.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -quantize 256.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -sharpen 0.999 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -sharpen 0.999 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -sharpen 100.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -sharpen 100.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -saturate -10.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -saturate -10.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -saturate 10.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -saturate 10.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -channel -0.001 1 1 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -channel -0.001 1 1 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -channel 1 10.001 10.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -channel 1 10.001 10.001 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
-	@./$(TARGET) $< -edge -sharpen 10.0 -channel 10 -10 1 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid-p1) ./$(TARGET) $< -edge -sharpen 10.0 -channel 10 -10 1 $(TESTDIR)/out-of-bound.png $(check-invalid-p2)
+	@./$(TARGET) $(TESTDIR)/bad-input-extension.foo $(TESTDIR)/bad-input-extension.jpg > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(TESTDIR)/bad-input-extension.foo $(TESTDIR)/bad-input-extension.jpg
+	@./$(TARGET) does/not/exist.jpg input-does-not-exist.jpg > junk.txt $(check-invalid)
+	@echo ./$(TARGET) does/not/exist.jpg input-does-not-exist.jpg
+	@./$(TARGET) $(word 2, $^) $(TESTDIR)/color-circles.foo > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(word 2, $^) $(TESTDIR)/color-circles.foo
+	@./$(TARGET) $(word 2, $^) does/not/exist.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(word 2, $^) does/not/exist.png
+	@./$(TARGET) -sharpen 5.0 $(TESTDIR)/missing-input-file.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) -sharpen 5.0 $(TESTDIR)/missing-input-file.png
+	@./$(TARGET) $< -sharpen 5.0 > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -sharpen 5.0
+	@./$(TARGET) $< -compare 17 $(TESTDIR)/$(notdir $<) > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -compare 17 $(TESTDIR)/$(notdir $<)
+	@./$(TARGET) $< -edge -compare $(TESTDIR)/invalid_combination.jpg > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -edge -compare $(TESTDIR)/invalid_combination.jpg
+	@./$(TARGET) $< -channel 1.0 1.0 $(TESTDIR)/bad-channel-parameters.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -channel 1.0 1.0 $(TESTDIR)/bad-channel-parameters.png
+	@./$(TARGET) $< -edge 5.0 $(TESTDIR)/bad-edge-parameters.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -edge 5.0 $(TESTDIR)/bad-edge-parameters.png
+	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit##.png $(TESTDIR)/bad-brainstack1/mr-brain8bit##.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit##.png $(TESTDIR)/bad-brainstack1/mr-brain8bit##.png
+	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack2/mr-brain8bit##.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack2/mr-brain8bit##.png
+	@./$(TARGET) $(ORIGINDIR)/brainstack/ $(TESTDIR)/bad-brainstack3/mr-brain8bit###.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(ORIGINDIR)/brainstack/ $(TESTDIR)/bad-brainstack3/mr-brain8bit###.png
+	@./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack4/ > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $(ORIGINDIR)/brainstack/mr-brain-8bit###.png $(TESTDIR)/bad-brainstack4/
+	@./$(TARGET) $< 12.12 $(TESTDIR)/only-numbers-arg.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< 12.12 $(TESTDIR)/only-numbers-arg.png
+	@./$(TARGET) $< -blur -0.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -blur -0.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -blur 20.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -blur 20.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -threshold -0.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -threshold -0.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -threshold 1.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -threshold 1.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -quantize 1.999 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -quantize 1.999 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -quantize 256.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -quantize 256.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -sharpen 0.999 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -sharpen 0.999 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -sharpen 100.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -sharpen 100.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -saturate -10.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -saturate -10.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -saturate 10.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -saturate 10.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -channel -0.001 1 1 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -channel -0.001 1 1 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -channel 1 10.001 10.001 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -channel 1 10.001 10.001 $(TESTDIR)/out-of-bound.png
+	@./$(TARGET) $< -edge -sharpen 10.0 -channel 10 -10 1 $(TESTDIR)/out-of-bound.png > junk.txt $(check-invalid)
+	@echo ./$(TARGET) $< -edge -sharpen 10.0 -channel 10 -10 1 $(TESTDIR)/out-of-bound.png
 
 blur.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).png -compare $(GOLDENDIR)/0$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 5.0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 5.0 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 5.0 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 10.246 $(TESTDIR)/2$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).png -compare $(GOLDENDIR)/2$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 10.246 $(TESTDIR)/2$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 10.246 $(TESTDIR)/2$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 20.0 $(TESTDIR)/3$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/3$(basename $@).png -compare $(GOLDENDIR)/3$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 20.0 $(TESTDIR)/3$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 20.0 $(TESTDIR)/3$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).jpg -compare $(GOLDENDIR)/0$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 5.0 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(GOLDENDIR)/1$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 5.0 $(TESTDIR)/1$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 5.0 $(TESTDIR)/1$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 10.246 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).jpg -compare $(GOLDENDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 10.246 $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 10.246 $(TESTDIR)/2$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 20.0 $(TESTDIR)/3$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/3$(basename $@).jpg -compare $(GOLDENDIR)/3$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 20.0 $(TESTDIR)/3$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 20.0 $(TESTDIR)/3$(basename $@).jpg
 
 threshold.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).png -compare $(GOLDENDIR)/0$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 0.1 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 0.1 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 0.1 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 0.82436 $(TESTDIR)/2$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).png -compare $(GOLDENDIR)/2$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 0.82436 $(TESTDIR)/2$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 0.82436 $(TESTDIR)/2$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 1.0 $(TESTDIR)/3$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/3$(basename $@).png -compare $(GOLDENDIR)/3$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 1.0 $(TESTDIR)/3$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 1.0 $(TESTDIR)/3$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).jpg -compare $(GOLDENDIR)/0$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 0.0 $(TESTDIR)/0$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 0.1 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(GOLDENDIR)/1$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 0.1 $(TESTDIR)/1$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 0.1 $(TESTDIR)/1$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 0.82436 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).jpg -compare $(GOLDENDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 0.82436 $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 0.82436 $(TESTDIR)/2$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 1.0 $(TESTDIR)/3$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/3$(basename $@).jpg -compare $(GOLDENDIR)/3$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 1.0 $(TESTDIR)/3$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 1.0 $(TESTDIR)/3$(basename $@).jpg
 
 quantize.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -$(basename $@) 2 $(TESTDIR)/0$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).png -compare $(GOLDENDIR)/0$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 2 $(TESTDIR)/0$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 2 $(TESTDIR)/0$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 256 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 256 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 256 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 2 $(TESTDIR)/0$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).jpg -compare $(GOLDENDIR)/0$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 2 $(TESTDIR)/0$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 2 $(TESTDIR)/0$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 256 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(GOLDENDIR)/1$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 256 $(TESTDIR)/1$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 256 $(TESTDIR)/1$(basename $@).jpg
 
 sharpen.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -$(basename $@) 1 $(TESTDIR)/0$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).png -compare $(GOLDENDIR)/0$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 1 $(TESTDIR)/0$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 1 $(TESTDIR)/0$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 100.0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 100.0 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 100.0 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 1 $(TESTDIR)/0$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).jpg -compare $(GOLDENDIR)/0$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 1 $(TESTDIR)/0$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 1 $(TESTDIR)/0$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 100.0 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(GOLDENDIR)/1$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 100.0 $(TESTDIR)/1$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 100.0 $(TESTDIR)/1$(basename $@).jpg
 
 saturate.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -$(basename $@) -10.0 $(TESTDIR)/0$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).png -compare $(GOLDENDIR)/0$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) -10.0 $(TESTDIR)/0$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) -10.0 $(TESTDIR)/0$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 0 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 0 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $< -$(basename $@) 10.0 $(TESTDIR)/2$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).png -compare $(GOLDENDIR)/2$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -$(basename $@) 10.0 $(TESTDIR)/2$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -$(basename $@) 10.0 $(TESTDIR)/2$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -$(basename $@) -10.0 $(TESTDIR)/0$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/0$(basename $@).jpg -compare $(GOLDENDIR)/0$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) -10.0 $(TESTDIR)/0$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) -10.0 $(TESTDIR)/0$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 0 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(GOLDENDIR)/1$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 0 $(TESTDIR)/1$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 0 $(TESTDIR)/1$(basename $@).jpg
 	@./$(TARGET) $(word 2, $^) -$(basename $@) 10.0 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).jpg -compare $(GOLDENDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -$(basename $@) 10.0 $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -$(basename $@) 10.0 $(TESTDIR)/2$(basename $@).jpg
 
 edge.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -edge $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -edge $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo ./$(TARGET) $< -edge $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -edge $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).jpg -compare $(GOLDENDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -edge $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -edge $(TESTDIR)/2$(basename $@).jpg
 
 channel.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -channel 0 5.125 10.0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -channel 0 5.125 10.0 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -channel 0 5.125 10.0 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -channel 0 5.125 10.0 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).jpg -compare $(GOLDENDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -channel 0 5.125 10.0 $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -channel 0 5.125 10.0 $(TESTDIR)/2$(basename $@).jpg
 
 chain.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< -saturate 0 -threshold 0.8 -quantize 2 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(GOLDENDIR)/1$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -saturate 0 -threshold 0.8 -quantize 2 $(TESTDIR)/1$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -saturate 0 -threshold 0.8 -quantize 2 $(TESTDIR)/1$(basename $@).png
 	@./$(TARGET) $(word 2, $^) -saturate 0 -threshold 0.8 -quantize 2 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/2$(basename $@).jpg -compare $(GOLDENDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -saturate 0 -threshold 0.8 -quantize 2 $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -saturate 0 -threshold 0.8 -quantize 2 $(TESTDIR)/2$(basename $@).jpg
 
 compare.test: $(test-files)
 	@./$(TARGET) $< -compare $< > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -compare $<; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< -compare $<
 	@./$(TARGET) $(word 2, $^) -compare $(word 2, $^) > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(word 2, $^) -compare $(word 2, $^); fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(word 2, $^) -compare $(word 2, $^)
 	@./$(TARGET) $< -compare $(word 2, $^) > out.log
-	@if cmp -s out.log 0.txt; then echo PASSED; else echo failed: ./$(TARGET) $< -compare $(word 2, $^); fi
+	$(compare-check-0)
+	@echo  ./$(TARGET) $< -compare $(word 2, $^)
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/1$(basename $@).png > junk.txt
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/2$(basename $@).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(TESTDIR)/1$(basename $@).png -compare $(TESTDIR)/2$(basename $@).png
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/1$(basename $@).jpg > junk.txt
 	@./$(TARGET) $< -blur 1.0 $(TESTDIR)/2$(basename $@).jpg > junk.txt
 	@./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $(TESTDIR)/1$(basename $@).jpg -compare $(TESTDIR)/2$(basename $@).jpg
 
 help.test: $(GOLDENDIR)/help.txt
 	@./$(TARGET) -h > out.log
-	@if cmp -s out.log $(GOLDENDIR)/help.txt; then echo PASSED; else echo failed ./$(TARGET) -h; fi
+	@if cmp -s out.log $(GOLDENDIR)/help.txt; then echo -n "PASSED: "; else echo -n "FAILED: "; fi
+	@echo ./$(TARGET) -h
 
 batch.test: $(ORIGINDIR)/brainstack $(GOLDENDIR)/edge $(GOLDENDIR)/quantize | $(TESTDIR) $(TESTDIR)/edge $(TESTDIR)/quantize
 	@./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/edge/mrbrain-8bit###.png -compare $(GOLDENDIR)/edge/mrbrain-8bit###.png > out.log
-	@if cmp -s out.log 99-1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; cat out.log; fi
+	$(compare-check-1-99)
+	@echo  ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; cat out.log
 	@./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/quantize/mrbrain-8bit###.png -compare $(GOLDENDIR)/quantize/mrbrain-8bit###.png > out.log
-	@if cmp -s out.log 99-1.txt; then echo PASSED; else echo failed: ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; cat out.log; fi
+	$(compare-check-1-99)
+	@echo  ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; cat out.log
 
 pass.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< $(TESTDIR)/$(notdir $<) > junk.txt
 	@./$(TARGET) $(TESTDIR)/$(notdir $<) -compare $(GOLDENDIR)/$(notdir $<) > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< $(TESTDIR)/$(notdir $<); fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< $(TESTDIR)/$(notdir $<)
 	@./$(TARGET) $(word 2, $^) $(TESTDIR)/$(notdir $(word 2, $^)) > junk.txt
 	@./$(TARGET) $(TESTDIR)/$(notdir $(word 2, $^)) -compare $(GOLDENDIR)/$(notdir $(word 2, $^)) > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< $(TESTDIR)/$(notdir $(word 2, $^)); fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< $(TESTDIR)/$(notdir $(word 2, $^))
 	@./$(TARGET) $< $(TESTDIR)/$(basename $(notdir $<)).png > junk.txt
 	@./$(TARGET) $(TESTDIR)/$(basename $(notdir $<)).png -compare $(GOLDENDIR)/$(basename $(notdir $<)).png > out.log
-	@if cmp -s out.log 1.txt; then echo PASSED; else echo failed: ./$(TARGET) $< $(TESTDIR)/$(basename $(notdir $<)).png; fi
+	$(compare-check-1)
+	@echo  ./$(TARGET) $< $(TESTDIR)/$(basename $(notdir $<)).png
 
 # ---------- GOLDEN -------------- #
 golden: $(shell pwd)/origin $(all-golden) | $(GOLDENDIR)
