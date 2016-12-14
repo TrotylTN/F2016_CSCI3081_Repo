@@ -35,7 +35,7 @@ namespace image_tools {
 class FilterManager {
  public:
   FilterManager();
-  ~FilterManager() {}
+  virtual ~FilterManager() {}
 
   /**
    * @brief Apply a blur filter to the buffer, blurring sharply defined edges

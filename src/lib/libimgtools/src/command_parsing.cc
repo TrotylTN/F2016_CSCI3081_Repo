@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include <algorithm>
 #include <fstream>
+#include <cmath>
 #include <stdexcept>
 #include "include/image_handler.h"
 /*******************************************************************************
@@ -135,6 +136,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           sharpen_amount_ = stof(argstr[i]);
         }
@@ -156,6 +161,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           threshold_amount_ = stof(argstr[i]);
         }
@@ -176,6 +185,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           bin_temp = stof(argstr[i]);
         }
@@ -185,7 +198,7 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         }
       }
       quantize_bin_ = static_cast<int>(bin_temp);
-      if (quantize_bin_ != bin_temp) {
+      if (argstr[i].find('.') != std::string::npos) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       }
@@ -200,6 +213,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           blur_amount_ = stof(argstr[i]);
         }
@@ -219,6 +236,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           saturate_amount_ = stof(argstr[i]);
         }
@@ -238,6 +259,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           channel_red_ = stof(argstr[i]);
         }
@@ -251,6 +276,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           channel_green_ = stof(argstr[i]);
         }
@@ -264,6 +293,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           channel_blue_ = stof(argstr[i]);
         }
@@ -295,6 +328,24 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
+
+bool CommandParsing::IsValidNum(std::string num) {
+  int num_of_dot = 0;
+  if (num.size() == 0)
+    return false;
+  for (std::size_t i = 0; i < num.size(); i++) {
+    if (num[i] == '-' && i == 0) {
+      // this is fine
+    } else if (num[i] == '.') {
+      if (num_of_dot > 0)
+        return false;
+      num_of_dot++;
+    } else if (num[i] < '0' || num[i] > '9') {
+      return false;
+    }
+  }
+  return true;
+}
 
 void CommandParsing::GenFileNamePair(std::string infilename,
                              std::string outfilename,

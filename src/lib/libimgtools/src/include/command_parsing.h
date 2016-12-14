@@ -77,6 +77,8 @@ class CommandParsing {
   float ChannelBlue(void) { return channel_blue_; }
   float ChannelGreen(void) { return channel_green_; }
 
+  bool IsValidNum(std::string num);
+
  private:
   std::vector <std::pair<std::string, std::string> > filename_;
   int parseresult_;

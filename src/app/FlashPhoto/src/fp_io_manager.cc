@@ -40,6 +40,7 @@ GLUI_Panel* FPIOManager::InitGlui(const GLUI *const glui,
   AddLoadStampToGLUI(image_panel, s_gluicallback);
   new GLUI_Separator(image_panel);
   AddSaveCanvasToGLUI(image_panel, s_gluicallback);
+  return image_panel;
 }
 
 } /* namespace image_tools */
