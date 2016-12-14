@@ -16,6 +16,7 @@
 #include <sys/stat.h>
 #include <algorithm>
 #include <fstream>
+#include <cmath>
 #include <stdexcept>
 #include "include/image_handler.h"
 /*******************************************************************************
@@ -197,7 +198,7 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         }
       }
       quantize_bin_ = static_cast<int>(bin_temp);
-      if (quantize_bin_ != bin_temp) {
+      if (argstr[i].find('.') != std::string::npos) {
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       }
