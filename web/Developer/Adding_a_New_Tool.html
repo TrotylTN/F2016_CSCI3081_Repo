@@ -18,24 +18,105 @@
 	</div>
 
 	<div class = "content">
-		<h1>Home</h1>
-		<h2>Header Text </h2>
-		<img src="snaily.jpg" alt ="Escar-on-the-got" title = "It's a snail!" id= "example-pic">
+		<h1>Adding a new tool</h1>
+		<h2>Instruction: </h2>
+		<ol>
+<li><p>To add a new tool, for example, pencil to FlashPhoto, first of all, you have to change the TOOLS enum’s size in ToolFactory.h.</p>
 
-		<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor sem metus, quis sodales diam placerat vel. Donec consectetur imperdiet leo vitae commodo. </p>
-		<p> Integer nec molestie velit
-			<a class = "link" href="http://glui.sourceforge.net">GLUI</a> orci metus, suscipit a justo sit amet, rhoncus ultrices orci
-			 <a class="link" href="https://ay14.moodle.umn.edu/course/view.php?id=10611">CSCI 3081W</a>.
-			Morbi molestie orci ac interdum sollicitudin. Cras et erat eu ipsum faucibus ornare sit amet id urna!
-		</p>
+<h4 id="tool_factoryh">tool_factory.h</h4>
 
-		<h2>More Header Text</h2>
-		<p>TCras vitae feugiat odio, vel tempor felis. Ut finibus, arcu eu varius ultrices, nunc justo pellentesque sapien, in dignissim enim nibh mattis ipsum. Praesent molestie maximus convallis. Phasellus felis nunc, facilisis sed mauris feugiat, sollicitudin varius sapien. Nulla at diam ac augue auctor condimentum vitae vitae dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque augue nunc, facilisis et suscipit vitae, laoreet at dolor.</p>
+<pre><code class="C++ language-C++">enum TOOLS {
+	TOOL_PEN = 0,
+	TOOL_ERASER = 1,
+	TOOL_SPRAYCAN = 2,
+	TOOL_CALLIGRAPHYPEN = 3,
+	TOOL_HIGHLIGHTER = 4,
+	TOOL_STAMP = 5,
+	TOOL_BLUR = 6,
+	TOOL_CHALK = 7,
+	TOOL_PENCIL = 8,
+	NUMTOOLS = 8
+};
+</code></pre></li>
+
+<li><p>Declare a new instance for TPencil in ToolFactory.</p>
+
+<h4 id="tool_factorycc">tool_factory.cc</h4>
+
+<pre><code class="C++ language-C++">...
+Tool* ToolFactory::CreateTool(int toolID) {
+		...
+		case TOOL_BLUR:
+			tool = new TBlur();
+			break;
+		case TOOL_PENCIL:
+			tool = new TPencil();
+			break;
+		default:
+			tool = NULL;
+			break;
+	}
+
+	return tool;
+}
+</code></pre></li>
+
+<li><p>Finally, implement pencil.h and pencil.cc as follow. The Pencil class is very similar to the Pen class.</p>
+
+<h4 id="t_pencilh">t_pencil.h</h4>
+
+<pre><code class="C++ language-C++">#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_PENCIL_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_PENCIL_H_
+
+#include <string>
+#include "include/tool.h"
+#include "include/m_constant.h"
+
+namespace image_tools {
+
+class TPencil : public Tool {
+ public:
+  TPencil(void);
+
+	ColorData color_blend_math(
+			float mask_pixel_amount,
+			ColorData tool_color,
+			ColorData current_color,
+			ColorData background_color);
+
+  std::string name(void) { return "Pencil"; }
+};
+
+}  /* namespace image_tools */
+
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_T_PENCIL_H_ */
+</code></pre>
+
+<h4 id="t_pencilcc">t_pencil.cc</h4>
+
+<pre><code class="C++ language-C++">#include "include/t_pencil.h"
+
+namespace image_tools {
+
+TPencil::TPencil(void) {
+  // Implement pencil mask
+};
+
+ColorData THighlighter::color_blend_math(
+    float mask_pixel_amount,
+    ColorData tool_color,
+    ColorData current_color,
+    ColorData background_color) {
+  // Implement pencil pattern
+}
+}
+</code></pre></li>
+</ol>
 	</div>
 
 	<div class = "footer">
 		<!-- You can change the copyright! -->
-		<span class="copyright">&copy; 2015, CSCI 3081 Guru</span>
+		<span class="copyright">&copy; 2016, CSCI 3081 Group-A01</span>
 	</div>
 
 </body>

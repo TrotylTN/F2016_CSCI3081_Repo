@@ -12,30 +12,151 @@
 	<div class="content">
 		<nav>
 			<a href="../index.html" class = "page"> Home </a> |
-			<a href="usersupport.html" class = "page"> User Support </a> |
-			<a href="developersupport.html" class = "page"> Developer Support</a>
+			<a href="../User/usersupport.html" class = "page"> User Support </a> |
+			<a href="Project_Design.html" class = "page"> Developer Support</a>
 		</nav>
 	</div>
 
 	<div class = "content">
-		<h1>Home</h1>
-		<h2>Header Text </h2>
-		<img src="snaily.jpg" alt ="Escar-on-the-got" title = "It's a snail!" id= "example-pic">
+		<h1>Adding a new filter</h1>
+		<h2>Instructions: </h2>
+		<ol>
+<li><p>To add a new filter, for example, invert, first, you have to implement a subclass of Filter called FInvert. The respective files are f_invert.h and f_invert.cc. Here's the brief implementation of these two source files. This invert filter is very similar to FChannel.</p>
 
-		<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor sem metus, quis sodales diam placerat vel. Donec consectetur imperdiet leo vitae commodo. </p>
-		<p> Integer nec molestie velit
-			<a class = "link" href="http://glui.sourceforge.net">GLUI</a> orci metus, suscipit a justo sit amet, rhoncus ultrices orci
-			 <a class="link" href="https://ay14.moodle.umn.edu/course/view.php?id=10611">CSCI 3081W</a>.
-			Morbi molestie orci ac interdum sollicitudin. Cras et erat eu ipsum faucibus ornare sit amet id urna!
-		</p>
+<h4 id="f_inverth">f_invert.h</h4>
 
-		<h2>More Header Text</h2>
-		<p>TCras vitae feugiat odio, vel tempor felis. Ut finibus, arcu eu varius ultrices, nunc justo pellentesque sapien, in dignissim enim nibh mattis ipsum. Praesent molestie maximus convallis. Phasellus felis nunc, facilisis sed mauris feugiat, sollicitudin varius sapien. Nulla at diam ac augue auctor condimentum vitae vitae dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque augue nunc, facilisis et suscipit vitae, laoreet at dolor.</p>
+<pre><code class="C++ language-C++">#ifndef SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_INVERT_H_
+#define SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_INVERT_H_
+
+#include <stdio.h>
+#include "include/filter.h"
+
+namespace image_tools {
+
+class FInvert : public Filter {
+ public:
+  FInvert() {}
+  virtual ColorData GeneratePixel(const PixelBuffer & buffer,
+                                   int x, int y) const;
+};
+
+} /* namespace image_tools */
+
+#endif  /* SRC_LIB_LIBIMGTOOLS_SRC_INCLUDE_F_INVERT_H_ */
+</code></pre>
+
+<h4 id="f_invertcc">f_invert.cc</h4>
+
+<pre><code class="C++ language-C++">#include "include/f_invert.h"
+#include "include/color_data.h"
+#include "include/pixel_buffer.h"
+
+namespace image_tools {
+
+ColorData FChannel::GeneratePixel(const PixelBuffer & buffer,
+                                   int x, int y) const {
+    // Implement invert filter
+}
+
+}  /* namespace image_tools */
+</code></pre></li>
+
+<li><p>Then, we have to add the creation of the filter into FilterFactory. We just need to assign a filter number for the new filter, increase the total number of filters and added the initialization steps of this filter in filter_factory.cc. Don't forget to include the header file f</em>invert.h.</p>
+
+<h4 id="filter_factoryh">filter_factory.h</h4>
+
+<pre><code class="C++ language-C++">class FilterFactory {
+ public:
+
+  enum {
+    FILTER_BLUR,
+    FILTER_MOTION_BLUR,
+    FILTER_SHARPEN,
+    FILTER_EDGE_DETECT,
+    FILTER_SATURATION,
+    FILTER_QUANTIZE,
+    FILTER_THRESHOLD,
+    FILTER_CHANNELS,
+    FILTER_SPECIAL,
+		FILTER_INVERT,
+    NUMFILTERS
+  };
+	...
+};
+</code></pre>
+
+<h4 id="filter_factorycc">filter_factory.cc</h4>
+
+<pre><code class="C++ language-C++">...
+#include "include/f_invert.h"
+
+Filter*  FilterFactory::CreateFilter(int filter_id,
+                                     int param_count, ...) {
+  va_list vl;
+  va_start(vl, param_count);
+
+  Filter * f = NULL;
+  switch (filter_id) {
+    ...
+		case FILTER_INVERT:
+			f = new FInvert();
+			break;
+    default:
+      break;
+  }
+  va_end(vl);
+
+  return f;
+}
+</code></pre></li>
+
+<li><p>Finally, you have to add Invert Button on GUI and build a call back function for the button inside FilterManager. You have to add the declaration in filter_manager.h and the caller itself inside filter</em>manager.cc.</p>
+
+<h4 id="filter_managerh">filter_manager.h</h4>
+
+<pre><code class="C++ language-C++">...
+namespace image_tools {
+
+class FilterManager {
+public:
+  ...
+  void ApplyInvert(PixelBuffer** display_buffer);
+  ...
+
+protected:
+	...
+	void AddInvertToGLUI(GLUI_Panel *filter_panel,
+                             void (*s_gluicallback)(int));
+	...
+};
+}
+</code></pre>
+
+<h4 id="filter_managercc">filter_manager.cc</h4>
+
+<pre><code class="C++ language-C++">...
+void FilterManager::ApplyChannel(PixelBuffer **buffer) {
+	Filter * f = FilterFactory::CreateFilter(FilterFactory::FILTER_INVERT);
+	FilterFactory::ApplyFilter(*f, buffer);
+	delete f;
+}
+...
+void FilterManager::AddInvertToGLUI(GLUI_Panel *filter_panel,
+                                     void (*s_gluicallback)(int)) {
+  GLUI_Panel *Invert_panel = new GLUI_Panel(filter_panel, "Invert");
+
+      new GLUI_Button(sharpen_panel, "Apply",
+                      UICtrl::UI_APPLY_INVERT, s_gluicallback);
+}
+...
+}
+</code></pre></li>
+</ol>
 	</div>
 
 	<div class = "footer">
 		<!-- You can change the copyright! -->
-		<span class="copyright">&copy; 2015, CSCI 3081 Guru</span>
+		<span class="copyright">&copy; 2016, CSCI 3081 Group-A01</span>
 	</div>
 
 </body>
