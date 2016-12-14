@@ -1,4 +1,4 @@
-TARGET := ../build/bin/FlashPhoto
+TARGET := ../build/bin/MIA
 ORIGINDIR := $(shell pwd)/origin
 TESTDIR := $(shell pwd)/test
 GOLDENDIR := $(shell pwd)/golden
