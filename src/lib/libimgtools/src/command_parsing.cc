@@ -135,6 +135,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           sharpen_amount_ = stof(argstr[i]);
         }
@@ -156,6 +160,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           threshold_amount_ = stof(argstr[i]);
         }
@@ -176,6 +184,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           bin_temp = stof(argstr[i]);
         }
@@ -200,6 +212,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           blur_amount_ = stof(argstr[i]);
         }
@@ -219,6 +235,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           saturate_amount_ = stof(argstr[i]);
         }
@@ -238,6 +258,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           channel_red_ = stof(argstr[i]);
         }
@@ -251,6 +275,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           channel_green_ = stof(argstr[i]);
         }
@@ -264,6 +292,10 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
         this->parseresult_ = ARGUMENTS_ERROR;
         return;
       } else {
+        if (!IsValidNum(argstr[i])) {
+          this->parseresult_ = ARGUMENTS_ERROR;
+          return;
+        }
         try {
           channel_blue_ = stof(argstr[i]);
         }
@@ -295,6 +327,22 @@ CommandParsing::CommandParsing(int argc, char** argv) : filename_({}),
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
+
+bool CommandParsing::IsValidNum(std::string num) {
+  int num_of_dot = 0;
+  if (num.size() == 0)
+    return false;
+  for (std::size_t i = 0; i < num.size(); i++) {
+    if (num[i] == '.') {
+      if (num_of_dot > 0)
+        return false;
+      num_of_dot++;
+    } else if (num[i] < '0' || num[i] > '9') {
+      return false;
+    }
+  }
+  return true;
+}
 
 void CommandParsing::GenFileNamePair(std::string infilename,
                              std::string outfilename,
