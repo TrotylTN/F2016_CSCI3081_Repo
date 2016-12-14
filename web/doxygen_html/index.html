@@ -48,8 +48,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
                onmouseout="return searchBox.OnSearchSelectHide()"
                alt=""/>
           <input type="text" id="MSearchField" value="Search" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onfocus="searchBox.OnSearchFieldFocus(true)"
+               onblur="searchBox.OnSearchFieldFocus(false)"
                onkeyup="searchBox.OnSearchFieldChange(event)"/>
           </span><span class="right">
             <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
@@ -68,16 +68,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
-<iframe src="javascript:void(0)" frameborder="0" 
+<iframe src="javascript:void(0)" frameborder="0"
         name="MSearchResults" id="MSearchResults">
 </iframe>
 </div>
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Image Processing Suite Documentation</div>  </div>
+<div class="title">Introduction</div>  </div>
 </div><!--header-->
 <div class="contents">
+  <h3> FlashPhoto </h3>
+  <p> Flashphoto is a program that allows users to draw anything they want and load in photos for editing. Flashphoto provides 2 interfaces, Graphic User Interface(GUI) and Command Line Interface.
+    The GUI provides all features for the user while the Command Line Interface only provides the user to edit their photos with filters only. For the GUI, we used
+    <a class = "link" href="http://glui.sourceforge.net">GLUI</a> as the base support of the program user interface. Flashphoto only supports PNG and JPEG images.
+  </p>
+
+  <h3> Medical Imaging Assistant (a.k.a. MIA) </h3>
+  <p> MIA is a very similar program compared to Flashphoto but it is designed specially for medical use. MIA did not provides as many features compared to Flashphoto but it has most of the filters, a red pen tool and a marker tool for users. MIA, same as Flashphoto, also provides GUI and Command Line Interface. MIA also only supports PNG and JPEG images.
+  </p>
+
+  <h2>Important links</h2>
+  <ul>
+    <li><a href="../index.html" class = "page"> Main Page </a></li>
+    <li><a href="../usersupport.html" class = "page"> User Support </a></li>
+    <li><a href="../developersupport.html" class = "page"> Developer Support</a></li>
+  </ul>
+
+  <h2>Other</h2>
+  <p>For more information, please visit <a class="link" href="https://ay14.moodle.umn.edu/course/view.php?id=10611">CSCI 3081W</a>.</p>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

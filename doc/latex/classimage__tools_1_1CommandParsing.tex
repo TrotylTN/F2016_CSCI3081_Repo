@@ -1,0 +1,154 @@
+\hypertarget{classimage__tools_1_1CommandParsing}{}\section{image\+\_\+tools\+:\+:Command\+Parsing Class Reference}
+\label{classimage__tools_1_1CommandParsing}\index{image\+\_\+tools\+::\+Command\+Parsing@{image\+\_\+tools\+::\+Command\+Parsing}}
+
+
+Class that parse inputs from command line interface.  
+
+
+
+
+{\ttfamily \#include $<$command\+\_\+parsing.\+h$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries R\+E\+T\+U\+R\+N\+C\+O\+DE} \{ \\*
+{\bfseries S\+U\+C\+C\+E\+S\+S\+F\+U\+L\+\_\+\+P\+A\+R\+SE} = 0, 
+{\bfseries C\+O\+M\+P\+A\+R\+E\+\_\+\+I\+MG} = 1, 
+{\bfseries H\+E\+L\+P\+\_\+\+M\+E\+S\+S\+A\+GE} = 2, 
+{\bfseries F\+I\+L\+E\+\_\+\+E\+R\+R\+OR} = 3, 
+\\*
+{\bfseries C\+M\+D\+\_\+\+E\+R\+R\+OR} = 4, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+F\+I\+L\+T\+ER} = 5, 
+{\bfseries A\+R\+G\+U\+M\+E\+N\+T\+S\+\_\+\+E\+R\+R\+OR} = 6
+ \}\hypertarget{classimage__tools_1_1CommandParsing_a12efd632efec19824931dc1c7ae1215d}{}\label{classimage__tools_1_1CommandParsing_a12efd632efec19824931dc1c7ae1215d}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Command\+Parsing} (int argc, char $\ast$$\ast$argv)\hypertarget{classimage__tools_1_1CommandParsing_a77fe053e24453b75c873913f32c08e3b}{}\label{classimage__tools_1_1CommandParsing_a77fe053e24453b75c873913f32c08e3b}
+
+\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ {\bfseries File\+Name} (void)\hypertarget{classimage__tools_1_1CommandParsing_a27e0e71f3041fe480746667a0f68498a}{}\label{classimage__tools_1_1CommandParsing_a27e0e71f3041fe480746667a0f68498a}
+
+\item 
+int {\bfseries Parse\+Result} (void)\hypertarget{classimage__tools_1_1CommandParsing_a8ac30786bddf4cb19c3e0a1559c704d3}{}\label{classimage__tools_1_1CommandParsing_a8ac30786bddf4cb19c3e0a1559c704d3}
+
+\item 
+void {\bfseries Gen\+File\+Name\+Pair} (std\+::string infilename, std\+::string outfilename, int rest\+\_\+sign)\hypertarget{classimage__tools_1_1CommandParsing_a72ecf4c2676aa1caa47bb74de4ec79d4}{}\label{classimage__tools_1_1CommandParsing_a72ecf4c2676aa1caa47bb74de4ec79d4}
+
+\item 
+bool {\bfseries Sharpen} (void)\hypertarget{classimage__tools_1_1CommandParsing_a3395908d370641e5d634d9aa55fa9ffb}{}\label{classimage__tools_1_1CommandParsing_a3395908d370641e5d634d9aa55fa9ffb}
+
+\item 
+float {\bfseries Sharpen\+Amount} (void)\hypertarget{classimage__tools_1_1CommandParsing_a410c2e6510fed93963cfcd029612d7e5}{}\label{classimage__tools_1_1CommandParsing_a410c2e6510fed93963cfcd029612d7e5}
+
+\item 
+bool {\bfseries Edge} (void)\hypertarget{classimage__tools_1_1CommandParsing_a1f9d71775216668f4ba22d782c9228aa}{}\label{classimage__tools_1_1CommandParsing_a1f9d71775216668f4ba22d782c9228aa}
+
+\item 
+bool {\bfseries Threshold} (void)\hypertarget{classimage__tools_1_1CommandParsing_a835bbd248854a4386527a511202b87ae}{}\label{classimage__tools_1_1CommandParsing_a835bbd248854a4386527a511202b87ae}
+
+\item 
+float {\bfseries Threshold\+Amount} (void)\hypertarget{classimage__tools_1_1CommandParsing_aa9313b1c36aa0e8ddbdca13eb0ee769d}{}\label{classimage__tools_1_1CommandParsing_aa9313b1c36aa0e8ddbdca13eb0ee769d}
+
+\item 
+bool {\bfseries Quantize} (void)\hypertarget{classimage__tools_1_1CommandParsing_a0b29d6ea624b258a2e583a17298eb808}{}\label{classimage__tools_1_1CommandParsing_a0b29d6ea624b258a2e583a17298eb808}
+
+\item 
+int {\bfseries Quantize\+Bin} (void)\hypertarget{classimage__tools_1_1CommandParsing_a189fb54eb0f9a25e6f6192eeba6fa7d1}{}\label{classimage__tools_1_1CommandParsing_a189fb54eb0f9a25e6f6192eeba6fa7d1}
+
+\item 
+bool {\bfseries Blur} (void)\hypertarget{classimage__tools_1_1CommandParsing_a15c84f53291bbe5630c00dc7bf34f4f7}{}\label{classimage__tools_1_1CommandParsing_a15c84f53291bbe5630c00dc7bf34f4f7}
+
+\item 
+float {\bfseries Blur\+Amount} (void)\hypertarget{classimage__tools_1_1CommandParsing_a593ef2c47214d2f92582f56f9a051a43}{}\label{classimage__tools_1_1CommandParsing_a593ef2c47214d2f92582f56f9a051a43}
+
+\item 
+bool {\bfseries Saturate} (void)\hypertarget{classimage__tools_1_1CommandParsing_ab9475cde108c0723ed561e3c03321a39}{}\label{classimage__tools_1_1CommandParsing_ab9475cde108c0723ed561e3c03321a39}
+
+\item 
+float {\bfseries Saturate\+Amount} (void)\hypertarget{classimage__tools_1_1CommandParsing_a654a3130493709fa851307d1ef7a08cb}{}\label{classimage__tools_1_1CommandParsing_a654a3130493709fa851307d1ef7a08cb}
+
+\item 
+bool {\bfseries Channel} (void)\hypertarget{classimage__tools_1_1CommandParsing_a2ce554b44f6b5a11c4c6f4bd49b5a8a3}{}\label{classimage__tools_1_1CommandParsing_a2ce554b44f6b5a11c4c6f4bd49b5a8a3}
+
+\item 
+float {\bfseries Channel\+Red} (void)\hypertarget{classimage__tools_1_1CommandParsing_afbf980ee4d9a15951cc5a81ff3267ef0}{}\label{classimage__tools_1_1CommandParsing_afbf980ee4d9a15951cc5a81ff3267ef0}
+
+\item 
+float {\bfseries Channel\+Blue} (void)\hypertarget{classimage__tools_1_1CommandParsing_aad3f8d8c733c775c11b7e994d534829c}{}\label{classimage__tools_1_1CommandParsing_aad3f8d8c733c775c11b7e994d534829c}
+
+\item 
+float {\bfseries Channel\+Green} (void)\hypertarget{classimage__tools_1_1CommandParsing_aee394f33a66fe544551a397408ceab12}{}\label{classimage__tools_1_1CommandParsing_aee394f33a66fe544551a397408ceab12}
+
+\item 
+bool {\bfseries Is\+Valid\+Num} (std\+::string num)\hypertarget{classimage__tools_1_1CommandParsing_ac18569a930a22f02997cebd10d27e92e}{}\label{classimage__tools_1_1CommandParsing_ac18569a930a22f02997cebd10d27e92e}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ {\bfseries filename\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_adadf4d0b895e3327c3bd6617141c2aeb}{}\label{classimage__tools_1_1CommandParsing_adadf4d0b895e3327c3bd6617141c2aeb}
+
+\item 
+int {\bfseries parseresult\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a5379e76fbc9237a43f50e6bb6befac70}{}\label{classimage__tools_1_1CommandParsing_a5379e76fbc9237a43f50e6bb6befac70}
+
+\item 
+bool {\bfseries sharpen\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_afa8b25316315f6a36778bad989313d4c}{}\label{classimage__tools_1_1CommandParsing_afa8b25316315f6a36778bad989313d4c}
+
+\item 
+float {\bfseries sharpen\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a94204b598f045cc2c0986fb395744ac5}{}\label{classimage__tools_1_1CommandParsing_a94204b598f045cc2c0986fb395744ac5}
+
+\item 
+bool {\bfseries edge\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a2c26d3df8d8aa1b747aecca841daa5c2}{}\label{classimage__tools_1_1CommandParsing_a2c26d3df8d8aa1b747aecca841daa5c2}
+
+\item 
+bool {\bfseries threshold\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a2069359a27eb0fd52f4ab7982aaf6389}{}\label{classimage__tools_1_1CommandParsing_a2069359a27eb0fd52f4ab7982aaf6389}
+
+\item 
+float {\bfseries threshold\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a5a676bbd21bf32b21b3a24abc5c2adae}{}\label{classimage__tools_1_1CommandParsing_a5a676bbd21bf32b21b3a24abc5c2adae}
+
+\item 
+bool {\bfseries quantize\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a5d6e5b481443dcd5041a6bc3aef12e42}{}\label{classimage__tools_1_1CommandParsing_a5d6e5b481443dcd5041a6bc3aef12e42}
+
+\item 
+int {\bfseries quantize\+\_\+bin\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a5535887f378f1b1a49d9bf5a3d2d78d4}{}\label{classimage__tools_1_1CommandParsing_a5535887f378f1b1a49d9bf5a3d2d78d4}
+
+\item 
+bool {\bfseries blur\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a1d4e4dd8a9f7c05c706c8b97731d3294}{}\label{classimage__tools_1_1CommandParsing_a1d4e4dd8a9f7c05c706c8b97731d3294}
+
+\item 
+float {\bfseries blur\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_ab2c1961e7580ec9ff102c2f8f31a9e46}{}\label{classimage__tools_1_1CommandParsing_ab2c1961e7580ec9ff102c2f8f31a9e46}
+
+\item 
+bool {\bfseries saturate\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a4fbf40dd3a75bc2236204864a09ba645}{}\label{classimage__tools_1_1CommandParsing_a4fbf40dd3a75bc2236204864a09ba645}
+
+\item 
+float {\bfseries saturate\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a75830f6372a03ed16f1d83ace4b650b4}{}\label{classimage__tools_1_1CommandParsing_a75830f6372a03ed16f1d83ace4b650b4}
+
+\item 
+bool {\bfseries channel\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a79aa8a356bafa9003654d69881d6d7a4}{}\label{classimage__tools_1_1CommandParsing_a79aa8a356bafa9003654d69881d6d7a4}
+
+\item 
+float {\bfseries channel\+\_\+red\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a87ca76cc237d39d69c6b1877e8eaf2b8}{}\label{classimage__tools_1_1CommandParsing_a87ca76cc237d39d69c6b1877e8eaf2b8}
+
+\item 
+float {\bfseries channel\+\_\+green\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_a4130bc28409858399f9859b4f418e521}{}\label{classimage__tools_1_1CommandParsing_a4130bc28409858399f9859b4f418e521}
+
+\item 
+float {\bfseries channel\+\_\+blue\+\_\+}\hypertarget{classimage__tools_1_1CommandParsing_ad7f1ad53cf1dd229da8aa40fe92b186e}{}\label{classimage__tools_1_1CommandParsing_ad7f1ad53cf1dd229da8aa40fe92b186e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that parse inputs from command line interface. 
+
+Parse all inputs given in command line interface. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/angxx041/csci3081/repo-\/group-\/\+A01/src/lib/libimgtools/src/include/command\+\_\+parsing.\+h\item 
+/home/angxx041/csci3081/repo-\/group-\/\+A01/src/lib/libimgtools/src/command\+\_\+parsing.\+cc\end{DoxyCompactItemize}
