@@ -333,7 +333,9 @@ bool CommandParsing::IsValidNum(std::string num) {
   if (num.size() == 0)
     return false;
   for (std::size_t i = 0; i < num.size(); i++) {
-    if (num[i] == '.') {
+    if (num[i] == '-' && i == 0) {
+      // this is fine
+    } else if (num[i] == '.') {
       if (num_of_dot > 0)
         return false;
       num_of_dot++;
