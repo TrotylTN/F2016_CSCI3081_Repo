@@ -48,5 +48,4 @@ config/
 
 # Test
 tests/junk.txt
-junk.txt
 tests/test
