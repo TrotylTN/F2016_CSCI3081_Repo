@@ -25,7 +25,7 @@
 #include "include/state_manager.h"
 #include "include/tool.h"
 #include "include/image_handler.h"
-#include "include/mia_cmd.h"
+#include "include/command_parsing.h"
 
 /*******************************************************************************
  * Namespaces
@@ -68,7 +68,7 @@ class MIAApp : public BaseGfxApp {
    *
    * @param[in] parsed_res the parsed result
    */
-  int CommandLineMode(MIACmd *parsed_res);
+  int CommandLineMode(CommandParsing *parsed_res);
 
  private:
   /**

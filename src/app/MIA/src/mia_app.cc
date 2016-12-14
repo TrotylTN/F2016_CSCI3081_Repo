@@ -45,12 +45,12 @@ MIAApp::MIAApp(int width, int height,
 /*******************************************************************************
  * Member Functions
  ******************************************************************************/
-int MIAApp::CommandLineMode(MIACmd *parsed_res) {
+int MIAApp::CommandLineMode(CommandParsing *parsed_res) {
   for (std::size_t i = 0; i < parsed_res->FileName().size(); i++) {
     std::string filename_in, filename_out;
     filename_in = parsed_res->FileName()[i].first;
     filename_out = parsed_res->FileName()[i].second;
-    if (parsed_res->ParseResult() == MIACmd::COMPARE_IMG) {
+    if (parsed_res->ParseResult() == CommandParsing::COMPARE_IMG) {
       PixelBuffer *infile, *outfile;
       infile = ImageHandler::LoadImage(filename_in);
       outfile = ImageHandler::LoadImage(filename_out);

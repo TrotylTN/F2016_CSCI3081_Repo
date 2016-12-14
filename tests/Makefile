@@ -1,9 +1,9 @@
-TARGET := ../build/bin/MIA
+TARGET := ../build/bin/FlashPhoto
 ORIGINDIR := $(shell pwd)/origin
 TESTDIR := $(shell pwd)/test
 GOLDENDIR := $(shell pwd)/golden
 
-all-tests := $(addsuffix .test, pass invalid compare sharpen threshold quantize blur saturate edge channel chain batch help)
+all-tests := $(addsuffix .test, pass invalid compare threshold quantize blur saturate edge channel sharpen chain batch help)
 files-used := $(ORIGINDIR)/snaily.jpg $(ORIGINDIR)/colorCircles.png
 test-files := $(files-used)
 test-files += $(GOLDENDIR) 1.txt
@@ -12,7 +12,7 @@ check-invalid-p2 := ; cat junk.txt ) || echo PASSED
 
 bad-brainstack := $(addprefix $(TESTDIR)/bad-brainstack, $(shell seq 1 4))
 
-all-golden := $(addsuffix .golden, pass sharpen threshold quantize blur saturate edge channel chain batch help)
+all-golden := $(addsuffix .golden, pass threshold quantize blur saturate edge channel sharpen chain batch help)
 
 .PHONY: *.test *.golden golden all test clean veryclean
 
