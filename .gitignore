@@ -45,3 +45,6 @@ bin/*
 
 # Configuration
 config/
+
+# Test junk
+tests/junk.txt
