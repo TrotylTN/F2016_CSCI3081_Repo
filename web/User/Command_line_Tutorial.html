@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+
+<html>
+<head>
+	<meta charset = "utf-8">
+	<title> Tutorial 1 </title>
+	<link class = "page" rel="stylesheet" type="text/css" href="stylesheet.css">
+
+</head>
+<body>
+
+
+	<div class="content">
+		<nav>
+			<a href="../index.html" class = "page"> Home </a> |
+			<a href="../usersupport.html" class = "page"> User Support </a> |
+			<a href="../developersupport.html" class = "page"> Developer Support</a>
+		</nav>
+	</div>
+
+	<div class = "content">
+		<h1>Converting and Segmenting a CT Scan Using Mia</h1>
+		<h4>Command Line Interface:</h4>
+		<p>For specific CT Scan image, the following commands could help:</p>
+		<ol type ="1">
+			<li> Make a new directory, for example, “target”.
+				<ul style="list-style-type:none">
+					<li style="font-weight: normal"><pre><code>mkdir -p target</code></pre></li>
+				</ul>
+			</li>
+			<li>Make slightly blur to reduce noise.
+				<ul style="list-style-type:none">
+					<li style="font-weight: normal"><pre><code>./build/bin/MIA resources/brainstack/mrbrain-8bit001.png -blur 1.0 target/mrbrain-8bit001.png
+ </code></pre></li>
+				</ul>
+			</li>
+			<li>Quantize the result into 4 segments.
+				<ul style="list-style-type:none">
+					<li style="font-weight: normal"><pre><code>./build/bin/MIA target/mrbrain-8bit001.png -quantize 4 target/mrbrain-8bit001.png</code></pre></li>
+					<p>Or process the image in one command:</p>
+					<li style="font-weight: normal"><pre><code>./build/bin/MIA target/mrbrain-8bit001.png -quantize 4 target/mrbrain-8bit001.png</code></pre></li>
+				</ul>
+			</li>
+		</ol>
+		<p>To convert a sequenced CT Scan image stack:</p>
+		<ol type ="1">
+			<li> Make a new directory, for example, “target”.
+				<ul style="list-style-type:none">
+					<li style="font-weight: normal"><pre><code>mkdir -p target</code></pre></li>
+				</ul>
+			</li>
+			<li> Make slight blur and quantize them into 4 segments. (# means 0-9)
+				<ul style="list-style-type:none">
+					<li style="font-weight: normal"><pre><code>./build/bin/MIA resources/brainstack/mrbrain-8bit0##.png -blur 1.0 -quantize 4 target/mrbrain-8bit0##.png</code></pre></li>
+				</ul>
+			</li>
+		</ol>
+
+
+
+	</div>
+
+	<div class = "footer">
+		<!-- You can change the copyright! -->
+		<span class="copyright">&copy; 2016, CSCI 3081 Group-A01</span>
+	</div>
+
+
+</body>
+</html>
