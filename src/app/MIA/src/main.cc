@@ -111,7 +111,6 @@ int main(int argc, char** argv) {
         400,
         "resources/marker.png");
     int app_result = app->CommandLineMode(cmd_parsing);
-    delete app;
     if (app_result != 0) {
       std::cout << "Error: invalid filename or output directory"
                 << " not existent, please check your input" << '\n';

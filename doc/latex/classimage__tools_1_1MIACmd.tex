@@ -1,0 +1,137 @@
+\hypertarget{classimage__tools_1_1MIACmd}{}\section{image\+\_\+tools\+:\+:M\+I\+A\+Cmd Class Reference}
+\label{classimage__tools_1_1MIACmd}\index{image\+\_\+tools\+::\+M\+I\+A\+Cmd@{image\+\_\+tools\+::\+M\+I\+A\+Cmd}}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries R\+E\+T\+U\+R\+N\+C\+O\+DE} \{ \\*
+{\bfseries S\+U\+C\+C\+E\+S\+S\+F\+U\+L\+\_\+\+P\+A\+R\+SE} = 0, 
+{\bfseries C\+O\+M\+P\+A\+R\+E\+\_\+\+I\+MG} = 1, 
+{\bfseries H\+E\+L\+P\+\_\+\+M\+E\+S\+S\+A\+GE} = 2, 
+{\bfseries F\+I\+L\+E\+\_\+\+E\+R\+R\+OR} = 3, 
+\\*
+{\bfseries C\+M\+D\+\_\+\+E\+R\+R\+OR} = 4, 
+{\bfseries I\+N\+V\+A\+L\+I\+D\+\_\+\+F\+I\+L\+T\+ER} = 5, 
+{\bfseries A\+R\+G\+U\+M\+E\+N\+T\+S\+\_\+\+E\+R\+R\+OR} = 6
+ \}\hypertarget{classimage__tools_1_1MIACmd_af5f222d1fc757e0cb5454dccfea7a17b}{}\label{classimage__tools_1_1MIACmd_af5f222d1fc757e0cb5454dccfea7a17b}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries M\+I\+A\+Cmd} (int argc, char $\ast$$\ast$argv)\hypertarget{classimage__tools_1_1MIACmd_ac42849230f79ff44da340a5ab7603e0c}{}\label{classimage__tools_1_1MIACmd_ac42849230f79ff44da340a5ab7603e0c}
+
+\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ {\bfseries File\+Name} (void)\hypertarget{classimage__tools_1_1MIACmd_a4ea875beab7e734e44f17f20417aa208}{}\label{classimage__tools_1_1MIACmd_a4ea875beab7e734e44f17f20417aa208}
+
+\item 
+int {\bfseries Parse\+Result} (void)\hypertarget{classimage__tools_1_1MIACmd_ac04c12f3c78ebe1f12b526abd8e49a18}{}\label{classimage__tools_1_1MIACmd_ac04c12f3c78ebe1f12b526abd8e49a18}
+
+\item 
+void {\bfseries Gen\+File\+Name\+Pair} (std\+::string infilename, std\+::string outfilename, int rest\+\_\+sign)\hypertarget{classimage__tools_1_1MIACmd_ae6ef14bc676f4e167c99ad000c378ebf}{}\label{classimage__tools_1_1MIACmd_ae6ef14bc676f4e167c99ad000c378ebf}
+
+\item 
+bool {\bfseries Sharpen} (void)\hypertarget{classimage__tools_1_1MIACmd_ab1568ba4b722e37636042cd3437f6819}{}\label{classimage__tools_1_1MIACmd_ab1568ba4b722e37636042cd3437f6819}
+
+\item 
+float {\bfseries Sharpen\+Amount} (void)\hypertarget{classimage__tools_1_1MIACmd_abb3571ac2f7305776054b6d9bf36f76e}{}\label{classimage__tools_1_1MIACmd_abb3571ac2f7305776054b6d9bf36f76e}
+
+\item 
+bool {\bfseries Edge} (void)\hypertarget{classimage__tools_1_1MIACmd_ace1ce3a63d52a62c840c80e49be3d61e}{}\label{classimage__tools_1_1MIACmd_ace1ce3a63d52a62c840c80e49be3d61e}
+
+\item 
+bool {\bfseries Threshold} (void)\hypertarget{classimage__tools_1_1MIACmd_a4665df9a3d2225f30b2c93eec50c6978}{}\label{classimage__tools_1_1MIACmd_a4665df9a3d2225f30b2c93eec50c6978}
+
+\item 
+float {\bfseries Threshold\+Amount} (void)\hypertarget{classimage__tools_1_1MIACmd_a75281360be1520497f3b6b87dbf810ee}{}\label{classimage__tools_1_1MIACmd_a75281360be1520497f3b6b87dbf810ee}
+
+\item 
+bool {\bfseries Quantize} (void)\hypertarget{classimage__tools_1_1MIACmd_a3f1a85f564d1bc465c31f4cb4a3c80a5}{}\label{classimage__tools_1_1MIACmd_a3f1a85f564d1bc465c31f4cb4a3c80a5}
+
+\item 
+int {\bfseries Quantize\+Bin} (void)\hypertarget{classimage__tools_1_1MIACmd_a46708b46da8ce7e287bcd1cd3aafab35}{}\label{classimage__tools_1_1MIACmd_a46708b46da8ce7e287bcd1cd3aafab35}
+
+\item 
+bool {\bfseries Blur} (void)\hypertarget{classimage__tools_1_1MIACmd_a5c600e71b60d9d1f2ace1d933b8c38de}{}\label{classimage__tools_1_1MIACmd_a5c600e71b60d9d1f2ace1d933b8c38de}
+
+\item 
+float {\bfseries Blur\+Amount} (void)\hypertarget{classimage__tools_1_1MIACmd_a52008d45fe0745000220ee593ac0e640}{}\label{classimage__tools_1_1MIACmd_a52008d45fe0745000220ee593ac0e640}
+
+\item 
+bool {\bfseries Saturate} (void)\hypertarget{classimage__tools_1_1MIACmd_aba6964089acd349cf1b5453995d78c82}{}\label{classimage__tools_1_1MIACmd_aba6964089acd349cf1b5453995d78c82}
+
+\item 
+float {\bfseries Saturate\+Amount} (void)\hypertarget{classimage__tools_1_1MIACmd_a2eeea169c2a3961ea74fee7b32daf1ba}{}\label{classimage__tools_1_1MIACmd_a2eeea169c2a3961ea74fee7b32daf1ba}
+
+\item 
+bool {\bfseries Channel} (void)\hypertarget{classimage__tools_1_1MIACmd_aaf81fa8242fda1abe7faeba332b81638}{}\label{classimage__tools_1_1MIACmd_aaf81fa8242fda1abe7faeba332b81638}
+
+\item 
+float {\bfseries Channel\+Red} (void)\hypertarget{classimage__tools_1_1MIACmd_a9e1cd3962c31d8ce8a8460b72fab6b43}{}\label{classimage__tools_1_1MIACmd_a9e1cd3962c31d8ce8a8460b72fab6b43}
+
+\item 
+float {\bfseries Channel\+Blue} (void)\hypertarget{classimage__tools_1_1MIACmd_a7d8030376cdab02ae39c99ca649e6b04}{}\label{classimage__tools_1_1MIACmd_a7d8030376cdab02ae39c99ca649e6b04}
+
+\item 
+float {\bfseries Channel\+Green} (void)\hypertarget{classimage__tools_1_1MIACmd_a3eaf86a9310ccd363522e80bf6038811}{}\label{classimage__tools_1_1MIACmd_a3eaf86a9310ccd363522e80bf6038811}
+
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::pair$<$ std\+::string, std\+::string $>$ $>$ {\bfseries filename\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_aeb963f50a732176ca6a6c62989157c00}{}\label{classimage__tools_1_1MIACmd_aeb963f50a732176ca6a6c62989157c00}
+
+\item 
+int {\bfseries parseresult\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a3b79094eac0bb38cbaf631b7ee519632}{}\label{classimage__tools_1_1MIACmd_a3b79094eac0bb38cbaf631b7ee519632}
+
+\item 
+bool {\bfseries sharpen\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a5353e46f340420c7b2a3e39e8249892a}{}\label{classimage__tools_1_1MIACmd_a5353e46f340420c7b2a3e39e8249892a}
+
+\item 
+float {\bfseries sharpen\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_ad8ac8d66dd5aba3d31694c2832ff6feb}{}\label{classimage__tools_1_1MIACmd_ad8ac8d66dd5aba3d31694c2832ff6feb}
+
+\item 
+bool {\bfseries edge\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_ad0a4927a1f21f9f2e6835a6a8b173ac4}{}\label{classimage__tools_1_1MIACmd_ad0a4927a1f21f9f2e6835a6a8b173ac4}
+
+\item 
+bool {\bfseries threshold\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_aee17c2f5ecc05a5606e4bd927e4a98c1}{}\label{classimage__tools_1_1MIACmd_aee17c2f5ecc05a5606e4bd927e4a98c1}
+
+\item 
+float {\bfseries threshold\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a252a3d237ea2e362dd241f466b305d80}{}\label{classimage__tools_1_1MIACmd_a252a3d237ea2e362dd241f466b305d80}
+
+\item 
+bool {\bfseries quantize\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a36368e8e815a6e6fa9cd1897f74a2da9}{}\label{classimage__tools_1_1MIACmd_a36368e8e815a6e6fa9cd1897f74a2da9}
+
+\item 
+int {\bfseries quantize\+\_\+bin\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_ad4815cfee4612da7c0573eeef5f2c21d}{}\label{classimage__tools_1_1MIACmd_ad4815cfee4612da7c0573eeef5f2c21d}
+
+\item 
+bool {\bfseries blur\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a1ad109c055bac5da7ff707ecb6ee4bb3}{}\label{classimage__tools_1_1MIACmd_a1ad109c055bac5da7ff707ecb6ee4bb3}
+
+\item 
+float {\bfseries blur\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_adba3259e048f611a2ba1e3256d8031c1}{}\label{classimage__tools_1_1MIACmd_adba3259e048f611a2ba1e3256d8031c1}
+
+\item 
+bool {\bfseries saturate\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a181eafab327d60a06c9f942fb9226350}{}\label{classimage__tools_1_1MIACmd_a181eafab327d60a06c9f942fb9226350}
+
+\item 
+float {\bfseries saturate\+\_\+amount\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a0bfea18323de6466db1eb9c0cfd55e32}{}\label{classimage__tools_1_1MIACmd_a0bfea18323de6466db1eb9c0cfd55e32}
+
+\item 
+bool {\bfseries channel\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_aa16f4825c353ee69682151d2b55eb94d}{}\label{classimage__tools_1_1MIACmd_aa16f4825c353ee69682151d2b55eb94d}
+
+\item 
+float {\bfseries channel\+\_\+red\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a2d75a397d9cea2bd6560deaae3958aad}{}\label{classimage__tools_1_1MIACmd_a2d75a397d9cea2bd6560deaae3958aad}
+
+\item 
+float {\bfseries channel\+\_\+green\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a6d0e2829c4ad542f3131ae27dab40552}{}\label{classimage__tools_1_1MIACmd_a6d0e2829c4ad542f3131ae27dab40552}
+
+\item 
+float {\bfseries channel\+\_\+blue\+\_\+}\hypertarget{classimage__tools_1_1MIACmd_a5c3282076354eabd0fe26216afd6e54e}{}\label{classimage__tools_1_1MIACmd_a5c3282076354eabd0fe26216afd6e54e}
+
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/app/\+M\+I\+A/src/include/mia\+\_\+cmd.\+h\item 
+/home/xuxx0987/haha/repo-\/group-\/\+A01/src/app/\+M\+I\+A/src/mia\+\_\+cmd.\+cc\end{DoxyCompactItemize}

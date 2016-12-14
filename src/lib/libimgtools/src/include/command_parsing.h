@@ -27,6 +27,11 @@ namespace image_tools {
 /*******************************************************************************
  * Class Definitions
  ******************************************************************************/
+/**
+ * @brief Class that parse inputs from command line interface
+ *
+ * Parse all inputs given in command line interface.
+ */
 class CommandParsing {
  public:
   CommandParsing(void);
