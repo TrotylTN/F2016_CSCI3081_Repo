@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta charset = "utf-8">
-	<title> Home </title>
+	<title> Design and Style Guide </title>
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 
 </head>
@@ -18,24 +18,41 @@
 	</div>
 
 	<div class = "content">
-		<h1>Home</h1>
-		<h2>Header Text </h2>
-		<img src="snaily.jpg" alt ="Escar-on-the-got" title = "It's a snail!" id= "example-pic">
-
-		<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor sem metus, quis sodales diam placerat vel. Donec consectetur imperdiet leo vitae commodo. </p>
-		<p> Integer nec molestie velit
-			<a class = "link" href="http://glui.sourceforge.net">GLUI</a> orci metus, suscipit a justo sit amet, rhoncus ultrices orci
-			 <a class="link" href="https://ay14.moodle.umn.edu/course/view.php?id=10611">CSCI 3081W</a>.
-			Morbi molestie orci ac interdum sollicitudin. Cras et erat eu ipsum faucibus ornare sit amet id urna!
+		<h1>Design and Style Guide</h1>
+		<p> &nbsp;&nbsp; PixelBuffer and ColorData are used to process and display
+			canvas, and IOManager module for reading and saving PixelBuffer is also
+			necessary for building a painting application. In this suite, because all
+			applications need StateManager to inspect and control the working sequence,
+			StateManager module was also included in libimgtools library for common
+			usage. Since all filters and tools are required for both Flashphoto and
+			MIA, also the corresponding factories for tools and filters are important
+			to create and use them, we also put all related header files and source
+			files (including actual tools and filters code, factory and manager code)
+			into the libimgtools library. These are necessary common parts required by
+			both MIA, FlashPhoto.
 		</p>
 
-		<h2>More Header Text</h2>
-		<p>TCras vitae feugiat odio, vel tempor felis. Ut finibus, arcu eu varius ultrices, nunc justo pellentesque sapien, in dignissim enim nibh mattis ipsum. Praesent molestie maximus convallis. Phasellus felis nunc, facilisis sed mauris feugiat, sollicitudin varius sapien. Nulla at diam ac augue auctor condimentum vitae vitae dolor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque augue nunc, facilisis et suscipit vitae, laoreet at dolor.</p>
+		<p> &nbsp;&nbsp;We left the application frame code and GUI building functions in
+			individual directory for each application because we consider that
+			they are individual parts for different applications and this part of
+			code depends on the actual requirements provided by customers and the
+			specific implement way used by developers. So, we thought these parts of
+			code is not suitable to put into libimgtools library.
+		</p>
+
+		<p> &nbsp;&nbsp;Additionally, we added CommandParsing into libimgtools since it supports
+			almost all filters currently in the library. But some specific supporting
+			codes still should be implemented in individual application frame code
+			since different applications might use different sorts of filters. We
+			cannot assume all application would use all filters and it may cause
+			confusion if we do so. Command Parsing only provides an interface for
+			the parsing results of the input command lines.
+		</p>
 	</div>
 
 	<div class = "footer">
 		<!-- You can change the copyright! -->
-		<span class="copyright">&copy; 2015, CSCI 3081 Guru</span>
+		<span class="copyright">&copy; 2016, CSCI 3081 Group-A01</span>
 	</div>
 
 </body>
