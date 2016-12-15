@@ -271,11 +271,11 @@ batch.test: $(ORIGINDIR)/brainstack $(GOLDENDIR)/edge $(GOLDENDIR)/quantize | $(
 	@./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/edge/mrbrain-8bit###.png -compare $(GOLDENDIR)/edge/mrbrain-8bit###.png > out.log
 	$(compare-check-1-99)
-	@echo  ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png; cat out.log
+	@echo  ./$(TARGET) $</mrbrain-8bit###.png -edge $(TESTDIR)/edge/mrbrain-8bit###.png;
 	@./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png > junk.txt
 	@./$(TARGET) $(TESTDIR)/quantize/mrbrain-8bit###.png -compare $(GOLDENDIR)/quantize/mrbrain-8bit###.png > out.log
 	$(compare-check-1-99)
-	@echo  ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png; cat out.log
+	@echo  ./$(TARGET) $</mrbrain-8bit###.png -quantize 4 $(TESTDIR)/quantize/mrbrain-8bit###.png;
 
 pass.test: $(test-files) | $(TESTDIR)
 	@./$(TARGET) $< $(TESTDIR)/$(notdir $<) > junk.txt
@@ -293,7 +293,7 @@ pass.test: $(test-files) | $(TESTDIR)
 
 # ---------- GOLDEN -------------- #
 golden: $(shell pwd)/origin $(all-golden) | $(GOLDENDIR)
-	echo Golden images production completed.
+	@echo Golden images production completed.
 
 blur.golden: $(files-used) | $(GOLDENDIR)
 	./$(TARGET) $< -$(basename $@) 0.0 $(GOLDENDIR)/0$(basename $@).png
